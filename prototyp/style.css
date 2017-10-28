@@ -81,6 +81,15 @@ footer .container {
     width: 100%;
 }
 
+.conversation-card a {
+    color: #000;
+}
+
+.conversation-card a:hover {
+    text-decoration: none;
+    color: var(--green-color);
+}
+
 /* when conversation card is selected */
 .conversation-card-selected {
     background-color: #ddd;
