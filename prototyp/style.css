@@ -1,5 +1,9 @@
 :root {
     --green-color: #8bc34a;
+    --dark-green-color: #4CAF50;
+
+    /* color used as background in bootstrap class bg-light*/
+    --light-grey-color: #f8f9fa ;
 }
 
 /* class for green text */
@@ -33,6 +37,19 @@
     padding: 5%;
 }
 
+.user-menu a {
+    color: #000;
+}
+
+.user-menu a:hover {
+    text-decoration: none;
+    color: #555;
+}
+
+.user-menu a:hover .text-highlight {
+    background-color: var(--dark-green-color);
+}
+
 nav a {
     color: #fff;
 }
@@ -57,4 +74,42 @@ nav h2 a:hover {
 
 footer .container {
     color: var(--green-color);
+}
+
+/* a card ina  panel of conversations */
+.conversation-card {
+    width: 100%;
+}
+
+/* 
+    class for my messages in conversation window 
+    Should e used for <p> elements
+*/
+.my-message {
+    /* align element to the right side of its parent*/
+    padding: 2px 5px 2px 5px;
+    margin-right: 2px;
+    margin-left: auto;
+
+    background-color: var(--green-color);
+
+    border-radius: 5px;
+    border-bottom-right-radius: 0px;
+}
+
+/* 
+    a class for messages from other user in conversation window
+    Should e used for <p> elements
+*/
+.other-message {
+    /* align element to the left side of its parent*/
+    padding: 2px 5px 2px 5px;
+    margin-left: 2px;
+    margin-right: auto;
+
+    /*background-color: var(--light-grey-color);*/
+    background-color: #ddd;
+
+    border-radius: 5px;
+    border-bottom-left-radius: 0px;
 }
