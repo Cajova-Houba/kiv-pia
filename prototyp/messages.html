@@ -17,8 +17,12 @@
             <div class="navbar-header">
                 <h2><a href="index.html">Cool social network</a></h2>
             </div>
+            <form class="form-inline">
+                <input type="text" name="search" placeholder="search" class="form-control mr-sm-2">
+                <button class="btn btn-outline-dark my-2 my-sm-0" type="submit">Search</button>
+            </form>
 
-            <a href="login.html" class="nav-link"><span class="glyphicon glyphicon-log-in"></span>Going in!</a> 
+            <a href="login.html" class="nav-link"><span class="glyphicon glyphicon-log-in"></span>Time to go...</a> 
         </div>
     </nav>
     <div class="container">
@@ -37,7 +41,7 @@
 
                 <!--panel s náhledem konverzace -->
                 <div class="row">
-                    <div class="card conversation-card">
+                    <div class="card conversation-card conversation-card-selected">
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-md-3">
@@ -58,7 +62,7 @@
 
                 <!--panel s náhledem konverzace -->
                 <div class="row">
-                    <div class="card conversation-card">
+                    <div class="card conversation-card ">
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-md-3">
@@ -77,6 +81,27 @@
                     </div>
                 </div>
 
+                <!--panel s náhledem konverzace -->
+                <div class="row">
+                    <div class="card conversation-card">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <img src="profile_photo.png" class="img-thumbnail" alt="Poster photo" height="16">
+                                </div>
+                                <div class="col-md-9">
+                                    <div class="row">
+                                        <b>Někdo úplně jinej</b>  
+                                    </div>
+                                    <div class="row">
+                                        Hi, you just won 1 MILLION DOLLARS!!!
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
             </div>
 
 
@@ -88,6 +113,7 @@
                             <h4>Hustej uživatel</h4>
                         </div> -->
                         <div class="row">
+                            <span class="text-muted">12:47</span>
                             <p class="other-message">
                                 Čau, já sem hustej uživatel.
                             </p>
@@ -97,9 +123,11 @@
                             <p class="my-message">
                                 Čau, já jsem Pepa. Jak se máš?
                             </p>
+                            <span class="text-muted">13:21</span>
                         </div>
 
                         <div class="row">
+                            <span class="text-muted">13:25</span>
                             <p class="other-message">
                                 Ale jo, dá se. Co ty?
                             </p>
@@ -109,21 +137,31 @@
                             <p class="my-message">
                                 No nic moc. Už musim jít, tak čau.
                             </p>
+                            <span class="text-muted">13:30</span>
                         </div>
 
                         <div class="row">
+                            <span class="text-muted">13:32</span>
+                            <p class="other-message">
+                                Čau.   
+                            </p>
+                        </div>
+
+                        <!-- different date -->
+                        <hr>
+                        <div class="row">
+                            <p class="text-muted text-center full-width">8.1. 2017</p>
+                        </div>
+
+                        <div class="row">
+                            <span class="text-muted">7:30</span>
                             <p class="other-message">
                                 Čau.   
                             </p>
                         </div>
 
                         <div class="row">
-                            <p class="other-message">
-                                Čau.   
-                            </p>
-                        </div>
-
-                        <div class="row">
+                            <span class="text-muted">7:31</span>
                             <p class="other-message">
                                 Tak co, jak se máš?
                             </p>

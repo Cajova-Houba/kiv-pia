@@ -76,9 +76,14 @@ footer .container {
     color: var(--green-color);
 }
 
-/* a card ina  panel of conversations */
+/* a card in a panel of conversations */
 .conversation-card {
     width: 100%;
+}
+
+/* when conversation card is selected */
+.conversation-card-selected {
+    background-color: #ddd;
 }
 
 /* 
@@ -112,4 +117,9 @@ footer .container {
 
     border-radius: 5px;
     border-bottom-left-radius: 0px;
+}
+
+/* just a 100% width */
+.full-width {
+    width: 100%;
 }
