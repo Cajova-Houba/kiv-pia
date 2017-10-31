@@ -4,6 +4,9 @@
 
     /* color used as background in bootstrap class bg-light*/
     --light-grey-color: #f8f9fa ;
+
+    /* color for hoverered links */
+    --a-hover-color: #555;
 }
 
 /* class for green text */
@@ -31,23 +34,24 @@
     float: right;
 }
 
+/* a panel displayed on the side which contains user data - his profile picture, links to profile, messages... */
+.user-panel a {
+    color: #000;
+}
+
+.user-panel a:hover {
+    text-decoration: none;
+    color: var(--a-hover-color);
+}
+
+.user-panel a:hover .text-highlight {
+    background-color: var(--dark-green-color);
+}
+
 /* a small menu displayed under user's profile picture on his main page*/
 .user-menu ul {
     list-style-type: none;
     padding: 5%;
-}
-
-.user-menu a {
-    color: #000;
-}
-
-.user-menu a:hover {
-    text-decoration: none;
-    color: #555;
-}
-
-.user-menu a:hover .text-highlight {
-    background-color: var(--dark-green-color);
 }
 
 nav a {
@@ -70,6 +74,10 @@ nav h2 a:hover {
 
 .post-panel {
 	margin-bottom: 10px;
+}
+
+.post-panel .profile-link a {
+    color: #000;
 }
 
 footer .container {
@@ -95,9 +103,13 @@ footer .container {
     background-color: #ddd;
 }
 
-/* conversation card with new messages */
-.conversation-card-unread {
+/* any card (conversation, friend request) with new messages */
+.card-unread {
     border: 1px solid var(--green-color);
+}
+
+.card-borderless {
+    border: 0px;
 }
 
 /* 
