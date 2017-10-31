@@ -80,6 +80,12 @@ nav a:hover {
     color: #000;
 }
 
+.post-panel .profile-link a:hover {
+    color: var(--a-hover-color);
+    text-decoration: none;
+}
+
+
 footer .container {
     color: var(--green-color);
 }
