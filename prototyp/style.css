@@ -95,6 +95,11 @@ footer .container {
     background-color: #ddd;
 }
 
+/* conversation card with new messages */
+.conversation-card-unread {
+    border: 1px solid var(--green-color);
+}
+
 /* 
     class for my messages in conversation window 
     Should e used for <p> elements
