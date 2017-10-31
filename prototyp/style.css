@@ -63,8 +63,8 @@ nav h2 a {
 
 }
 
-nav h2 a:hover {
-    color: #555;
+nav a:hover {
+    color: var(--a-hover-color);
     text-decoration: none;
 }
 
