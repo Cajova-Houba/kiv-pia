@@ -1,0 +1,122 @@
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <title>My cool social network</title>
+  </head>
+  <body class="bg-light">
+    <nav class="navbar navbar-dark bg-green">
+        <div class="container">
+            <div class="navbar-header">
+                <h2><a href="index.html">Cool social network</a></h2>
+            </div>
+
+            <a href="login.html" class="nav-link"><span class="glyphicon glyphicon-log-in"></span>Going in!</a>
+        </div>
+    </nav>
+  	<div class="container">
+  		<div class="row">
+  			<div class="col-md-4">
+  				<form method="post" action="#">
+                    <fieldset>
+                        <legend>Register now!</legend>
+                        <div class="form-group">
+                            <label for="email">email</label>
+                            <input type="text" name="email" id="email" class="form-control" placeholder="email@email.com">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="password">password</label>
+                            <input type="password" name="password" id="password" class="form-control" placeholder="123456789">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="password-conf">confirm password</label>
+                            <input type="password" name="password-conf" id="password-conf" class="form-control" placeholder="123456789">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="birth-date">birth date</label>
+                            <input type="date" id="birth-date" class="form-control">
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label>Gender</label>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="radio">
+                                    <label><input type="radio" name="gender" id="male" checked>Male</label>
+                                </div>
+                                <div class="radio">
+                                    <label><input type="radio" name="gender" id="female">Female</label>
+                                </div>
+                                <div class="radio">
+                                    <label><input type="radio" name="gender" id="mayo">Mayonnaise</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="accept-terms">Accept terms of use </label>
+                            <input type="checkbox" id="accept-terms">
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                            </div>
+                            <div class="col-md-6">
+                                <input type="submit" value="Sell my soul" class="btn btn-success">
+                            </div>
+                        </div>
+                    </fieldset>
+  				</form>
+  			</div>
+  			<div class="col-md-8">
+                <div class="jumbotron">
+                    <h1>What are you waiting for?</h1>
+                    <p>
+                        Join the best social network today! Just fill in your personal info and join our awesome community!
+                        You will be able to share your thoughts, opinios, photos, videos, ... with your friends, friends of their frends and complete strangers also! Join us today!
+                    </p>
+                    <p class="text-right">${currDate}</p>
+                </div>
+
+                <div class="page-header">
+                    <h3>So, what is this all about?</h3>
+                </div>
+                <p>
+                    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+                        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+                        quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+                        consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+                        cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+                        proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                </p>
+                <p class="text-right"><i>2017, valesz</i></p>
+  			</div>
+  		</div>
+  	</div>
+
+    <footer class="footer">
+        <div class="container text-center">
+            Cool Social Network - Zdeněk Valeš 2017
+        </div>
+    </footer>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
+  </body>
+</html>
