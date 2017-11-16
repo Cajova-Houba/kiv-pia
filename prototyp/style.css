@@ -1,4 +1,6 @@
 :root {
+    
+    /*using variables would have been a nice solution but IE still lives in 1990 so it's needs to be done the old way*/
     --green-color: #8bc34a;
     --dark-green-color: #4CAF50;
 
@@ -9,25 +11,30 @@
     --a-hover-color: #555;
 }
 
+.medium-thumbnail {
+    width: 64px;
+    height: 64px;
+}
+
 /* class for green text */
 .text-green {
-    color: var(--green-color);
+    color: #8bc34a;
 }   
 
 /* class for green background */
 .bg-green {
-    background-color: var(--green-color);
+    background-color: #8bc34a;
 }
 
 .btn-success {
-    background-color: var(--green-color);
-    border-color: var(--green-color); 
+    background-color: #8bc34a;
+    border-color: #8bc34a; 
 }
 
 /* class for displaying highlited text (numbers of notifications etc) */
 .text-highlight {
     color: #fff;
-    background-color: var(--green-color);
+    background-color: #8bc34a;
     border-radius: 50%;
     width: 20px;
     text-align: center;
@@ -41,11 +48,11 @@
 
 .user-panel a:hover {
     text-decoration: none;
-    color: var(--a-hover-color);
+    color: #555;
 }
 
 .user-panel a:hover .text-highlight {
-    background-color: var(--dark-green-color);
+    background-color: #4CAF50;
 }
 
 /* a small menu displayed under user's profile picture on his main page*/
@@ -64,7 +71,7 @@ nav h2 a {
 }
 
 nav a:hover {
-    color: var(--a-hover-color);
+    color: #555;
     text-decoration: none;
 }
 
@@ -81,13 +88,13 @@ nav a:hover {
 }
 
 .post-panel .profile-link a:hover {
-    color: var(--a-hover-color);
+    color: #555;
     text-decoration: none;
 }
 
 
 footer .container {
-    color: var(--green-color);
+    color: #8bc34a;
 }
 
 /* a card in a panel of conversations */
@@ -101,7 +108,7 @@ footer .container {
 
 .conversation-card a:hover {
     text-decoration: none;
-    color: var(--green-color);
+    color: #8bc34a;
 }
 
 /* when conversation card is selected */
@@ -111,7 +118,7 @@ footer .container {
 
 /* any card (conversation, friend request) with new messages */
 .card-unread {
-    border: 1px solid var(--green-color);
+    border: 1px solid #8bc34a;
 }
 
 .card-borderless {
@@ -128,7 +135,7 @@ footer .container {
     margin-right: 2px;
     margin-left: auto;
 
-    background-color: var(--green-color);
+    background-color: #8bc34a;
 
     border-radius: 5px;
     border-bottom-right-radius: 0px;
