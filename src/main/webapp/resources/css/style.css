@@ -1,0 +1,164 @@
+:root {
+    
+    /*using variables would have been a nice solution but IE still lives in 1990 so it's needs to be done the old way*/
+    --green-color: #8bc34a;
+    --dark-green-color: #4CAF50;
+
+    /* color used as background in bootstrap class bg-light*/
+    --light-grey-color: #f8f9fa ;
+
+    /* color for hoverered links */
+    --a-hover-color: #555;
+}
+
+.medium-thumbnail {
+    width: 64px;
+    height: 64px;
+}
+
+/* class for green text */
+.text-green {
+    color: #8bc34a;
+}   
+
+/* class for green background */
+.bg-green {
+    background-color: #8bc34a;
+}
+
+.btn-success {
+    background-color: #8bc34a;
+    border-color: #8bc34a; 
+}
+
+/* class for displaying highlited text (numbers of notifications etc) */
+.text-highlight {
+    color: #fff;
+    background-color: #8bc34a;
+    border-radius: 50%;
+    width: 20px;
+    text-align: center;
+    float: right;
+}
+
+/* a panel displayed on the side which contains user data - his profile picture, links to profile, messages... */
+.user-panel a {
+    color: #000;
+}
+
+.user-panel a:hover {
+    text-decoration: none;
+    color: #555;
+}
+
+.user-panel a:hover .text-highlight {
+    background-color: #4CAF50;
+}
+
+/* a small menu displayed under user's profile picture on his main page*/
+.user-menu ul {
+    list-style-type: none;
+    padding: 5%;
+}
+
+nav a {
+    color: #fff;
+}
+
+nav h2 a {
+    color: #000;
+
+}
+
+nav a:hover {
+    color: #555;
+    text-decoration: none;
+}
+
+.navbar {
+    margin-bottom: 10px;
+}
+
+.post-panel {
+	margin-bottom: 10px;
+}
+
+.post-panel .profile-link a {
+    color: #000;
+}
+
+.post-panel .profile-link a:hover {
+    color: #555;
+    text-decoration: none;
+}
+
+
+footer .container {
+    color: #8bc34a;
+}
+
+/* a card in a panel of conversations */
+.conversation-card {
+    width: 100%;
+}
+
+.conversation-card a {
+    color: #000;
+}
+
+.conversation-card a:hover {
+    text-decoration: none;
+    color: #8bc34a;
+}
+
+/* when conversation card is selected */
+.conversation-card-selected {
+    background-color: #ddd;
+}
+
+/* any card (conversation, friend request) with new messages */
+.card-unread {
+    border: 1px solid #8bc34a;
+}
+
+.card-borderless {
+    border: 0px;
+}
+
+/* 
+    class for my messages in conversation window 
+    Should e used for <p> elements
+*/
+.my-message {
+    /* align element to the right side of its parent*/
+    padding: 2px 5px 2px 5px;
+    margin-right: 2px;
+    margin-left: auto;
+
+    background-color: #8bc34a;
+
+    border-radius: 5px;
+    border-bottom-right-radius: 0px;
+}
+
+/* 
+    a class for messages from other user in conversation window
+    Should e used for <p> elements
+*/
+.other-message {
+    /* align element to the left side of its parent*/
+    padding: 2px 5px 2px 5px;
+    margin-left: 2px;
+    margin-right: auto;
+
+    /*background-color: var(--light-grey-color);*/
+    background-color: #ddd;
+
+    border-radius: 5px;
+    border-bottom-left-radius: 0px;
+}
+
+/* just a 100% width */
+.full-width {
+    width: 100%;
+}

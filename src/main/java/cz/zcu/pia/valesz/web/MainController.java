@@ -8,16 +8,16 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import java.util.Date;
 
 /**
- * Spring controller.
+ * Controller for main page. Will display either register page or user's main page if he's already logged in.
  *
  * Created by Zdenek Vales on 16.11.2017.
  */
 @Controller
 @RequestMapping("/")
-public class KivbookController {
+public class MainController {
 
     @RequestMapping(method = RequestMethod.GET)
-    public String sayHello(ModelMap modelMap) {
+    public String index(ModelMap modelMap) {
         modelMap.addAttribute("currDate", new Date());
         return "index";
     }

@@ -1,5 +1,9 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html;" pageEncoding="UTF-8"%>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+
+<spring:url value="/resources/css/style.css" var="myStyle" />
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -10,7 +14,7 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
 
-    <link rel="stylesheet" type="text/css" href="style.css">
+    <link rel="stylesheet" type="text/css" href="${myStyle}">
     <title>My cool social network</title>
   </head>
   <body class="bg-light">
@@ -20,7 +24,7 @@
                 <h2><a href="index.html">Cool social network</a></h2>
             </div>
 
-            <a href="login.html" class="nav-link"><span class="glyphicon glyphicon-log-in"></span>Going in!</a>
+            <a href="login" class="nav-link"><span class="glyphicon glyphicon-log-in"></span>Going in!</a>
         </div>
     </nav>
   	<div class="container">
