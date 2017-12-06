@@ -20,6 +20,7 @@
         <spring.version>5.0.1.RELEASE</spring.version>
         <spring.social.version>1.1.4.RELEASE</spring.social.version>
         <spring.security.version>5.0.0.RELEASE</spring.security.version>
+        <hibernate.version>5.2.12.Final</hibernate.version>
     </properties>
 
     <dependencies>
@@ -40,7 +41,6 @@
             <artifactId>jstl</artifactId>
             <version>${jstl.version}</version>
         </dependency>
-
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-webmvc</artifactId>
@@ -100,7 +100,27 @@
         </dependency>
 
 
+        <!-- MySQL database driver -->
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>6.0.6</version>
+        </dependency>
 
+        <!-- hibernate -->
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-core</artifactId>
+            <version>${hibernate.version}</version>
+        </dependency>
+
+
+        <!-- other cool stuff -->
+        <dependency>
+            <groupId>joda-time</groupId>
+            <artifactId>joda-time</artifactId>
+            <version>2.9.9</version>
+        </dependency>
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>

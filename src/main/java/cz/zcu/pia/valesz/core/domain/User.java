@@ -5,6 +5,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.social.security.SocialUser;
 import org.springframework.social.security.SocialUserDetails;
 
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
@@ -13,36 +14,46 @@ import java.util.List;
 /**
  * Application user entity.
  */
+@Entity
+@Table(name="user")
 public class User extends SocialUser {
 
     /**
      * Database id.
      */
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     /**
-     * Username. Must be unique.
+     * Username. Must be unique, can be used as business key.
      */
+    @Column(unique = true, nullable = false)
     private String username;
 
     /**
      * User's email.
      */
+    @Column(nullable = false)
     private String email;
 
     /**
      * Hash of user's password.
      */
+    @Column(name = "password_hash")
     private String passwordHash;
 
     /**
      * User's birth date.
      */
+    @Column(name = "birth_date")
+    @Temporal(TemporalType.DATE)
     private Date birthDate;
 
     /**
      * User's gender.
      */
+    @Enumerated(EnumType.STRING)
     private Gender gender;
 
     /**
@@ -53,11 +64,15 @@ public class User extends SocialUser {
     /**
      * Visibility of user's profile to the rest of the world.
      */
+    @Column(name = "profile_visibility")
+    @Enumerated(EnumType.STRING)
     private Visibility profileVisibility;
 
     /**
      * Social identity provider. NONE if user has registered himself without any social network.
      */
+    @Column(name = "social_identity_provider")
+    @Enumerated(EnumType.STRING)
     private SocialIdentityProvider socialIdentityProvider;
 
     /**

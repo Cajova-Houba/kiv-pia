@@ -1,36 +1,65 @@
 package cz.zcu.pia.valesz.core.domain;
 
+
+import org.joda.time.DateTime;
+
+import javax.persistence.*;
 import java.util.Date;
 
 /**
- * Post posted by user to his feed.
+ * Post datePosted by user to his feed.
  */
+@Entity
+@Table(name = "post")
 public class Post {
 
     /**
      * Database id.
      */
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     /**
      * User who posted this.
      */
+    @ManyToOne
     private User owner;
 
     /**
-     * Date (and time) when this was posted.
+     * Date when this was posted.
      */
-    private Date posted;
+    @Temporal(TemporalType.DATE)
+    @Column(name = "date_posted", nullable = false)
+    private Date datePosted;
+
+    /**
+     * Time when this was posted.
+     */
+    @Temporal(TemporalType.TIME)
+    @Column(name = "time_posted", nullable = false)
+    private Date timePosted;
 
     /**
      * Content of the post.
      */
+    @Column(length = 1000)
     private String text;
 
     /**
      * Visibility of this post to the rest of the world.
      */
+    @Enumerated(EnumType.STRING)
     private Visibility visibility;
+
+    /**
+     * Default constructor sets the datePosted and timePosted to current date/time.
+     */
+    public Post() {
+        DateTime now = new DateTime();
+        setDatePosted(now.toDate());
+        setTimePosted(now.toDate());
+    }
 
     public Long getId() {
         return id;
@@ -48,12 +77,20 @@ public class Post {
         this.owner = owner;
     }
 
-    public Date getPosted() {
-        return posted;
+    public Date getDatePosted() {
+        return datePosted;
     }
 
-    public void setPosted(Date posted) {
-        this.posted = posted;
+    public void setDatePosted(Date datePosted) {
+        this.datePosted = datePosted;
+    }
+
+    public Date getTimePosted() {
+        return timePosted;
+    }
+
+    public void setTimePosted(Date timePosted) {
+        this.timePosted = timePosted;
     }
 
     public String getText() {
