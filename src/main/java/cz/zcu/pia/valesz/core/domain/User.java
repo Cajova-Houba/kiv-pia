@@ -1,12 +1,19 @@
 package cz.zcu.pia.valesz.core.domain;
 
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.social.security.SocialUser;
+import org.springframework.social.security.SocialUserDetails;
+
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
 /**
  * Application user entity.
  */
-public class User {
+public class User extends SocialUser {
 
     /**
      * Database id.
@@ -47,6 +54,22 @@ public class User {
      * Visibility of user's profile to the rest of the world.
      */
     private Visibility profileVisibility;
+
+    /**
+     * Social identity provider. NONE if user has registered himself without any social network.
+     */
+    private SocialIdentityProvider socialIdentityProvider;
+
+    /**
+     * Default constructor which uses empty username, password and list of granted authorities.
+     */
+    public User() {
+        this("", "", new ArrayList<>());
+    }
+
+    public User(String username, String password, Collection<? extends GrantedAuthority> authorities) {
+        super(username, password, authorities);
+    }
 
     public Long getId() {
         return id;
@@ -110,6 +133,46 @@ public class User {
 
     public void setProfileVisibility(Visibility profileVisibility) {
         this.profileVisibility = profileVisibility;
+    }
+
+
+    /*
+        SPRING SOCIAL METHODS
+     */
+
+    @Override
+    public String getUserId() {
+        return null;
+    }
+
+    @Override
+    public String getPassword() {
+        return null;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return false;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return false;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return false;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return false;
+    }
+
+    @Override
+    public String getName() {
+        return null;
     }
 
     @Override
