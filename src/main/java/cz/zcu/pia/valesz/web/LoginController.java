@@ -4,6 +4,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 /**
  * Controller which handles user's login.
@@ -17,18 +18,10 @@ public class LoginController {
      * Displays login form.
      */
     @RequestMapping(method = RequestMethod.GET)
-    public String displayForm() {
+    public String displayForm(ModelMap modelMap, @RequestParam(value = "error", required = false) String error) {
+        if (error != null) {
+            modelMap.addAttribute("error", error);
+        }
         return "login";
-    }
-
-    /**
-     * Handles user's login. If the login is not successful, display error.
-     *
-     * @param modelMap
-     * @return
-     */
-    @RequestMapping(method = RequestMethod.POST)
-    public String handleLogin(ModelMap modelMap) {
-        return "main-page";
     }
 }

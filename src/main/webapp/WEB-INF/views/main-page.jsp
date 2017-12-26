@@ -28,7 +28,7 @@
                 <button class="btn btn-outline-dark my-2 my-sm-0" type="submit">Search</button>
             </form>
 
-            <a href="login.html" class="nav-link"><span class="glyphicon glyphicon-log-in"></span>Time to go...</a> 
+            <a href="login" class="nav-link"><span class="glyphicon glyphicon-log-in"></span>Time to go...</a>
         </div>
     </nav>
 

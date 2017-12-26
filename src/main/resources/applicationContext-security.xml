@@ -1,7 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xmlns:beans="http://www.springframework.org/schema/beans"
+             xsi:schemaLocation="
+    http://www.springframework.org/schema/security
+    http://www.springframework.org/schema/security/spring-security-4.2.xsd
+    http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans-4.2.xsd">
 
-    <!-- TODO: configure security here -->
-</beans>
+    <http use-expressions="true">
+        <!--<csrf disabled="true"/>-->
+
+        <intercept-url pattern="/login*" access="isAnonymous()" />
+        <intercept-url pattern="/resources/css/**" access="permitAll()" />
+        <intercept-url pattern="/register" access="isAnonymous()" />
+        <intercept-url pattern="/**" access="isAuthenticated()"/>
+
+        <form-login
+                login-page='/login'
+                default-target-url="/"
+                authentication-failure-url="/login?error=true" />
+
+        <logout logout-success-url="/login" />
+
+        <!-- todo: use exception handler to display custom access denied page -->
+
+    </http>
+    <authentication-manager>
+        <authentication-provider>
+            <user-service>
+                <user name="user@user.com" password="{noop}123456789" authorities="ROLE_USER" />
+            </user-service>
+        </authentication-provider>
+    </authentication-manager>
+</beans:beans>

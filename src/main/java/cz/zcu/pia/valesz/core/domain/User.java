@@ -1,15 +1,13 @@
 package cz.zcu.pia.valesz.core.domain;
 
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.social.security.SocialUser;
 import org.springframework.social.security.SocialUserDetails;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 /**
  * Application user entity.
@@ -79,11 +77,22 @@ public class User extends SocialUser {
      * Default constructor which uses empty username, password and list of granted authorities.
      */
     public User() {
-        this("", "", new ArrayList<>());
+        this("", "", Arrays.asList(new SimpleGrantedAuthority("ROLE_USER")));
     }
 
     public User(String username, String password, Collection<? extends GrantedAuthority> authorities) {
         super(username, password, authorities);
+    }
+
+    /**
+     * Constructor which can be used to set id. For testing purposes mostly.
+     * @param id Database id.
+     * @param username Username.
+     * @param password Password.
+     */
+    public User(Long id, String username, String password) {
+        this(username, password, Arrays.asList(new SimpleGrantedAuthority("ROLE_USER")));
+        setId(id);
     }
 
     public Long getId() {

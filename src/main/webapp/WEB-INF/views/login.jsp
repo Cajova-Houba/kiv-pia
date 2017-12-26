@@ -35,17 +35,25 @@
                 <form method="post" action="login">
                     <fieldset>
                         <div class="form-group">
-                            <label for="email">email</label>
-                            <input type="text" name="email" id="email" class="form-control" placeholder="email@email.com">
+                            <label for="username">email</label>
+                            <input type="text" name="username" id="username" class="form-control" placeholder="email@email.com">
                         </div>
                         <div class="form-group">
-                            <label for="email">password</label>
-                            <input type="password" name="password" id="password" class="form-control" placeholder="123456789">
+                            <label for="password">password</label>
+                            <input type="password" name="password" id="password" class="form-control">
                         </div>
+
+                        <input type="hidden"
+                               name="${_csrf.parameterName}"
+                               value="${_csrf.token}"/>
 
                         <input type="submit" value="Login" class="btn btn-success">
                     </fieldset>
                 </form>
+                
+                <c:if test="${error != null}">
+                    <span class="text-danger">Bad username and/or password.</span>
+                </c:if>
             </div>
             <div class="col-md-3">
             </div>

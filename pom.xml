@@ -93,11 +93,11 @@
         </dependency>
 
         <!-- spring social for particular social networks -->
-        <dependency>
-            <groupId>org.springframework.social</groupId>
-            <artifactId>spring-social-facebook</artifactId>
-            <version>2.0.3.RELEASE</version>
-        </dependency>
+        <!--<dependency>-->
+            <!--<groupId>org.springframework.social</groupId>-->
+            <!--<artifactId>spring-social-facebook</artifactId>-->
+            <!--<version>1.1.1.RELEASE</version>-->
+        <!--</dependency>-->
 
 
         <!-- MySQL database driver -->
