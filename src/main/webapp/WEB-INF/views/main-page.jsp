@@ -1,8 +1,13 @@
 <%@ page language="java" contentType="text/html;" pageEncoding="UTF-8"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <spring:url value="/resources/css/style.css" var="myStyle" />
+<c:url value="/feed" var="feedLink"/>
+<c:url value="/logout" var="logoutLink"/>
+<c:url value="/messages" var="messagesLink" />
+<c:url value="/friends" var="friendsLink" />
 
 <!DOCTYPE html>
 <html lang="en">
@@ -21,14 +26,14 @@
     <nav class="navbar navbar-dark bg-green">
         <div class="container">
             <div class="navbar-header">
-                <h2><a href="index.html">Cool social network</a></h2>
+                <h2><a href="${feedLink}">Cool social network</a></h2>
             </div>
             <form class="form-inline">
                 <input type="text" name="search" placeholder="search" class="form-control mr-sm-2">
                 <button class="btn btn-outline-dark my-2 my-sm-0" type="submit">Search</button>
             </form>
 
-            <a href="login" class="nav-link"><span class="glyphicon glyphicon-log-in"></span>Time to go...</a>
+            <a href="${logoutLink}" class="nav-link"><span class="glyphicon glyphicon-log-in"></span>Time to go...</a>
         </div>
     </nav>
 
@@ -36,17 +41,25 @@
         <div class="row">
             <div class="col-md-4 user-panel">
                 <div class="row">
-                    <img src="resources/img/profile_photo.png" class="img-thumbnail" alt="Profile photo">
+                    <img src="data:image/png;base64,${currentUser.profilePhoto}" class="img-thumbnail" alt="Profile photo">
                 </div>
                 <div class="row">
-                    <h4><a href="main-page.html">Pepa Uživatel</a></h4>
+                    <h4><a href="${feedLink}">${currentUser.username}</a></h4>
                 </div>
 
                 <div class="row user-menu">
                     <ul>
                         <li>Profile</li>
-                        <li><a href="messages.html">Messages <span class="text-highlight">3</span></a></li>
-                        <li><a href="friends.html">Friends <span class="text-highlight">2</span></a></li>
+                        <li><a href="${messagesLink}">Messages
+                            <c:if test="${newMsgs > 0}">
+                                <span class="text-highlight">${newMsgs}</span>
+                            </c:if>
+                        </a></li>
+                        <li><a href="${friendsLink}">Friends
+                            <c:if test="${newFriendReq > 0}">
+                                <span class="text-highlight">${newFriendReq}</span>
+                            </c:if>
+                        </a></li>
                         <li>Settings</li>
                     </ul>
                 </div>
@@ -54,10 +67,10 @@
             <div class="col-md-8">
                 <div class="card post-panel">
                     <div class="card-body">
-                        <form> 
+                        <form method="post" action="${feedLink}">
                             <div class="row">
                                 <div class="col-md-3">
-                                    <img src="resources/img/profile_photo.png" class="img-thumbnail" alt="Profile photo" height="32">
+                                    <img src="data:image/png;base64,${currentUser.profilePhoto}" class="img-thumbnail" alt="Profile photo" height="32">
                                 </div>
                                 <div class="col-md-9">
                                     <input type="text" name="post-text" placeholder="Say something..." class="form-control">
@@ -65,61 +78,44 @@
                             </div>
                             <div class="row">  
                                 <div class="col-md-3">
-                                    <h5 class="card-title">Pepa Uživatel</h5>
+                                    <h5 class="card-title">${currentUser.username}</h5>
                                 </div>
                                 <div class="col-md-9">
                                     <div class="float-right">
                                         <input type="submit" name="submit-post" class="btn btn-success" value="Post!">
                                     </div>
                                 </div>
-                        </div>
+                            </div>
+
+                            <input type="hidden"
+                                   name="${_csrf.parameterName}"
+                                   value="${_csrf.token}"/>
                         </form>
                     </div>
                 </div>
-                
-                <div class=" card post-panel">
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-md-3">
-                                <a href="main-page.html"><img src="resources/img/profile_photo.png" class="img-thumbnail" alt="Profile photo" height="32"></a>
-                            </div>
-                            <div class="col-md-9">
-                                Tohle je fakt dobrá sociální síť.
-                            </div>
-                        </div>
-                        <div class="row">  
-                             <div class="col-md-3 profile-link">
-                                <h5 class="card-title"><a href="main-page.html">Pepa Uživatel</a></h5>
-                             </div>
-                             <div class="col-md-9">
-                                <p class="text-right">12. 10. 2017</p>
-                             </div>
-                        </div>
-                    </div>
-                </div>
 
-                <div class="card post-panel">
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-md-3">
-                                <a href="main-page.html"><img src="resources/img/poster_photo.png" class="img-thumbnail" alt="Poster photo" height="32"></a>
+                <c:forEach items="${posts}" var="post">
+                    <div class="card post-panel">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <a href="#"><img src="data:image/png;base64,${post.owner.profilePhoto}" class="img-thumbnail" alt="${post.owner.username}" height="32"></a>
+                                </div>
+                                <div class="col-md-9">
+                                    ${post.text}
+                                </div>
                             </div>
-                            <div class="col-md-9">
-                                <p class="card-text">
-                                Hej lidi, taky máte ten pocit, jako bychom žili na planetě opic?
-                                </p>
+                            <div class="row">
+                                <div class="col-md-3 profile-link">
+                                    <h5 class="card-title"><a href="#">${post.owner.username}</a></h5>
+                                </div>
+                                <div class="col-md-9">
+                                    <p class="text-right"><fmt:formatDate value="${post.datePosted}" pattern="dd. MM. yyyy"/></p>
+                                </div>
                             </div>
-                        </div>
-                        <div class="row">  
-                             <div class="col-md-3 profile-link">
-                                <h5 class="card-title"><a href="main-page.html">Hustej uživatel</a></h5>
-                             </div>
-                             <div class="col-md-9">
-                                <p class="text-right">2. 10. 2017</p>
-                             </div>
                         </div>
                     </div>
-                </div>
+                </c:forEach>
             </div>
         </div>
     </div>

@@ -9,7 +9,6 @@
     http://www.springframework.org/schema/beans/spring-beans-4.2.xsd">
 
     <http use-expressions="true">
-        <!--<csrf disabled="true"/>-->
 
         <intercept-url pattern="/login*" access="isAnonymous()" />
         <intercept-url pattern="/resources/css/**" access="permitAll()" />
@@ -18,7 +17,7 @@
 
         <form-login
                 login-page='/login'
-                default-target-url="/"
+                default-target-url="/feed"
                 authentication-failure-url="/login?error=true" />
 
         <logout logout-success-url="/login" />
@@ -29,7 +28,8 @@
     <authentication-manager>
         <authentication-provider>
             <user-service>
-                <user name="user@user.com" password="{noop}123456789" authorities="ROLE_USER" />
+                <user name="user@kivbook.com" password="{noop}123456789" authorities="ROLE_USER" />
+                <user name="admin@user.com" password="{noop}123456789" authorities="ROLE_USER, ROLE_ADMIN" />
             </user-service>
         </authentication-provider>
     </authentication-manager>

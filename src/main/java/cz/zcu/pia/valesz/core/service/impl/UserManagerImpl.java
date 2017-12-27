@@ -28,6 +28,10 @@ public class UserManagerImpl implements UserManager, UserDetailsService, SocialU
     @Qualifier("userDaoDummy")
     private UserDao userDao;
 
+    @Override
+    public User getCurrentlyLoggerUser() {
+        return userDao.loadByUsername("Pepa Uživatel");
+    }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {

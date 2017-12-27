@@ -23,7 +23,7 @@ public class Post {
     /**
      * User who posted this.
      */
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     private User owner;
 
     /**
@@ -56,9 +56,16 @@ public class Post {
      * Default constructor sets the datePosted and timePosted to current date/time.
      */
     public Post() {
-        DateTime now = new DateTime();
-        setDatePosted(now.toDate());
-        setTimePosted(now.toDate());
+        this(new DateTime().toDate(), "", null);
+    }
+
+
+    public Post(Date dateTimePosted, String text, User owner) {
+        setDatePosted(dateTimePosted);
+        setTimePosted(dateTimePosted);
+        setText(text);
+        setOwner(owner);
+        setVisibility(Visibility.REGISTERED_USERS);
     }
 
     public Long getId() {

@@ -16,7 +16,7 @@ public enum Visibility {
     OWNER_FRIENDS,
 
     /**
-     * Everyone who is registered (logged) can see this.
+     * Everyone who is registered (logged) can see this. Default.
      */
     REGISTERED_USERS,
 

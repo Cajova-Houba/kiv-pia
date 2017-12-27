@@ -19,4 +19,15 @@ public class RegisterController {
         modelMap.addAttribute("currDate", new Date());
         return "index";
     }
+
+    /**
+     * Handles regstration.
+     *
+     * @return
+     */
+    @RequestMapping(method = RequestMethod.POST)
+    public String handleRegistration() {
+        // todo: handle registration
+        return "index";
+    }
 }

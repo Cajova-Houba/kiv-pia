@@ -3,6 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <spring:url value="/resources/css/style.css" var="myStyle" />
+<c:url value="/login" var="loginLink" />
 
 <!DOCTYPE html>
 <html lang="en">
@@ -21,10 +22,10 @@
     <nav class="navbar navbar-dark bg-green">
         <div class="container">
             <div class="navbar-header">
-                <h2><a href="index.html">Cool social network</a></h2>
+                <h2><a href="${feedLink}">Cool social network</a></h2>
             </div>
 
-            <a href="login.html" class="nav-link active"><span class="glyphicon glyphicon-log-in"></span>Going in!</a> 
+            <a href="${loginLink}" class="nav-link active"><span class="glyphicon glyphicon-log-in"></span>Going in!</a>
         </div>
     </nav>
     <div class="container">

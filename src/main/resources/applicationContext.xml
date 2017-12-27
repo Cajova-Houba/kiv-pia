@@ -27,8 +27,12 @@
     <!-- daos -->
     <bean id="userDao" class="cz.zcu.pia.valesz.core.dao.hibernate.UserDaoHibernate" />
     <bean id="userDaoDummy" class="cz.zcu.pia.valesz.core.dao.dummy.UserDaoDummy" />
+    <bean id="postDaoDummy" class="cz.zcu.pia.valesz.core.dao.dummy.PostDaoDummy" />
 
     <!-- managers -->
     <bean id="userManager" class="cz.zcu.pia.valesz.core.service.impl.UserManagerImpl"/>
+    <bean id="postManager" class="cz.zcu.pia.valesz.core.service.impl.PostManagerImpl"/>
+    <bean id="friendManager" class="cz.zcu.pia.valesz.core.service.impl.FriendManagerImpl" />
+    <bean id="messageManager" class="cz.zcu.pia.valesz.core.service.impl.MessageManagerImpl" />
 
 </beans>

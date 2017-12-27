@@ -2,12 +2,13 @@ package cz.zcu.pia.valesz.core.domain;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.social.security.SocialUser;
-import org.springframework.social.security.SocialUserDetails;
 
 import javax.persistence.*;
-import java.util.*;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Date;
+import java.util.List;
 
 /**
  * Application user entity.
@@ -19,39 +20,21 @@ public class User extends SocialUser {
     /**
      * Database id.
      */
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-
-    /**
-     * Username. Must be unique, can be used as business key.
-     */
-    @Column(unique = true, nullable = false)
-    private String username;
 
     /**
      * User's email.
      */
-    @Column(nullable = false)
     private String email;
-
-    /**
-     * Hash of user's password.
-     */
-    @Column(name = "password_hash")
-    private String passwordHash;
 
     /**
      * User's birth date.
      */
-    @Column(name = "birth_date")
-    @Temporal(TemporalType.DATE)
     private Date birthDate;
 
     /**
      * User's gender.
      */
-    @Enumerated(EnumType.STRING)
     private Gender gender;
 
     /**
@@ -62,16 +45,17 @@ public class User extends SocialUser {
     /**
      * Visibility of user's profile to the rest of the world.
      */
-    @Column(name = "profile_visibility")
-    @Enumerated(EnumType.STRING)
     private Visibility profileVisibility;
 
     /**
      * Social identity provider. NONE if user has registered himself without any social network.
      */
-    @Column(name = "social_identity_provider")
-    @Enumerated(EnumType.STRING)
     private SocialIdentityProvider socialIdentityProvider;
+
+    /**
+     * User's profile photo stored as byte array.
+     */
+    private String profilePhoto;
 
     /**
      * Default constructor which uses empty username, password and list of granted authorities.
@@ -95,6 +79,8 @@ public class User extends SocialUser {
         setId(id);
     }
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     public Long getId() {
         return id;
     }
@@ -103,14 +89,19 @@ public class User extends SocialUser {
         this.id = id;
     }
 
+    @Override
+    @Column(unique = true, nullable = false)
     public String getUsername() {
-        return username;
+        return super.getUsername();
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    @Column(name = "password_hash")
+    @Override
+    public String getPassword() {
+        return super.getPassword();
     }
 
+    @Column(nullable = false)
     public String getEmail() {
         return email;
     }
@@ -119,14 +110,8 @@ public class User extends SocialUser {
         this.email = email;
     }
 
-    public String getPasswordHash() {
-        return passwordHash;
-    }
-
-    public void setPasswordHash(String passwordHash) {
-        this.passwordHash = passwordHash;
-    }
-
+    @Column(name = "birth_date")
+    @Temporal(TemporalType.DATE)
     public Date getBirthDate() {
         return birthDate;
     }
@@ -135,6 +120,7 @@ public class User extends SocialUser {
         this.birthDate = birthDate;
     }
 
+    @Enumerated(EnumType.STRING)
     public Gender getGender() {
         return gender;
     }
@@ -143,6 +129,7 @@ public class User extends SocialUser {
         this.gender = gender;
     }
 
+    @OneToMany(fetch = FetchType.LAZY)
     public List<User> getFriends() {
         return friends;
     }
@@ -151,6 +138,8 @@ public class User extends SocialUser {
         this.friends = friends;
     }
 
+    @Column(name = "profile_visibility")
+    @Enumerated(EnumType.STRING)
     public Visibility getProfileVisibility() {
         return profileVisibility;
     }
@@ -159,44 +148,24 @@ public class User extends SocialUser {
         this.profileVisibility = profileVisibility;
     }
 
-
-    /*
-        SPRING SOCIAL METHODS
-     */
-
-    @Override
-    public String getUserId() {
-        return null;
+    @Column(name = "social_identity_provider")
+    @Enumerated(EnumType.STRING)
+    public SocialIdentityProvider getSocialIdentityProvider() {
+        return socialIdentityProvider;
     }
 
-    @Override
-    public String getPassword() {
-        return null;
+    public void setSocialIdentityProvider(SocialIdentityProvider socialIdentityProvider) {
+        this.socialIdentityProvider = socialIdentityProvider;
     }
 
-    @Override
-    public boolean isAccountNonExpired() {
-        return false;
+    @Lob
+    @Column(name = "profile_photo", length = 100000)
+    public String getProfilePhoto() {
+        return profilePhoto;
     }
 
-    @Override
-    public boolean isAccountNonLocked() {
-        return false;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return false;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return false;
-    }
-
-    @Override
-    public String getName() {
-        return null;
+    public void setProfilePhoto(String profilePhoto) {
+        this.profilePhoto = profilePhoto;
     }
 
     @Override
@@ -206,11 +175,11 @@ public class User extends SocialUser {
 
         User user = (User) o;
 
-        return username.equals(user.username);
+        return getUsername().equals(user.getUsername());
     }
 
     @Override
     public int hashCode() {
-        return username.hashCode();
+        return getUsername().hashCode();
     }
 }
