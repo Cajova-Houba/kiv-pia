@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html;" pageEncoding="UTF-8"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <spring:url value="/resources/css/style.css" var="myStyle" />
 <c:url value="/feed" var="feedLink"/>
@@ -37,10 +38,10 @@
         <div class="row">
             <div class="col-md-4 user-panel">
                 <div class="row">
-                    <img src="img/profile_photo.png" class="img-thumbnail" alt="Profile photo">
+                    <img src="data:image/png;base64,${currentUser.profilePhoto}" class="img-thumbnail" alt="Profile photo">
                 </div>
                 <div class="row">
-                    <h4><a href="${feedLink}">Pepa Uživatel</a></h4>
+                    <h4><a href="${feedLink}">${currentUser.fullName}</a></h4>
                 </div>
 
                 <div class="row">
@@ -55,174 +56,242 @@
                     </div>
                 </div>
 
-                <!--panel s náhledem konverzace -->
-                <div class="row">
-                    <div class="card conversation-card conversation-card-selected">
-                        <div class="card-body">
-                            <div class="row">
-                                <div class="col-md-3">
-                                    <img src="img/poster_photo.png" class="img-thumbnail" alt="Poster photo" height="16">
-                                </div>
-                                <div class="col-md-9">
-                                    <div class="row">
-                                        <b>Hustej uživatel</b>  
+                <!-- conversations -->
+                <!-- user counter to autoselect the first item -->
+                <c:set var="counter" value="1" scope="page" />
+                <c:forEach items="${conversations}" var="conv">
+                    <div class="row">
+                        <div class="card conversation-card <c:if test="${conv.newFlag}">card-unread</c:if> <c:if test="${counter == 1}">conversation-card-selected</c:if> ">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <img src="data:image/png;base64,${conv.secondUser.profilePhoto}" class="img-thumbnail" alt="${conv.secondUser.fullName}" height="16">
                                     </div>
-                                    <div class="row">
-                                        Tak co, jak se máš?
+                                    <div class="col-md-9">
+                                        <div class="row">
+                                            <b>${conv.secondUser.fullName}</b>
+                                        </div>
+                                        <div class="row">
+                                            ${conv.newestMessage.text}
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
+                    <c:set var="counter" value="${counter+1}" scope="page" />
+                </c:forEach>
 
                 <!--panel s náhledem konverzace -->
-                <div class="row">
-                    <div class="card conversation-card card-unread">
-                        <div class="card-body">
-                            <div class="row">
-                                <div class="col-md-3">
-                                    <img src="img/mommy_photo.png" class="img-thumbnail" alt="Poster photo" height="16">
-                                </div>
-                                <div class="col-md-9">
-                                    <div class="row">
-                                        <b>Maminečka</b>  
-                                    </div>
-                                    <div class="row">
-                                        Už jsi dneska jedl?
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <%--<div class="row">--%>
+                    <%--<div class="card conversation-card conversation-card-selected">--%>
+                        <%--<div class="card-body">--%>
+                            <%--<div class="row">--%>
+                                <%--<div class="col-md-3">--%>
+                                    <%--<img src="img/poster_photo.png" class="img-thumbnail" alt="Poster photo" height="16">--%>
+                                <%--</div>--%>
+                                <%--<div class="col-md-9">--%>
+                                    <%--<div class="row">--%>
+                                        <%--<b>Hustej uživatel</b>  --%>
+                                    <%--</div>--%>
+                                    <%--<div class="row">--%>
+                                        <%--Tak co, jak se máš?--%>
+                                    <%--</div>--%>
+                                <%--</div>--%>
+                            <%--</div>--%>
+                        <%--</div>--%>
+                    <%--</div>--%>
+                <%--</div>--%>
 
-                <!--panel s náhledem konverzace -->
-                <div class="row">
-                    <div class="card conversation-card card-unread">
-                        <div class="card-body">
-                            <div class="row">
-                                <div class="col-md-3">
-                                    <img src="img/profile_photo.png" class="img-thumbnail" alt="Poster photo" height="16">
-                                </div>
-                                <div class="col-md-9">
-                                    <div class="row">
-                                        <b>Někdo úplně jinej</b>  
-                                    </div>
-                                    <div class="row">
-                                        Hi, you just won 1 MILLION DOLLARS!!!
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <%--<!--panel s náhledem konverzace -->--%>
+                <%--<div class="row">--%>
+                    <%--<div class="card conversation-card card-unread">--%>
+                        <%--<div class="card-body">--%>
+                            <%--<div class="row">--%>
+                                <%--<div class="col-md-3">--%>
+                                    <%--<img src="img/mommy_photo.png" class="img-thumbnail" alt="Poster photo" height="16">--%>
+                                <%--</div>--%>
+                                <%--<div class="col-md-9">--%>
+                                    <%--<div class="row">--%>
+                                        <%--<b>Maminečka</b>  --%>
+                                    <%--</div>--%>
+                                    <%--<div class="row">--%>
+                                        <%--Už jsi dneska jedl?--%>
+                                    <%--</div>--%>
+                                <%--</div>--%>
+                            <%--</div>--%>
+                        <%--</div>--%>
+                    <%--</div>--%>
+                <%--</div>--%>
 
-                <!--panel s náhledem konverzace -->
-                <div class="row">
-                    <div class="card conversation-card">
-                        <div class="card-body">
-                            <div class="row">
-                                <div class="col-md-3">
-                                    <img src="img/profile_photo.png" class="img-thumbnail" alt="Poster photo" height="16">
-                                </div>
-                                <div class="col-md-9">
-                                    <div class="row">
-                                        <b>Kámoš</b>  
-                                    </div>
-                                    <div class="row">
-                                        Tahle zpráva je už dávno přečtená.
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <%--<!--panel s náhledem konverzace -->--%>
+                <%--<div class="row">--%>
+                    <%--<div class="card conversation-card card-unread">--%>
+                        <%--<div class="card-body">--%>
+                            <%--<div class="row">--%>
+                                <%--<div class="col-md-3">--%>
+                                    <%--<img src="img/profile_photo.png" class="img-thumbnail" alt="Poster photo" height="16">--%>
+                                <%--</div>--%>
+                                <%--<div class="col-md-9">--%>
+                                    <%--<div class="row">--%>
+                                        <%--<b>Někdo úplně jinej</b>  --%>
+                                    <%--</div>--%>
+                                    <%--<div class="row">--%>
+                                        <%--Hi, you just won 1 MILLION DOLLARS!!!--%>
+                                    <%--</div>--%>
+                                <%--</div>--%>
+                            <%--</div>--%>
+                        <%--</div>--%>
+                    <%--</div>--%>
+                <%--</div>--%>
+
+                <%--<!--panel s náhledem konverzace -->--%>
+                <%--<div class="row">--%>
+                    <%--<div class="card conversation-card">--%>
+                        <%--<div class="card-body">--%>
+                            <%--<div class="row">--%>
+                                <%--<div class="col-md-3">--%>
+                                    <%--<img src="img/profile_photo.png" class="img-thumbnail" alt="Poster photo" height="16">--%>
+                                <%--</div>--%>
+                                <%--<div class="col-md-9">--%>
+                                    <%--<div class="row">--%>
+                                        <%--<b>Kámoš</b>  --%>
+                                    <%--</div>--%>
+                                    <%--<div class="row">--%>
+                                        <%--Tahle zpráva je už dávno přečtená.--%>
+                                    <%--</div>--%>
+                                <%--</div>--%>
+                            <%--</div>--%>
+                        <%--</div>--%>
+                    <%--</div>--%>
+                <%--</div>--%>
 
             </div>
 
 
             <div class="col-md-8">
-                <h4>Hustej uživatel</h4>
+                <h4>${conversation.secondUser.fullName}</h4>
                 <div class="card">
                     <div class="card-body">
                         <!-- <div class="row">
                             <h4>Hustej uživatel</h4>
                         </div> -->
-                        <div class="row">
-                            <span class="text-muted">12:47</span>
-                            <p class="other-message">
-                                Čau, já sem hustej uživatel.
-                            </p>
-                        </div>
+                        <fmt:formatDate value="${conversation.oldestMessage.timestamp}" pattern="dd" var="curDay"/>
+                        <c:set var="counter" value="1" />
+                        <c:forEach items="${conversation.messages}" var="msg">
 
-                        <div class="row">
-                            <p class="my-message">
-                                Čau, já jsem Pepa. Jak se máš?
-                            </p>
-                            <span class="text-muted">13:21</span>
-                        </div>
+                            <%-- display date for the first message --%>
+                            <c:if test="${counter == 1}" >
+                                <div class="row">
+                                    <p class="text-muted text-center full-width">
+                                        <fmt:formatDate value="${msg.timestamp}" pattern="dd. MM. yyyy"/>
+                                        <c:set var="counter" value="0"/>
+                                    </p>
+                                </div>
+                            </c:if>
 
-                        <div class="row">
-                            <span class="text-muted">13:25</span>
-                            <p class="other-message">
-                                Ale jo, dá se. Co ty?
-                            </p>
-                        </div>
+                            <%-- add separator for messages from other dates --%>
+                            <fmt:formatDate value="${msg.timestamp}" pattern="dd" var="tmpDay" />
+                            <c:if test="${curDay != tmpDay}">
+                                <hr>
+                                <div class="row">
+                                    <p class="text-muted text-center full-width"> <fmt:formatDate value="${msg.timestamp}" pattern="dd. MM. yyyy"/></p>
+                                </div>
+                                <c:set var="curDay" value="${tmpDay}"/>
+                            </c:if>
 
-                        <div class="row">
-                            <p class="my-message">
-                                No nic moc. Už musim jít, tak čau.
-                            </p>
-                            <span class="text-muted">13:30</span>
-                        </div>
+                            <div class="row">
+                                <c:choose>
+                                    <c:when test="${msg.sender == currentUser}">
+                                        <p class="my-message">
+                                                ${msg.text}
+                                        </p>
+                                        <span class="text-muted"><fmt:formatDate value="${msg.timestamp}" pattern="HH:mm"/></span>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <span class="text-muted"><fmt:formatDate value="${msg.timestamp}" pattern="HH:mm"/></span>
+                                        <p class="other-message">
+                                                ${msg.text}
+                                        </p>
+                                    </c:otherwise>
+                                </c:choose>
 
-                        <div class="row">
-                            <span class="text-muted">13:32</span>
-                            <p class="other-message">
-                                Čau.   
-                            </p>
-                        </div>
+                            </div>
+                        </c:forEach>
+                        <%--<div class="row">--%>
+                            <%--<span class="text-muted">12:47</span>--%>
+                            <%--<p class="other-message">--%>
+                                <%--Čau, já sem hustej uživatel.--%>
+                            <%--</p>--%>
+                        <%--</div>--%>
 
-                        <!-- different date -->
-                        <hr>
-                        <div class="row">
-                            <p class="text-muted text-center full-width">8.1. 2017</p>
-                        </div>
+                        <%--<div class="row">--%>
+                            <%--<p class="my-message">--%>
+                                <%--Čau, já jsem Pepa. Jak se máš?--%>
+                            <%--</p>--%>
+                            <%--<span class="text-muted">13:21</span>--%>
+                        <%--</div>--%>
 
-                        <div class="row">
-                            <span class="text-muted">7:30</span>
-                            <p class="other-message">
-                                Čau.   
-                            </p>
-                        </div>
+                        <%--<div class="row">--%>
+                            <%--<span class="text-muted">13:25</span>--%>
+                            <%--<p class="other-message">--%>
+                                <%--Ale jo, dá se. Co ty?--%>
+                            <%--</p>--%>
+                        <%--</div>--%>
 
-                        <div class="row">
-                            <span class="text-muted">7:31</span>
-                            <p class="other-message">
-                                Tak co, jak se máš?
-                            </p>
-                        </div>
+                        <%--<div class="row">--%>
+                            <%--<p class="my-message">--%>
+                                <%--No nic moc. Už musim jít, tak čau.--%>
+                            <%--</p>--%>
+                            <%--<span class="text-muted">13:30</span>--%>
+                        <%--</div>--%>
 
-                        <div class="row">
-                            <span class="text-muted">7:35</span>
-                            <p class="other-message">
-                                Tady ti posílám vážně dlouhou zprávu:
-                                Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-                                tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-                                quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-                                consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-                                cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-                                proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-                            </p>
-                        </div>
+                        <%--<div class="row">--%>
+                            <%--<span class="text-muted">13:32</span>--%>
+                            <%--<p class="other-message">--%>
+                                <%--Čau.   --%>
+                            <%--</p>--%>
+                        <%--</div>--%>
 
-                        <div class="row">
-                            <p class="my-message">
-                                Dík no.
-                            </p>
-                            <span class="text-muted">8:00</span>
-                        </div>
+                        <%--<!-- different date -->--%>
+                        <%--<hr>--%>
+                        <%--<div class="row">--%>
+                            <%--<p class="text-muted text-center full-width">8.1. 2017</p>--%>
+                        <%--</div>--%>
+
+                        <%--<div class="row">--%>
+                            <%--<span class="text-muted">7:30</span>--%>
+                            <%--<p class="other-message">--%>
+                                <%--Čau.   --%>
+                            <%--</p>--%>
+                        <%--</div>--%>
+
+                        <%--<div class="row">--%>
+                            <%--<span class="text-muted">7:31</span>--%>
+                            <%--<p class="other-message">--%>
+                                <%--Tak co, jak se máš?--%>
+                            <%--</p>--%>
+                        <%--</div>--%>
+
+                        <%--<div class="row">--%>
+                            <%--<span class="text-muted">7:35</span>--%>
+                            <%--<p class="other-message">--%>
+                                <%--Tady ti posílám vážně dlouhou zprávu:--%>
+                                <%--Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod--%>
+                                <%--tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,--%>
+                                <%--quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo--%>
+                                <%--consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse--%>
+                                <%--cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non--%>
+                                <%--proident, sunt in culpa qui officia deserunt mollit anim id est laborum.--%>
+                            <%--</p>--%>
+                        <%--</div>--%>
+
+                        <%--<div class="row">--%>
+                            <%--<p class="my-message">--%>
+                                <%--Dík no.--%>
+                            <%--</p>--%>
+                            <%--<span class="text-muted">8:00</span>--%>
+                        <%--</div>--%>
                     </div>
                 </div> <!-- end of message card -->
 

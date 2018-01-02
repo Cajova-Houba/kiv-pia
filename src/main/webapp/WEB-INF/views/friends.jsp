@@ -74,60 +74,6 @@
                         </div>
                     </div>
                 </c:forEach>
-
-                <!--panel s friend request -->
-                <%----%>
-                <%--<div class="row">--%>
-                    <%--<div class="card conversation-card card-unread">--%>
-                        <%--<div class="card-body">--%>
-                            <%--<div class="row">--%>
-                                <%--<div class="col-md-3">--%>
-                                    <%--<img src="img/poster_photo.png" class="img-thumbnail medium-thumbnail" alt="Poster photo" width="64" height="64">--%>
-                                <%--</div>--%>
-                                <%--<div class="col-md-9">--%>
-                                    <%--<div class="row">--%>
-                                        <%--<b>Nový kamarád</b>  --%>
-                                    <%--</div>--%>
-                                    <%--<div class="row">--%>
-                                        <%--<div class="col-md-6">--%>
-                                            <%--<button class="btn btn-success">OK</button>--%>
-                                        <%--</div>--%>
-                                        <%--<div class="col-md-6">--%>
-                                            <%--<button class="btn btn-danger">X</button>--%>
-                                        <%--</div>--%>
-                                    <%--</div>--%>
-                                <%--</div>--%>
-                            <%--</div>--%>
-                        <%--</div>--%>
-                    <%--</div>--%>
-                <%--</div>--%>
-
-                <%--<!--panel s friend request -->--%>
-                <%--<div class="row">--%>
-                    <%--<div class="card conversation-card card-unread">--%>
-                        <%--<div class="card-body">--%>
-                            <%--<div class="row">--%>
-                                <%--<div class="col-md-3">--%>
-                                    <%--<img src="img/mommy_photo.png" class="img-thumbnail medium-thumbnail" alt="Poster photo" width="64" height="64">--%>
-                                <%--</div>--%>
-                                <%--<div class="col-md-9">--%>
-                                    <%--<div class="row">--%>
-                                        <%--<b>Nová kamarádka</b>  --%>
-                                    <%--</div>--%>
-                                    <%--<div class="row">--%>
-                                        <%--<div class="col-md-6">--%>
-                                            <%--<button class="btn btn-success">OK</button>--%>
-                                        <%--</div>--%>
-                                        <%--<div class="col-md-6">--%>
-                                            <%--<button class="btn btn-danger">X</button>--%>
-                                        <%--</div>--%>
-                                    <%--</div>--%>
-                                <%--</div>--%>
-                            <%--</div>--%>
-                        <%--</div>--%>
-                    <%--</div>--%>
-                <%--</div>--%>
-
             </div>
 
 

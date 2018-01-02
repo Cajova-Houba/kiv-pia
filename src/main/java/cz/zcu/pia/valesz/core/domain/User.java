@@ -168,6 +168,11 @@ public class User extends SocialUser {
         this.profilePhoto = profilePhoto;
     }
 
+    @Transient
+    public String getFullName() {
+        return getUsername();
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

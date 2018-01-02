@@ -39,10 +39,10 @@ public class MainController {
     @RequestMapping(method = RequestMethod.GET)
     public String displayPage(ModelMap modelMap) {
 
-        int newFriendReq = friendManager.getNumberOfNewFriendRequests();
-        int newMsgs = messageManager.getNumberOfNewMessages();
-        List<Post> posts = postManager.listPostsForUser();
         User currentUser = userManager.getCurrentlyLoggerUser();
+        int newFriendReq = friendManager.getNumberOfNewFriendRequests();
+        int newMsgs = messageManager.getNumberOfNewMessages(currentUser);
+        List<Post> posts = postManager.listPostsForUser();
 
         modelMap.addAttribute("newFriendReq", newFriendReq);
         modelMap.addAttribute("newMsgs", newMsgs);
