@@ -13,43 +13,45 @@ public class FriendRequest {
     /**
      * Database id.
      */
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     /**
      * User who sent the request.
      */
-    @ManyToOne
     private User sender;
 
     /**
      * User who will either accept or reject the request.
      */
-    @ManyToOne
     private User receiver;
 
     /**
      * Date on which the request has been created (sent).
      */
-    @Temporal(TemporalType.DATE)
-    @Column(name = "created_date")
     private Date createdDate;
 
     /**
      * Date on which the request has been accepted or rejected.
      */
-    @Temporal(TemporalType.DATE)
-    @Column(name = "responded_date")
     private Date respondedDate;
 
     /**
      * State of the request.
      */
-    @Column(name = "friend_request_state")
-    @Enumerated(EnumType.STRING)
     private FriendRequestState friendRequestState;
 
+    public FriendRequest() {
+    }
+
+    public FriendRequest(Long id, User sender, User receiver, FriendRequestState friendRequestState) {
+        this.id = id;
+        this.sender = sender;
+        this.receiver = receiver;
+        this.friendRequestState = friendRequestState;
+    }
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     public Long getId() {
         return id;
     }
@@ -58,6 +60,7 @@ public class FriendRequest {
         this.id = id;
     }
 
+    @ManyToOne
     public User getSender() {
         return sender;
     }
@@ -66,6 +69,7 @@ public class FriendRequest {
         this.sender = sender;
     }
 
+    @ManyToOne
     public User getReceiver() {
         return receiver;
     }
@@ -74,6 +78,8 @@ public class FriendRequest {
         this.receiver = receiver;
     }
 
+    @Temporal(TemporalType.DATE)
+    @Column(name = "created_date")
     public Date getCreatedDate() {
         return createdDate;
     }
@@ -82,6 +88,8 @@ public class FriendRequest {
         this.createdDate = createdDate;
     }
 
+    @Temporal(TemporalType.DATE)
+    @Column(name = "responded_date")
     public Date getRespondedDate() {
         return respondedDate;
     }
@@ -90,12 +98,32 @@ public class FriendRequest {
         this.respondedDate = respondedDate;
     }
 
+    @Column(name = "friend_request_state")
+    @Enumerated(EnumType.STRING)
     public FriendRequestState getFriendRequestState() {
         return friendRequestState;
     }
 
     public void setFriendRequestState(FriendRequestState friendRequestState) {
         this.friendRequestState = friendRequestState;
+    }
+
+    /**
+     * Returns true if the request is new (receiver haven't responded yet).
+     * @return
+     */
+    @Transient
+    public boolean isNew() {
+        return getFriendRequestState() == FriendRequestState.PENDING;
+    }
+
+    /**
+     * Returns true if the request is accepted.
+     * @return
+     */
+    @Transient
+    public boolean isAccepted() {
+        return getFriendRequestState() == FriendRequestState.ACCEPTED;
     }
 
     @Override

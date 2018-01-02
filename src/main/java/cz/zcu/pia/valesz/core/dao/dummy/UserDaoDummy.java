@@ -15,18 +15,28 @@ public class UserDaoDummy implements UserDao {
 
     private String pp1FName = "/img/profile_photo.png";
     private String pp2FName = "/img/poster_photo.png";
+    private String pp3FName = "/img/mommy_photo.png";
 
     @Override
     public User loadByUsername(String username) {
-        User u = null;
+        User u = new User(username, "123456789", new ArrayList<>());
         switch (username) {
+            case "Někdo úplně jinej":
+            case "Kámoš":
+            case "Kolega Pavel":
             case "Pepa Uživatel":
-                u = new User(username, "123456789", new ArrayList<>());
                 u.setProfilePhoto(loadImage(pp1FName));
                 break;
+            case "Nový kamarád":
+            case "Spolužák Petr":
             case "Hustej Uživatel":
-                u = new User(username, "123456789", new ArrayList<>());
                 u.setProfilePhoto(loadImage(pp2FName));
+                break;
+            case "Kamarádka Míša":
+            case "Klára Nováková":
+            case "Nová kamarádka":
+            case "Maminečka":
+                u.setProfilePhoto(loadImage(pp3FName));
                 break;
             default:
                 u = new User(-50L, username, "123456789");

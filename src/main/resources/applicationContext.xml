@@ -24,15 +24,18 @@
         </property>
     </bean>
 
-    <bean id="mappingExceptionResolver" class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
-        <property name="defaultErrorView" value="error"/>
-        <property name="exceptionAttribute" value="ex"/>
-    </bean>
+    <!--<bean id="mappingExceptionResolver" class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">-->
+        <!--<property name="defaultErrorView" value="error"/>-->
+        <!--<property name="exceptionAttribute" value="ex"/>-->
+
+        <!--<property name="warnLogCategory" value="exceptionResolver.logger"/>-->
+    <!--</bean>-->
 
     <!-- daos -->
     <bean id="userDao" class="cz.zcu.pia.valesz.core.dao.hibernate.UserDaoHibernate" />
     <bean id="userDaoDummy" class="cz.zcu.pia.valesz.core.dao.dummy.UserDaoDummy" />
     <bean id="postDaoDummy" class="cz.zcu.pia.valesz.core.dao.dummy.PostDaoDummy" />
+    <bean id="friendDaoDummy" class="cz.zcu.pia.valesz.core.dao.dummy.FriendDaoDummy" />
 
     <!-- managers -->
     <bean id="userManager" class="cz.zcu.pia.valesz.core.service.impl.UserManagerImpl"/>

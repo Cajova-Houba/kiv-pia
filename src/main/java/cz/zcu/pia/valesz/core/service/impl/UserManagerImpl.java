@@ -50,6 +50,11 @@ public class UserManagerImpl implements UserManager, UserDetailsService, SocialU
     }
 
     @Override
+    public User loadByUsername(String username) {
+        return userDao.loadByUsername(username);
+    }
+
+    @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
         String name = authentication.getName();
         String password = authentication.getCredentials().toString();

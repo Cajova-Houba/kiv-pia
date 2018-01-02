@@ -3,6 +3,8 @@ package cz.zcu.pia.valesz.core.service;
 import cz.zcu.pia.valesz.core.domain.FriendRequest;
 import cz.zcu.pia.valesz.core.domain.User;
 
+import java.util.List;
+
 /**
  * Interface for friend-related actions.
  */
@@ -44,4 +46,18 @@ public interface FriendManager {
      * @return Number of new requests.
      */
     int getNumberOfNewFriendRequests();
+
+    /**
+     * Returns a list of friend requests to which user hasn't responded yet.,
+     * @param user User whose new requests will be listed.
+     * @return List of new requests.
+     */
+    List<FriendRequest> listNewFriendRequests(User user);
+
+    /**
+     * Lists friendships of a user. Those are accepted requests where the user is receiver.
+     * @param user Requests with this user as receiver will be listed.
+     * @return Accepted requests.
+     */
+    List<FriendRequest> listFriendships(User user);
 }

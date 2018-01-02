@@ -13,4 +13,11 @@ public interface UserManager {
      * @return
      */
     User getCurrentlyLoggerUser();
+
+    /**
+     * Loads user by his username.
+     * @param username Username.
+     * @return User or null if no user is found.
+     */
+    User loadByUsername(String username);
 }

@@ -37,67 +37,96 @@
         <div class="row">
             <div class="col-md-4 user-panel">
                 <div class="row">
-                    <img src="img/profile_photo.png" class="img-thumbnail" alt="Profile photo">
+                    <img src="data:image/png;base64,${currentUser.profilePhoto}" class="img-thumbnail" alt="Profile photo">
                 </div>
                 <div class="row">
-                    <h4><a href="${feedLink}">Pepa Uživatel</a></h4>
+                    <h4><a href="${feedLink}">${currentUser.username}</a></h4>
                 </div>
 
                 <div class="row">
                     <h5>New friend requests:</h5>
                 </div>
 
-                <!--panel s friend request -->
-                <div class="row">
-                    <div class="card conversation-card card-unread">
-                        <div class="card-body">
-                            <div class="row">
-                                <div class="col-md-3">
-                                    <img src="img/poster_photo.png" class="img-thumbnail medium-thumbnail" alt="Poster photo" width="64" height="64">
-                                </div>
-                                <div class="col-md-9">
-                                    <div class="row">
-                                        <b>Nový kamarád</b>  
+                <!-- new friend requets -->
+                <c:forEach items="${newRequests}" var="newRequest" >
+                    <div class="row">
+                        <div class="card conversation-card card-unread">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <img src="data:image/png;base64,${newRequest.sender.profilePhoto}" class="img-thumbnail medium-thumbnail" alt="${newRequest.sender.username}" width="64" height="64">
                                     </div>
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <button class="btn btn-success">OK</button>
+                                    <div class="col-md-9">
+                                        <div class="row">
+                                            <b>${newRequest.sender.username}</b>
                                         </div>
-                                        <div class="col-md-6">
-                                            <button class="btn btn-danger">X</button>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <button class="btn btn-success">OK</button>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <button class="btn btn-danger">X</button>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
+                </c:forEach>
 
                 <!--panel s friend request -->
-                <div class="row">
-                    <div class="card conversation-card card-unread">
-                        <div class="card-body">
-                            <div class="row">
-                                <div class="col-md-3">
-                                    <img src="img/mommy_photo.png" class="img-thumbnail medium-thumbnail" alt="Poster photo" width="64" height="64">
-                                </div>
-                                <div class="col-md-9">
-                                    <div class="row">
-                                        <b>Nová kamarádka</b>  
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <button class="btn btn-success">OK</button>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <button class="btn btn-danger">X</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <%----%>
+                <%--<div class="row">--%>
+                    <%--<div class="card conversation-card card-unread">--%>
+                        <%--<div class="card-body">--%>
+                            <%--<div class="row">--%>
+                                <%--<div class="col-md-3">--%>
+                                    <%--<img src="img/poster_photo.png" class="img-thumbnail medium-thumbnail" alt="Poster photo" width="64" height="64">--%>
+                                <%--</div>--%>
+                                <%--<div class="col-md-9">--%>
+                                    <%--<div class="row">--%>
+                                        <%--<b>Nový kamarád</b>  --%>
+                                    <%--</div>--%>
+                                    <%--<div class="row">--%>
+                                        <%--<div class="col-md-6">--%>
+                                            <%--<button class="btn btn-success">OK</button>--%>
+                                        <%--</div>--%>
+                                        <%--<div class="col-md-6">--%>
+                                            <%--<button class="btn btn-danger">X</button>--%>
+                                        <%--</div>--%>
+                                    <%--</div>--%>
+                                <%--</div>--%>
+                            <%--</div>--%>
+                        <%--</div>--%>
+                    <%--</div>--%>
+                <%--</div>--%>
+
+                <%--<!--panel s friend request -->--%>
+                <%--<div class="row">--%>
+                    <%--<div class="card conversation-card card-unread">--%>
+                        <%--<div class="card-body">--%>
+                            <%--<div class="row">--%>
+                                <%--<div class="col-md-3">--%>
+                                    <%--<img src="img/mommy_photo.png" class="img-thumbnail medium-thumbnail" alt="Poster photo" width="64" height="64">--%>
+                                <%--</div>--%>
+                                <%--<div class="col-md-9">--%>
+                                    <%--<div class="row">--%>
+                                        <%--<b>Nová kamarádka</b>  --%>
+                                    <%--</div>--%>
+                                    <%--<div class="row">--%>
+                                        <%--<div class="col-md-6">--%>
+                                            <%--<button class="btn btn-success">OK</button>--%>
+                                        <%--</div>--%>
+                                        <%--<div class="col-md-6">--%>
+                                            <%--<button class="btn btn-danger">X</button>--%>
+                                        <%--</div>--%>
+                                    <%--</div>--%>
+                                <%--</div>--%>
+                            <%--</div>--%>
+                        <%--</div>--%>
+                    <%--</div>--%>
+                <%--</div>--%>
 
             </div>
 
@@ -106,115 +135,36 @@
                 <h4>My friends</h4>
                 <div class="card">
                     <div class="card-body">
-                        <div class="row">
+                        <c:set var="rowItemCount" value="0" scope="page" />
+                        <c:forEach items="${friendships}" var="friendship">
+                            <%-- start new row after 4 friendships to make table-like structure --%>
+                            <c:if test="${rowItemCount % 4 ==0}">
+                                <div class="row">
+                            </c:if>
+
+
+                            <%-- display element --%>
                             <div class="col-md-3">
                                 <div class="card card-borderless">
                                     <div class="card-body user-panel">
                                         <div class="row justify-content-center">
-                                            <img src="img/profile_photo.png" class="img-thumbnail medium-thumbnail" alt="Profile photo" width="64" height="64">
+                                            <img src="data:image/png;base64,${friendship.sender.profilePhoto}" class="img-thumbnail medium-thumbnail" alt="${friendship.sender.username}" width="64" height="64">
                                         </div>
                                         <div class="row justify-content-center">
-                                            <a href="main-page.html">Kámoš</a>
+                                            <a href="${feedLink}">${friendship.sender.username}</a>
                                         </div>
                                     </div>
                                 </div>
                             </div>
 
-                            <div class="col-md-3">
-                                <div class="card card-borderless">
-                                    <div class="card-body user-panel">
-                                        <div class="row justify-content-center">
-                                            <img src="img/poster_photo.png" class="img-thumbnail medium-thumbnail" alt="Profile photo" width="64" height="64">
-                                        </div>
-                                        <div class="row justify-content-center">
-                                            <a href="main-page.html">Hustej Uživatel</a>
-                                        </div>
-                                    </div>
+                            <%--increment counter--%>
+                            <c:set var="rowItemCount" value="${rowItemCount+1}" scope="page"/>
+
+                            <%-- close the row element after the 4th friendship --%>
+                            <c:if test="${rowItemCount % 4 == 0 || rowItemCount == friendships.size()}">
                                 </div>
-                            </div>
-
-                            <div class="col-md-3">
-                                <div class="card card-borderless">
-                                    <div class="card-body user-panel">
-                                        <div class="row justify-content-center">
-                                            <img src="img/mommy_photo.png" class="img-thumbnail medium-thumbnail" alt="Profile photo" width="64" height="64">
-                                        </div>
-                                        <div class="row justify-content-center">
-                                            <a href="main-page.html">Maminečka</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-md-3">
-                                <div class="card card-borderless">
-                                    <div class="card-body user-panel">
-                                        <div class="row justify-content-center">
-                                            <img src="img/profile_photo.png" class="img-thumbnail medium-thumbnail" alt="Profile photo" width="64" height="64">
-                                        </div>
-                                        <div class="row justify-content-center">
-                                            <a href="main-page.html">Někdo úplně jinej</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-
-
-                        <div class="row">
-                            <div class="col-md-3">
-                                <div class="card card-borderless">
-                                    <div class="card-body user-panel">
-                                        <div class="row justify-content-center">
-                                            <img src="img/poster_photo.png" class="img-thumbnail medium-thumbnail" alt="Profile photo" width="64" height="64">
-                                        </div>
-                                        <div class="row justify-content-center">
-                                            <a href="main-page.html">Spolužák Petr</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-md-3">
-                                <div class="card card-borderless">
-                                    <div class="card-body user-panel">
-                                        <div class="row justify-content-center">
-                                            <img src="img/mommy_photo.png" class="img-thumbnail medium-thumbnail" alt="Profile photo" width="64" height="64">
-                                        </div>
-                                        <div class="row justify-content-center">
-                                            <a href="main-page.html">Kamarádka Míša</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-md-3">
-                                <div class="card card-borderless">
-                                    <div class="card-body user-panel">
-                                        <div class="row justify-content-center">
-                                            <img src="img/profile_photo.png" class="img-thumbnail medium-thumbnail" alt="Profile photo" width="64" height="64">
-                                        </div>
-                                        <div class="row justify-content-center">
-                                            <a href="main-page.html">Kolega Pavel</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-md-3">
-                                <div class="card card-borderless">
-                                    <div class="card-body user-panel">
-                                        <div class="row justify-content-center">
-                                            <img src="img/mommy_photo.png" class="img-thumbnail medium-thumbnail" alt="Profile photo" width="64" height="64">
-                                        </div>
-                                        <div class="row justify-content-center">
-                                            <a href="main-page.html">Klára Nováková</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                            </c:if>
+                        </c:forEach>
                     </div>
                 </div>
             </div>
