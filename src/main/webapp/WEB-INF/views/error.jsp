@@ -4,7 +4,7 @@
 
 <spring:url value="/resources/css/style.css" var="myStyle" />
 <c:url value="/login" var="loginLink" />
-<c:url value="/register" var="registerLink" />
+<c:url value="/feed" var="feedLink"/>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -23,7 +23,7 @@
     <nav class="navbar navbar-dark bg-green">
         <div class="container">
             <div class="navbar-header">
-                <h2><a href="${registerLink}">Cool social network</a></h2>
+                <h2><a href="${feedLink}">Cool social network</a></h2>
             </div>
 
             <a href="${loginLink}" class="nav-link active"><span class="glyphicon glyphicon-log-in"></span>Going in!</a>
@@ -33,28 +33,18 @@
         <div class="row">
             <div class="col-md-3">
             </div>
-            <div class="col-md-6">
-                <form method="post" action="login">
-                    <fieldset>
-                        <div class="form-group">
-                            <label for="username">email</label>
-                            <input type="text" name="username" id="username" class="form-control" placeholder="email@email.com">
-                        </div>
-                        <div class="form-group">
-                            <label for="password">password</label>
-                            <input type="password" name="password" id="password" class="form-control">
-                        </div>
+            <div class="col-md-6 text-danger">
+                <h3>An error has occurred</h3>
+                <c:if test="${errorMsg != null}">
+                    <p>
+                            ${errorMsg}
+                    </p>
+                </c:if>
 
-                        <input type="hidden"
-                               name="${_csrf.parameterName}"
-                               value="${_csrf.token}"/>
-
-                        <input type="submit" value="Login" class="btn btn-success">
-                    </fieldset>
-                </form>
-                
-                <c:if test="${error != null}">
-                    <span class="text-danger">Bad username and/or password.</span>
+                <c:if test="${ex != null}">
+                    <p>
+                        Exception: ${ex}.
+                    </p>
                 </c:if>
             </div>
             <div class="col-md-3">
