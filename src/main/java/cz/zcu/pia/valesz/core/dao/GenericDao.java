@@ -1,33 +1,48 @@
 package cz.zcu.pia.valesz.core.dao;
 
+import org.springframework.data.repository.NoRepositoryBean;
+import org.springframework.data.repository.Repository;
+
 import java.io.Serializable;
+import java.util.List;
+import java.util.Optional;
 
 /**
- * A generic interface for every other dao.
- * @param <T> Persisted class.
- * @param <PK> Primary key.
+ * Base interface for all other DAO interfaces.
  */
-public interface GenericDao<T, PK> extends Serializable{
+@NoRepositoryBean
+public interface GenericDao<T, PK extends Serializable> extends Repository<T, PK>{
 
     /**
-     * Gets the object from database by its primary key.
-     * @param key Primary key.
-     * @return Object or null if no object is found.
+     * Delete object from database.
+     * @param deleted Object to be deleted.
      */
-    T get(PK key);
+    void delete(T deleted);
 
     /**
-     * Saves the object and returns it. Also works for update.
-     * @param object Object to be saved.
+     * Delete object by its id.
+     * @param id Id of the object to be deleted.
+     */
+//    void delete(PK id);
+
+    /**
+     * Returns all instances of persisted class.
+     * @return
+     */
+    List<T> findAll();
+
+    /**
+     * Find one instance of persisted class.
+     *
+     * @param id Unique identifier.
+     * @return Optional containing the returned object.
+     */
+    Optional<T> findOne(PK id);
+
+    /**
+     * Persist instance.
+     * @param persisted Object to be saved.
      * @return Saved object.
      */
-    T save(T object);
-
-    /**
-     * Deletes object.
-     *
-     * @param key Primary key of the object to be deleted.
-     */
-    void delete(PK key);
-
+    T save(T persisted);
 }

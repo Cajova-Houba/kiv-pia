@@ -6,6 +6,7 @@
     http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd
     http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd">
 
+    <import resource="applicationContext-persistence.xml" />
     <import resource="applicationContext-social.xml"/>
     <import resource="applicationContext-security.xml"/>
 
@@ -32,7 +33,6 @@
     <!--</bean>-->
 
     <!-- daos -->
-    <bean id="userDao" class="cz.zcu.pia.valesz.core.dao.hibernate.UserDaoHibernate" />
     <bean id="userDaoDummy" class="cz.zcu.pia.valesz.core.dao.dummy.UserDaoDummy" />
     <bean id="postDaoDummy" class="cz.zcu.pia.valesz.core.dao.dummy.PostDaoDummy" />
     <bean id="friendDaoDummy" class="cz.zcu.pia.valesz.core.dao.dummy.FriendDaoDummy" />

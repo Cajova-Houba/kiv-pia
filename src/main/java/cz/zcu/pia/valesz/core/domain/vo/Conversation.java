@@ -3,7 +3,6 @@ package cz.zcu.pia.valesz.core.domain.vo;
 import cz.zcu.pia.valesz.core.domain.Message;
 import cz.zcu.pia.valesz.core.domain.User;
 
-import javax.persistence.*;
 import java.util.List;
 
 /**
@@ -11,9 +10,6 @@ import java.util.List;
  *
  * It is user as a wrapper in view layer.
  */
-@Entity
-@Table(name = "conversation")
-// TODO: delete jpa annotations
 public class Conversation {
 
     /**
@@ -53,8 +49,6 @@ public class Conversation {
         this.newFlag = newFlag;
     }
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     public Long getId() {
         return id;
     }
@@ -63,7 +57,6 @@ public class Conversation {
         this.id = id;
     }
 
-    @ManyToOne
     public User getFirstUser() {
         return firstUser;
     }
@@ -72,7 +65,6 @@ public class Conversation {
         this.firstUser = firstUser;
     }
 
-    @ManyToOne
     public User getSecondUser() {
         return secondUser;
     }
@@ -81,7 +73,6 @@ public class Conversation {
         this.secondUser = secondUser;
     }
 
-    @OneToMany(fetch = FetchType.EAGER)
     public List<Message> getMessages() {
         return messages;
     }

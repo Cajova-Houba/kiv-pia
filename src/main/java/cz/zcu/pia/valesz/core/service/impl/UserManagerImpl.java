@@ -30,12 +30,12 @@ public class UserManagerImpl implements UserManager, UserDetailsService, SocialU
 
     @Override
     public User getCurrentlyLoggerUser() {
-        return userDao.loadByUsername("Pepa Uživatel");
+        return userDao.findByUsername("Pepa Uživatel");
     }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userDao.loadByUsername(username);
+        User user = userDao.findByUsername(username);
         if(user == null) {
             throw new UsernameNotFoundException("User with username "+username+" not found!");
         }
@@ -51,7 +51,7 @@ public class UserManagerImpl implements UserManager, UserDetailsService, SocialU
 
     @Override
     public User loadByUsername(String username) {
-        return userDao.loadByUsername(username);
+        return userDao.findByUsername(username);
     }
 
     @Override
@@ -60,8 +60,8 @@ public class UserManagerImpl implements UserManager, UserDetailsService, SocialU
         String password = authentication.getCredentials().toString();
 
         System.out.println("Authenticating "+name+","+password);
-        User u = userDao.loadByUsername(name);
-        if (u != null && u.getPassword().equals(password)) {
+        User u = userDao.findByUsername(name);
+        if (u != null && u.getPasswordHash().equals(password)) {
         } else {
             System.out.println("Credentials "+name+","+password+" are bad!");
             throw new BadCredentialsException("Bad credentials!");

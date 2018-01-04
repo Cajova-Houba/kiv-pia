@@ -6,6 +6,7 @@ import cz.zcu.pia.valesz.core.domain.Post;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Optional;
 
 public class PostDaoDummy implements PostDao {
 
@@ -17,6 +18,20 @@ public class PostDaoDummy implements PostDao {
     }
 
     @Override
+    public void delete(Post deleted) {
+
+    }
+
+    @Override
+    public List<Post> findAll() {
+        return null;
+    }
+
+    @Override
+    public Optional<Post> findOne(Long id) {
+        return Optional.ofNullable(get(id));
+    }
+
     public Post get(Long key) {
         for(Post p : postRepo) {
             if (p.getId().equals(key)) {
@@ -33,7 +48,7 @@ public class PostDaoDummy implements PostDao {
         return object;
     }
 
-    @Override
+//    @Override
     public void delete(Long key) {
         Iterator<Post> pIter = postRepo.iterator();
 

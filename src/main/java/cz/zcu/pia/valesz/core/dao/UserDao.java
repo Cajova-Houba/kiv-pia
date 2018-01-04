@@ -12,5 +12,5 @@ public interface UserDao extends GenericDao<User, Long> {
      * @param username Username.
      * @return User or null if no user is found.
      */
-    User loadByUsername(String username);
+    User findByUsername(String username);
 }

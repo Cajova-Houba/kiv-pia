@@ -2,7 +2,7 @@ package cz.zcu.pia.valesz.core.domain;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.social.security.SocialUser;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import java.util.Arrays;
@@ -15,7 +15,7 @@ import java.util.List;
  */
 @Entity
 @Table(name="user")
-public class User extends SocialUser {
+public class User implements UserDetails {
 
     /**
      * Database id.
@@ -28,9 +28,24 @@ public class User extends SocialUser {
     private String email;
 
     /**
+     * Unique username. Can be used as businesss key.
+     */
+    private String username;
+
+    /**
+     * Hash of user's password.
+     */
+    private String passwordHash;
+
+    /**
      * User's birth date.
      */
     private Date birthDate;
+
+    /**
+     * User's full name. This will be displayed in most places.
+     */
+    private String fullName;
 
     /**
      * User's gender.
@@ -58,14 +73,19 @@ public class User extends SocialUser {
     private String profilePhoto;
 
     /**
+     * User's authorities. Not actually persisted.
+     */
+    private List<? extends GrantedAuthority> authorities;
+
+    /**
      * Default constructor which uses empty username, password and list of granted authorities.
      */
     public User() {
-        this("", "", Arrays.asList(new SimpleGrantedAuthority("ROLE_USER")));
+        this("default", "default", Arrays.asList(new SimpleGrantedAuthority("ROLE_USER")));
     }
 
     public User(String username, String password, Collection<? extends GrantedAuthority> authorities) {
-        super(username, password, authorities);
+
     }
 
     /**
@@ -80,7 +100,7 @@ public class User extends SocialUser {
     }
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     public Long getId() {
         return id;
     }
@@ -92,13 +112,26 @@ public class User extends SocialUser {
     @Override
     @Column(unique = true, nullable = false)
     public String getUsername() {
-        return super.getUsername();
+        return username;
     }
 
-    @Column(name = "password_hash")
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
     @Override
+    @Transient
     public String getPassword() {
-        return super.getPassword();
+        return getPasswordHash();
+    }
+
+    @Column(name = "password_hash", nullable = false)
+    public String getPasswordHash() {
+        return passwordHash;
+    }
+
+    public void setPasswordHash(String passwordHash) {
+        this.passwordHash = passwordHash;
     }
 
     @Column(nullable = false)
@@ -138,7 +171,7 @@ public class User extends SocialUser {
         this.friends = friends;
     }
 
-    @Column(name = "profile_visibility")
+    @Column(name = "profile_visibility", nullable = false)
     @Enumerated(EnumType.STRING)
     public Visibility getProfileVisibility() {
         return profileVisibility;
@@ -168,9 +201,53 @@ public class User extends SocialUser {
         this.profilePhoto = profilePhoto;
     }
 
-    @Transient
+    @Column(name = "full_name", length = 500, nullable = false)
     public String getFullName() {
         return getUsername();
+    }
+
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
+    }
+
+    @Override
+    @Transient
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return authorities;
+    }
+
+    public void setAuthorities(List<? extends GrantedAuthority> authorities) {
+        this.authorities = authorities;
+    }
+
+    @Override
+    @Transient
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    @Transient
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    @Transient
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    @Transient
+    public boolean isEnabled() {
+        return true;
+    }
+
+    @Override
+    @Transient
+    public String getName() {
+        return getFullName();
     }
 
     @Override

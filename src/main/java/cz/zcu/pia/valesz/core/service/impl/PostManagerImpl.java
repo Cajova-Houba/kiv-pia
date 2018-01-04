@@ -25,10 +25,10 @@ public class PostManagerImpl implements PostManager {
     public List<Post> listPostsForUser() {
         List<Post> posts = postDao.listPostsForUser();
         if (posts.isEmpty()) {
-            User u1 = userDao.loadByUsername("Pepa Uživatel");
+            User u1 = userDao.findByUsername("Pepa Uživatel");
             Post p1 = new Post(new DateTime(2017, 10, 12, 0, 0).toDate(), "Tohle je fakt dobrá sociální síť.", u1);
             p1.setId(0L);
-            User u2 = userDao.loadByUsername("Hustej Uživatel");
+            User u2 = userDao.findByUsername("Hustej Uživatel");
             Post p2 = new Post(new DateTime(2017, 10, 2, 0, 0).toDate(), "Hej lidi, taky máte ten pocit, jako bychom žili na planetě opic?", u2);
             p2.setId(1L);
             postDao.save(p1);
@@ -40,7 +40,7 @@ public class PostManagerImpl implements PostManager {
 
     @Override
     public Post createNewPost(String text) {
-        User currentUser = userDao.loadByUsername("Pepa Uživatel");
+        User currentUser = userDao.findByUsername("Pepa Uživatel");
         Post post = new Post(new DateTime().toDate(), text, currentUser);
         post.setId(postDao.listPostsForUser().size()+1L);
         return postDao.save(post);

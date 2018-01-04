@@ -1,0 +1,11 @@
+<!-- test data for spring tests -->
+<dataset>
+    <user
+        id="-1"
+        username="user1"
+        password_hash="psw"
+        email="user@kivbook.com"
+        full_name="Pepa Uživatel"
+        profile_visibility="EVERYONE"
+        />
+</dataset>

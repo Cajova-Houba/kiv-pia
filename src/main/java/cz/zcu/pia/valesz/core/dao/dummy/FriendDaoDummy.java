@@ -7,6 +7,7 @@ import cz.zcu.pia.valesz.core.domain.User;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Optional;
 
 public class FriendDaoDummy implements FriendDao {
 
@@ -24,6 +25,20 @@ public class FriendDaoDummy implements FriendDao {
     }
 
     @Override
+    public void delete(FriendRequest deleted) {
+
+    }
+
+    @Override
+    public List<FriendRequest> findAll() {
+        return null;
+    }
+
+    @Override
+    public Optional<FriendRequest> findOne(Long id) {
+        return Optional.ofNullable(get(id));
+    }
+
     public FriendRequest get(Long key) {
         for(FriendRequest fr : friendRequestsRepository) {
             if(fr.getId() == key) {
@@ -39,7 +54,7 @@ public class FriendDaoDummy implements FriendDao {
         return object;
     }
 
-    @Override
+//    @Override
     public void delete(Long key) {
         Iterator<FriendRequest> frIterator = friendRequestsRepository.iterator();
         while (frIterator.hasNext()) {

@@ -17,7 +17,7 @@ public class Post {
      * Database id.
      */
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     /**
@@ -43,13 +43,14 @@ public class Post {
     /**
      * Content of the post.
      */
-    @Column(length = 1000)
+    @Column(length = 1000, nullable = false)
     private String text;
 
     /**
      * Visibility of this post to the rest of the world.
      */
     @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private Visibility visibility;
 
     /**

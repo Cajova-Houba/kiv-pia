@@ -7,6 +7,8 @@ import org.apache.commons.io.IOUtils;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Base64;
+import java.util.List;
+import java.util.Optional;
 
 /**
  * Dummy dao for testing purposes.
@@ -18,7 +20,7 @@ public class UserDaoDummy implements UserDao {
     private String pp3FName = "/img/mommy_photo.png";
 
     @Override
-    public User loadByUsername(String username) {
+    public User findByUsername(String username) {
         User u = new User(username, "123456789", new ArrayList<>());
         switch (username) {
             case "Někdo úplně jinej":
@@ -56,6 +58,19 @@ public class UserDaoDummy implements UserDao {
     }
 
     @Override
+    public void delete(User deleted) {
+    }
+
+    @Override
+    public List<User> findAll() {
+        return null;
+    }
+
+    @Override
+    public Optional<User> findOne(Long id) {
+        return Optional.ofNullable(get(id));
+    }
+
     public User get(Long key) {
         return new User(key, "test-user", "123456789");
     }
@@ -65,7 +80,7 @@ public class UserDaoDummy implements UserDao {
         return object;
     }
 
-    @Override
+//    @Override
     public void delete(Long key) {
 
     }

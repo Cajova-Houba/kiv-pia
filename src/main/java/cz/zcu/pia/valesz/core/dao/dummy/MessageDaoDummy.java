@@ -7,6 +7,7 @@ import cz.zcu.pia.valesz.core.domain.User;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Optional;
 
 public class MessageDaoDummy implements MessageDao {
 
@@ -20,6 +21,20 @@ public class MessageDaoDummy implements MessageDao {
     }
 
     @Override
+    public void delete(Message deleted) {
+
+    }
+
+    @Override
+    public List<Message> findAll() {
+        return null;
+    }
+
+    @Override
+    public Optional<Message> findOne(Long id) {
+        return null;
+    }
+
     public Message get(Long key) {
         for(Message m : messageRepository) {
             if(m.getId() == key) {
@@ -35,7 +50,7 @@ public class MessageDaoDummy implements MessageDao {
         return object;
     }
 
-    @Override
+//    @Override
     public void delete(Long key) {
         Iterator<Message> msgIt = messageRepository.iterator();
         while(msgIt.hasNext()) {

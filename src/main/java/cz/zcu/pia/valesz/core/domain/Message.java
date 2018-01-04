@@ -54,7 +54,7 @@ public class Message {
     }
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     public Long getId() {
         return id;
     }
@@ -81,7 +81,7 @@ public class Message {
         this.receiver = receiver;
     }
 
-    @Column(length = 500)
+    @Column(length = 500, nullable = false)
     public String getText() {
         return text;
     }
@@ -101,6 +101,7 @@ public class Message {
     }
 
     @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     public MessageState getState() {
         return state;
     }

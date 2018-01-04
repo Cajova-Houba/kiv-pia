@@ -51,7 +51,7 @@ public class FriendRequest {
     }
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     public Long getId() {
         return id;
     }
@@ -98,7 +98,7 @@ public class FriendRequest {
         this.respondedDate = respondedDate;
     }
 
-    @Column(name = "friend_request_state")
+    @Column(name = "friend_request_state", nullable = false)
     @Enumerated(EnumType.STRING)
     public FriendRequestState getFriendRequestState() {
         return friendRequestState;
