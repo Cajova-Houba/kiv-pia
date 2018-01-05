@@ -3,13 +3,15 @@ package cz.zcu.pia.valesz.core.dao;
 import cz.zcu.pia.valesz.core.domain.Message;
 import cz.zcu.pia.valesz.core.domain.User;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.NoRepositoryBean;
 
 import java.util.List;
 
 /**
  * DAO for message stuff.
  */
-public interface MessageDao extends GenericRepository<Message, Long> {
+@NoRepositoryBean
+public interface MessageDao extends GenericDao<Message, Long> {
 
     /**
      * Returns a list of last messages from every sender.

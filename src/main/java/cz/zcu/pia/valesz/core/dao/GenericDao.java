@@ -5,13 +5,12 @@ import org.springframework.data.repository.NoRepositoryBean;
 
 import java.io.Serializable;
 import java.util.List;
-import java.util.Optional;
 
 /**
  * Base interface for all other DAO interfaces.
  */
 @NoRepositoryBean
-public interface GenericRepository<T, PK extends Serializable> extends JpaRepository<T, PK> {
+public interface GenericDao<T, PK extends Serializable> extends JpaRepository<T, PK> {
 
     /**
      * Delete object from database.
@@ -37,7 +36,7 @@ public interface GenericRepository<T, PK extends Serializable> extends JpaReposi
      * @param id Unique identifier.
      * @return Optional containing the returned object.
      */
-    Optional<T> findOne(PK id);
+//    Optional<T> findOne(PK id);
 //
 //    /**
 //     * Persist instance.

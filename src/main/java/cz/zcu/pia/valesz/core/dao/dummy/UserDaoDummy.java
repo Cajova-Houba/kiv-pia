@@ -3,6 +3,7 @@ package cz.zcu.pia.valesz.core.dao.dummy;
 import cz.zcu.pia.valesz.core.dao.UserDao;
 import cz.zcu.pia.valesz.core.domain.User;
 import org.apache.commons.io.IOUtils;
+import org.springframework.data.repository.NoRepositoryBean;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -13,6 +14,7 @@ import java.util.Optional;
 /**
  * Dummy dao for testing purposes.
  */
+@NoRepositoryBean
 public class UserDaoDummy extends Dummygeneric<User, Long> implements UserDao {
 
     private String pp1FName = "/img/profile_photo.png";

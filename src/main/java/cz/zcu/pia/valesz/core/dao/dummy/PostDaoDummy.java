@@ -2,12 +2,14 @@ package cz.zcu.pia.valesz.core.dao.dummy;
 
 import cz.zcu.pia.valesz.core.dao.PostDao;
 import cz.zcu.pia.valesz.core.domain.Post;
+import org.springframework.data.repository.NoRepositoryBean;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 
+@NoRepositoryBean
 public class PostDaoDummy extends Dummygeneric<Post, Long> implements PostDao {
 
     private static List<Post> postRepo = new ArrayList<>();

@@ -1,11 +1,13 @@
 package cz.zcu.pia.valesz.core.dao;
 
 import cz.zcu.pia.valesz.core.domain.User;
+import org.springframework.data.repository.NoRepositoryBean;
 
 /**
  * Methods for fetching user related data.
  */
-public interface UserDao extends GenericRepository<User, Long> {
+@NoRepositoryBean
+public interface UserDao extends GenericDao<User, Long> {
 
     /**
      * Loads user by his username.

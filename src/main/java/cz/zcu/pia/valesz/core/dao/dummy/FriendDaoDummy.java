@@ -4,12 +4,14 @@ import cz.zcu.pia.valesz.core.dao.FriendDao;
 import cz.zcu.pia.valesz.core.domain.FriendRequest;
 import cz.zcu.pia.valesz.core.domain.FriendRequestState;
 import cz.zcu.pia.valesz.core.domain.User;
+import org.springframework.data.repository.NoRepositoryBean;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 
+@NoRepositoryBean
 public class FriendDaoDummy extends Dummygeneric<FriendRequest, Long> implements FriendDao {
 
     private static List<FriendRequest> friendRequestsRepository = new ArrayList<>();

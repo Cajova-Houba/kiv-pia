@@ -8,12 +8,13 @@ import java.util.List;
 /**
  * Methods for fetching posts-related data.
  */
-public interface PostDao extends GenericRepository<Post, Long> {
+
+public interface PostDao extends GenericDao<Post, Long> {
 
     /**
      * Returns the current post feed which should be displayed to the currently logged user.
      * @return Posts to be displayed.
      */
-    @Query("")
+    @Query("SELECT p FROM Post p")
     List<Post> listPostsForUser();
 }

@@ -3,12 +3,14 @@ package cz.zcu.pia.valesz.core.dao.dummy;
 import cz.zcu.pia.valesz.core.dao.MessageDao;
 import cz.zcu.pia.valesz.core.domain.Message;
 import cz.zcu.pia.valesz.core.domain.User;
+import org.springframework.data.repository.NoRepositoryBean;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 
+@NoRepositoryBean
 public class MessageDaoDummy extends Dummygeneric<Message, Long> implements MessageDao {
 
     private List<Message> messageRepository = new ArrayList<>();

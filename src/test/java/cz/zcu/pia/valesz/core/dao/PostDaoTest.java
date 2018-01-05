@@ -1,7 +1,5 @@
 package cz.zcu.pia.valesz.core.dao;
 
-import com.github.springtestdbunit.DbUnitTestExecutionListener;
-import com.github.springtestdbunit.annotation.DatabaseSetup;
 import cz.zcu.pia.valesz.core.domain.Post;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -15,11 +13,9 @@ import org.springframework.test.context.transaction.TransactionalTestExecutionLi
 import java.util.List;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration("classpath:applicationContext.xml")
+@ContextConfiguration("/applicationContext-test.xml")
 @TestExecutionListeners({DependencyInjectionTestExecutionListener.class,
-        TransactionalTestExecutionListener.class,
-        DbUnitTestExecutionListener.class})
-@DatabaseSetup("test-users.xml")
+        TransactionalTestExecutionListener.class})
 public class PostDaoTest {
 
     @Autowired
