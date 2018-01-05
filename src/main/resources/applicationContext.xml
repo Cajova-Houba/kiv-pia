@@ -33,10 +33,10 @@
     <!--</bean>-->
 
     <!-- daos -->
-    <bean id="userDaoDummy" class="cz.zcu.pia.valesz.core.dao.dummy.UserDaoDummy" />
-    <bean id="postDaoDummy" class="cz.zcu.pia.valesz.core.dao.dummy.PostDaoDummy" />
-    <bean id="friendDaoDummy" class="cz.zcu.pia.valesz.core.dao.dummy.FriendDaoDummy" />
-    <bean id="messageDaoDummy" class="cz.zcu.pia.valesz.core.dao.dummy.MessageDaoDummy" />
+    <!--<bean id="userDaoDummy" class="cz.zcu.pia.valesz.core.dao.dummy.UserDaoDummy" />-->
+    <!--<bean id="postDaoDummy" class="cz.zcu.pia.valesz.core.dao.dummy.PostDaoDummy" />-->
+    <!--<bean id="friendDaoDummy" class="cz.zcu.pia.valesz.core.dao.dummy.FriendDaoDummy" />-->
+    <!--<bean id="messageDaoDummy" class="cz.zcu.pia.valesz.core.dao.dummy.MessageDaoDummy" />-->
 
 
     <!-- managers -->

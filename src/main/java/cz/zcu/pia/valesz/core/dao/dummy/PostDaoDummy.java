@@ -8,7 +8,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 
-public class PostDaoDummy implements PostDao {
+public class PostDaoDummy extends Dummygeneric<Post, Long> implements PostDao {
 
     private static List<Post> postRepo = new ArrayList<>();
 

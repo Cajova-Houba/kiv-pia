@@ -2,6 +2,7 @@ package cz.zcu.pia.valesz.core.dao.dummy;
 
 import cz.zcu.pia.valesz.core.dao.FriendDao;
 import cz.zcu.pia.valesz.core.domain.FriendRequest;
+import cz.zcu.pia.valesz.core.domain.FriendRequestState;
 import cz.zcu.pia.valesz.core.domain.User;
 
 import java.util.ArrayList;
@@ -9,11 +10,22 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 
-public class FriendDaoDummy implements FriendDao {
+public class FriendDaoDummy extends Dummygeneric<FriendRequest, Long> implements FriendDao {
 
     private static List<FriendRequest> friendRequestsRepository = new ArrayList<>();
 
     @Override
+    public List<FriendRequest> findByReceiverAndFriendRequestState(User receiver, FriendRequestState friendRequestState) {
+        switch (friendRequestState) {
+            case PENDING:
+                return listNewFriendRequests(receiver);
+            case ACCEPTED:
+                return listFriendships(receiver);
+            default:
+                return new ArrayList<>();
+        }
+    }
+
     public List<FriendRequest> listNewFriendRequests(User user) {
         List<FriendRequest> requests = new ArrayList<>();
         for(FriendRequest fr : friendRequestsRepository) {
@@ -64,7 +76,6 @@ public class FriendDaoDummy implements FriendDao {
         }
     }
 
-    @Override
     public List<FriendRequest> listFriendships(User user) {
         List<FriendRequest> requests = new ArrayList<>();
         for(FriendRequest fr : friendRequestsRepository) {

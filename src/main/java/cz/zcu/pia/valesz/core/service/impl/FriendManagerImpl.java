@@ -47,10 +47,10 @@ public class FriendManagerImpl implements FriendManager {
 
     @Override
     public List<FriendRequest> listNewFriendRequests(User user) {
-        List<FriendRequest> frs = friendDao.listNewFriendRequests(user);
+        List<FriendRequest> frs = friendDao.findByReceiverAndFriendRequestState(user, FriendRequestState.PENDING);
         if(frs.isEmpty()) {
             createDummyRequests();
-            frs.addAll(friendDao.listNewFriendRequests(user));
+            frs.addAll(friendDao.findByReceiverAndFriendRequestState(user, FriendRequestState.PENDING));
         }
 
         return frs;
@@ -58,10 +58,10 @@ public class FriendManagerImpl implements FriendManager {
 
     @Override
     public List<FriendRequest> listFriendships(User user) {
-        List<FriendRequest> friends = friendDao.listFriendships(user);
+        List<FriendRequest> friends = friendDao.findByReceiverAndFriendRequestState(user, FriendRequestState.ACCEPTED);
         if(friends.isEmpty()) {
             createDummyFriends();
-            friends.addAll(friendDao.listFriendships(user));
+            friends.addAll(friendDao.findByReceiverAndFriendRequestState(user, FriendRequestState.ACCEPTED));
         }
 
         return friends;

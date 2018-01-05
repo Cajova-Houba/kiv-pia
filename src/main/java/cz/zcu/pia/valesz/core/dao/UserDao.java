@@ -5,7 +5,7 @@ import cz.zcu.pia.valesz.core.domain.User;
 /**
  * Methods for fetching user related data.
  */
-public interface UserDao extends GenericDao<User, Long> {
+public interface UserDao extends GenericRepository<User, Long> {
 
     /**
      * Loads user by his username.

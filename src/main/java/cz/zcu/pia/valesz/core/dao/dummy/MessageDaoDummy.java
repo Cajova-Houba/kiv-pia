@@ -9,7 +9,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 
-public class MessageDaoDummy implements MessageDao {
+public class MessageDaoDummy extends Dummygeneric<Message, Long> implements MessageDao {
 
     private List<Message> messageRepository = new ArrayList<>();
 

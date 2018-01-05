@@ -1,7 +1,7 @@
 package cz.zcu.pia.valesz.core.dao;
 
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.NoRepositoryBean;
-import org.springframework.data.repository.Repository;
 
 import java.io.Serializable;
 import java.util.List;
@@ -11,7 +11,7 @@ import java.util.Optional;
  * Base interface for all other DAO interfaces.
  */
 @NoRepositoryBean
-public interface GenericDao<T, PK extends Serializable> extends Repository<T, PK>{
+public interface GenericRepository<T, PK extends Serializable> extends JpaRepository<T, PK> {
 
     /**
      * Delete object from database.
@@ -38,11 +38,11 @@ public interface GenericDao<T, PK extends Serializable> extends Repository<T, PK
      * @return Optional containing the returned object.
      */
     Optional<T> findOne(PK id);
-
-    /**
-     * Persist instance.
-     * @param persisted Object to be saved.
-     * @return Saved object.
-     */
-    T save(T persisted);
+//
+//    /**
+//     * Persist instance.
+//     * @param persisted Object to be saved.
+//     * @return Saved object.
+//     */
+//    T save(T persisted);
 }

@@ -13,7 +13,7 @@ import java.util.Optional;
 /**
  * Dummy dao for testing purposes.
  */
-public class UserDaoDummy implements UserDao {
+public class UserDaoDummy extends Dummygeneric<User, Long> implements UserDao {
 
     private String pp1FName = "/img/profile_photo.png";
     private String pp2FName = "/img/poster_photo.png";
