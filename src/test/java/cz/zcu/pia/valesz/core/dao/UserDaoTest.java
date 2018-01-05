@@ -1,16 +1,11 @@
 package cz.zcu.pia.valesz.core.dao;
 
-import com.github.springtestdbunit.DbUnitTestExecutionListener;
-import com.github.springtestdbunit.annotation.DatabaseSetup;
 import cz.zcu.pia.valesz.core.domain.User;
+import cz.zcu.pia.valesz.core.domain.Visibility;
+import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.TestExecutionListeners;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
-import org.springframework.test.context.transaction.TransactionalTestExecutionListener;
+import org.springframework.beans.factory.annotation.Qualifier;
 
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
@@ -18,17 +13,23 @@ import static org.junit.Assert.assertNull;
 /**
  * Simple integration test to see if the stuff works.
  */
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration("classpath:applicationContext.xml")
-@TestExecutionListeners({DependencyInjectionTestExecutionListener.class,
-        TransactionalTestExecutionListener.class,
-        DbUnitTestExecutionListener.class})
-@DatabaseSetup("test-users.xml")
-public class UserDaoTest {
+public class UserDaoTest extends BaseDaoTest{
 
 
     @Autowired
+    @Qualifier("userDao")
     private UserDao userDao;
+
+    /**
+     * Insert some test data.
+     */
+    @Before
+    public void setUp() {
+        User u1 = new User(-1L, "user@kivbook.com", "user1", "psw", "Pepa Uživatel", Visibility.REGISTERED_USERS);
+        if(!userDao.existsByUsername(u1.getUsername())) {
+            userDao.save(u1);
+        }
+    }
 
 
     @Test

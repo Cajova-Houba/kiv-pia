@@ -33,9 +33,6 @@
     <!--</bean>-->
 
     <!-- for tests -->
-    <bean id="dbUnitDatabaseConnection" class="com.">
-        <!--<property name="schema" ref="myschema"/>-->
-    </bean>
 
     <!-- daos -->
     <bean id="userDaoDummy" class="cz.zcu.pia.valesz.core.dao.dummy.UserDaoDummy" />

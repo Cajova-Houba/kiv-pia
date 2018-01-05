@@ -75,7 +75,7 @@ public class User implements UserDetails {
     /**
      * User's authorities. Not actually persisted.
      */
-    private List<? extends GrantedAuthority> authorities;
+    private Collection<? extends GrantedAuthority> authorities;
 
     /**
      * Default constructor which uses empty username, password and list of granted authorities.
@@ -85,7 +85,9 @@ public class User implements UserDetails {
     }
 
     public User(String username, String password, Collection<? extends GrantedAuthority> authorities) {
-
+        this.username = username;
+        this.passwordHash = password;
+        this.authorities = authorities;
     }
 
     /**
@@ -97,6 +99,13 @@ public class User implements UserDetails {
     public User(Long id, String username, String password) {
         this(username, password, Arrays.asList(new SimpleGrantedAuthority("ROLE_USER")));
         setId(id);
+    }
+
+    public User(Long id, String email, String username, String passwordHash, String fullName, Visibility profileVisibility) {
+        this(id, username, passwordHash);
+        this.email = email;
+        this.fullName = fullName;
+        this.profileVisibility = profileVisibility;
     }
 
     @Id
@@ -203,7 +212,7 @@ public class User implements UserDetails {
 
     @Column(name = "full_name", length = 500, nullable = false)
     public String getFullName() {
-        return getUsername();
+        return fullName;
     }
 
     public void setFullName(String fullName) {
@@ -257,11 +266,21 @@ public class User implements UserDetails {
 
         User user = (User) o;
 
-        return getUsername().equals(user.getUsername());
+        return username != null ? username.equals(user.username) : user.username == null;
     }
 
     @Override
     public int hashCode() {
-        return getUsername().hashCode();
+        return username != null ? username.hashCode() : 0;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", fullName='" + fullName + '\'' +
+                ", profileVisibility=" + profileVisibility +
+                '}';
     }
 }

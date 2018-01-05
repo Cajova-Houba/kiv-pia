@@ -86,4 +86,9 @@ public class UserDaoDummy extends Dummygeneric<User, Long> implements UserDao {
     public void delete(Long key) {
 
     }
+
+    @Override
+    public boolean existsByUsername(String username) {
+        return false;
+    }
 }
