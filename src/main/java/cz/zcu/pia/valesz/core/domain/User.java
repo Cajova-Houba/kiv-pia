@@ -101,11 +101,31 @@ public class User implements UserDetails {
         setId(id);
     }
 
+    // todo: delete this
     public User(Long id, String email, String username, String passwordHash, String fullName, Visibility profileVisibility) {
         this(id, username, passwordHash);
         this.email = email;
         this.fullName = fullName;
         this.profileVisibility = profileVisibility;
+    }
+
+    /**
+     * Constructor for user used in registration. Profile visibility is set to default.
+     * @param email
+     * @param username
+     * @param passwordHash
+     * @param birthDate
+     * @param fullName
+     * @param gender
+     */
+    public User(String email, String username, String passwordHash, Date birthDate, String fullName, Gender gender) {
+        this.email = email;
+        this.username = username;
+        this.passwordHash = passwordHash;
+        this.birthDate = birthDate;
+        this.fullName = fullName;
+        this.gender = gender;
+        this.profileVisibility = Visibility.REGISTERED_USERS;
     }
 
     @Id

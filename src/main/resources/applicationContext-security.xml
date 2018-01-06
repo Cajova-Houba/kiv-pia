@@ -12,7 +12,7 @@
 
         <intercept-url pattern="/login*" access="isAnonymous()" />
         <intercept-url pattern="/resources/css/**" access="permitAll()" />
-        <intercept-url pattern="/register" access="isAnonymous()" />
+        <intercept-url pattern="/register*" access="isAnonymous()" />
         <intercept-url pattern="/**" access="isAuthenticated()"/>
 
         <form-login

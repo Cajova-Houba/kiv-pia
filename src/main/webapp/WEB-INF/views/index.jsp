@@ -31,32 +31,63 @@
   	<div class="container">
   		<div class="row">
   			<div class="col-md-4">
-  				<form method="post" action="#">
+  				<form method="post" action="${registerLink}">
                     <fieldset>
                         <legend>Register now!</legend>
                         <div class="form-group">
+                            <label for="username">username</label>
+                            <c:if test="${errUsernameWrong || errUsernameExists}">
+                                <label for="username" class="text-danger">Wrong username!</label>
+                            </c:if>
+                            <input type="text" name="username" id="username" class="form-control" placeholder="username" maxlength="255">
+                        </div>
+
+                        <div class="form-group">
                             <label for="email">email</label>
-                            <input type="text" name="email" id="email" class="form-control" placeholder="email@email.com">
+                            <c:if test="${errWrongEmail}">
+                                <label for="email" class="text-danger">Wrong email!</label>
+                            </c:if>
+                            <input type="text" name="email" id="email" class="form-control" placeholder="email@email.com" maxlength="255">
                         </div>
 
                         <div class="form-group">
                             <label for="password">password</label>
-                            <input type="password" name="password" id="password" class="form-control" placeholder="123456789">
+                            <c:if test="${errWrongPass}">
+                                <label for="password" class="text-danger">Wrong password!</label>
+                            </c:if>
+                            <input type="password" name="password" id="password" class="form-control" placeholder="" maxlength="255">
                         </div>
 
                         <div class="form-group">
                             <label for="password-conf">confirm password</label>
-                            <input type="password" name="password-conf" id="password-conf" class="form-control" placeholder="123456789">
+                            <c:if test="${errPassDontMatch}">
+                                <label for="password-conf" class="text-danger">Passwords don't match!</label>
+                            </c:if>
+                            <input type="password" name="password-conf" id="password-conf" class="form-control" placeholder="" maxlength="255">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="full-name">full name</label>
+                            <c:if test="${errWrongFullName}">
+                                <label for="full-name" class="text-danger">Wrong full name!</label>
+                            </c:if>
+                            <input type="text" id="full-name" name="full-name" class="form-control" placeholder="Bobby McJohnson" maxlength="500">
                         </div>
 
                         <div class="form-group">
                             <label for="birth-date">birth date</label>
+                            <c:if test="${errTooYoungMan}">
+                                <label for="birth-date" class="text-danger">Sorry man, you're too young...</label>
+                            </c:if>
                             <input type="date" id="birth-date" class="form-control">
                         </div>
 
                         <div class="row">
                             <div class="col-md-6">
                                 <label>Gender</label>
+                                <c:if test="${errNotAGender}">
+                                    <label class="text-danger">That's not a gender. Not at all.</label>
+                                </c:if>
                             </div>
                             <div class="col-md-6">
                                 <div class="radio">
@@ -73,7 +104,10 @@
 
                         <div class="form-group">
                             <label for="accept-terms">Accept terms of use </label>
-                            <input type="checkbox" id="accept-terms">
+                            <input type="checkbox" id="accept-terms" name="accept-terms">
+                            <c:if test="${errShutUpAndAccept}">
+                                <label for="accept-terms" class="text-danger">How can you have any fun if you don't accept our terms?</label>
+                            </c:if>
                         </div>
 
                         <div class="row">
@@ -83,6 +117,10 @@
                                 <input type="submit" value="Sell my soul" class="btn btn-success">
                             </div>
                         </div>
+
+                        <input type="hidden"
+                               name="${_csrf.parameterName}"
+                               value="${_csrf.token}"/>
                     </fieldset>
   				</form>
   			</div>
