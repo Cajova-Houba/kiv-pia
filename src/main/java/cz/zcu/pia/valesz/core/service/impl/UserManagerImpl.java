@@ -64,6 +64,10 @@ public class UserManagerImpl implements UserManager, UserDetailsService, SocialU
 
     @Override
     public User loadByUsername(String username) {
+        User u = userDaoDummy.findByUsername(username);
+        if(!userDao.existsByUsername(u.getUsername())) {
+            userDao.save(u);
+        }
         return userDaoDummy.findByUsername(username);
     }
 

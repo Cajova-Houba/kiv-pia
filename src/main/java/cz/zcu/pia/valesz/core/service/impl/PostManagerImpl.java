@@ -15,34 +15,44 @@ public class PostManagerImpl implements PostManager {
 
     @Autowired
     @Qualifier("userDaoDummy")
+    private UserDao userDaoDummy;
+
+    @Autowired
+    @Qualifier("userDao")
     private UserDao userDao;
 
     @Autowired
     @Qualifier("postDaoDummy")
+    private PostDao postDaoDummy;
+
+    @Autowired
+    @Qualifier("postDao")
     private PostDao postDao;
 
     @Override
     public List<Post> listPostsForUser() {
-        List<Post> posts = postDao.listPostsForUser();
+        List<Post> posts = postDaoDummy.listPostsForUser();
         if (posts.isEmpty()) {
-            User u1 = userDao.findByUsername("Pepa Uživatel");
+            User u1 = userDao.getOne(5L);
             Post p1 = new Post(new DateTime(2017, 10, 12, 0, 0).toDate(), "Tohle je fakt dobrá sociální síť.", u1);
             p1.setId(0L);
-            User u2 = userDao.findByUsername("Hustej Uživatel");
+            User u2 = userDao.getOne(9L);
             Post p2 = new Post(new DateTime(2017, 10, 2, 0, 0).toDate(), "Hej lidi, taky máte ten pocit, jako bychom žili na planetě opic?", u2);
             p2.setId(1L);
+            postDaoDummy.save(p1);
+            postDaoDummy.save(p2);
             postDao.save(p1);
             postDao.save(p2);
-            posts = postDao.listPostsForUser();
+            posts = postDaoDummy.listPostsForUser();
         }
         return posts;
     }
 
     @Override
     public Post createNewPost(String text) {
-        User currentUser = userDao.findByUsername("Pepa Uživatel");
+        User currentUser = userDaoDummy.findByUsername("Pepa Uživatel");
         Post post = new Post(new DateTime().toDate(), text, currentUser);
-        post.setId(postDao.listPostsForUser().size()+1L);
-        return postDao.save(post);
+        post.setId(postDaoDummy.listPostsForUser().size()+1L);
+        return postDaoDummy.save(post);
     }
 }

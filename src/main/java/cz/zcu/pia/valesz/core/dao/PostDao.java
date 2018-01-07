@@ -8,7 +8,6 @@ import java.util.List;
 /**
  * Methods for fetching posts-related data.
  */
-
 public interface PostDao extends GenericDao<Post, Long> {
 
     /**

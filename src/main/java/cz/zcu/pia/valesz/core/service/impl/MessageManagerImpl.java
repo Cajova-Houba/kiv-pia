@@ -1,6 +1,7 @@
 package cz.zcu.pia.valesz.core.service.impl;
 
 import cz.zcu.pia.valesz.core.dao.MessageDao;
+import cz.zcu.pia.valesz.core.dao.UserDao;
 import cz.zcu.pia.valesz.core.domain.Message;
 import cz.zcu.pia.valesz.core.domain.MessageState;
 import cz.zcu.pia.valesz.core.domain.User;
@@ -20,14 +21,22 @@ public class MessageManagerImpl implements MessageManager {
 
     @Autowired
     @Qualifier("messageDaoDummy")
+    private MessageDao messageDaoDummy;
+
+    @Autowired
+    @Qualifier("messageDao")
     private MessageDao messageDao;
 
     @Autowired
     private UserManager userManager;
 
+    @Autowired
+    @Qualifier("userDao")
+    private UserDao userDao;
+
     @Override
     public int getNumberOfNewMessages(User user) {
-        return messageDao.getNumberOfNewMessages(user);
+        return messageDaoDummy.getNumberOfNewMessages(user);
     }
 
     @Override
@@ -47,17 +56,23 @@ public class MessageManagerImpl implements MessageManager {
     private List<Conversation> createDummyConversations() {
         List<Conversation> conversations = new ArrayList<>();
         conversations.add(new Conversation(0L, null, userManager.loadByUsername("Hustej Uživatel"), Arrays.asList(
-                new Message(-10L, userManager.loadByUsername("Pepa Uživatel"), userManager.loadByUsername("Hustej Uživatel"), "Dík no.", getDate(2017,1,2,8,0), MessageState.READ)
+                new Message(-10L, userDao.getOne(5L), userDao.getOne(9L), "Dík no.", getDate(2017,1,2,8,0), MessageState.READ)
         ), false));
         conversations.add(new Conversation(41L, null, userManager.loadByUsername("Maminečka"), Arrays.asList(
-                new Message(-11L, userManager.loadByUsername("Maminečka"), userManager.loadByUsername("Pepa Uživatel"), "Už jsi dneska jedl?", getDate(2016,7,6,19,10), MessageState.SENT)
+                new Message(-11L, userDao.getOne(9l), userDao.getOne(5l), "Už jsi dneska jedl?", getDate(2016,7,6,19,10), MessageState.SENT)
         ), true));
         conversations.add(new Conversation(41L, null, userManager.loadByUsername("Někdo úplně jinej"), Arrays.asList(
-                new Message(-12L, userManager.loadByUsername("Někdo úplně jinej"), userManager.loadByUsername("Pepa Uživatel"), "Hi, you just won 1 MILLION DOLLARS!!!", getDate(2016,7,6,19,10), MessageState.SENT)
+                new Message(-12L, userDao.getOne(11l), userDao.getOne(5l), "Hi, you just won 1 MILLION DOLLARS!!!", getDate(2016,7,6,19,10), MessageState.SENT)
         ), true));
         conversations.add(new Conversation(41L, null, userManager.loadByUsername("Kámoš"), Arrays.asList(
-                new Message(-13L, userManager.loadByUsername("Kámoš"), userManager.loadByUsername("Pepa Uživatel"), "Tahle zpráva je už dávno přečtená.", getDate(2016,7,6,19,10), MessageState.READ)
+                new Message(-13L, userDao.getOne(8l), userDao.getOne(5l), "Tahle zpráva je už dávno přečtená.", getDate(2016,7,6,19,10), MessageState.READ)
         ), false));
+
+        for(Conversation c : conversations) {
+            for(Message m : c.getMessages()) {
+                messageDao.save(m);
+            }
+        }
 
         return conversations;
     }
@@ -67,16 +82,20 @@ public class MessageManagerImpl implements MessageManager {
      */
     private Conversation createDummyConversation() {
         List<Message> messages = new ArrayList<>();
-        messages.add(new Message(-1L, userManager.loadByUsername("Hustej Uživatel"), userManager.loadByUsername("Pepa Uživatel"), "Čau, já jsem hustej uživatel.", getDate(2017,1,1,12,47), MessageState.READ));
-        messages.add(new Message(-2L, userManager.loadByUsername("Pepa Uživatel"), userManager.loadByUsername("Hustej Uživatel"), "Čau, já jsem Pepa. Jak se máš?", getDate(2017,1,1,13,21), MessageState.READ));
-        messages.add(new Message(-2L, userManager.loadByUsername("Hustej Uživatel"), userManager.loadByUsername("Pepa Uživatel"), "Ale jo, dá se. Co ty?", getDate(2017,1,1,13,25), MessageState.READ));
-        messages.add(new Message(-4L, userManager.loadByUsername("Pepa Uživatel"), userManager.loadByUsername("Hustej Uživatel"), "No nic moc. Už musim jít, tak čau.", getDate(2017,1,1,13,30), MessageState.READ));
-        messages.add(new Message(-5L, userManager.loadByUsername("Hustej Uživatel"), userManager.loadByUsername("Pepa Uživatel"), "Čau.", getDate(2017,1,1,13,32), MessageState.READ));
-        messages.add(new Message(-6L, userManager.loadByUsername("Hustej Uživatel"), userManager.loadByUsername("Pepa Uživatel"), "Čau.", getDate(2017,1,2,7,30), MessageState.READ));
-        messages.add(new Message(-7L, userManager.loadByUsername("Hustej Uživatel"), userManager.loadByUsername("Pepa Uživatel"), "Tak co, jak se máš?", getDate(2017,1,2,7,31), MessageState.READ));
-        messages.add(new Message(-8L, userManager.loadByUsername("Hustej Uživatel"), userManager.loadByUsername("Pepa Uživatel"), "Tady ti posílám vážně dlouhou zprávu: Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.", getDate(2017,1,2,7,35), MessageState.READ));
-        messages.add(new Message(-9L, userManager.loadByUsername("Hustej Uživatel"), userManager.loadByUsername("Pepa Uživatel"), "Čau, já jsem hsutej uživatel.", getDate(2017,1,2,12,47), MessageState.READ));
-        messages.add(new Message(-10L, userManager.loadByUsername("Pepa Uživatel"), userManager.loadByUsername("Hustej Uživatel"), "Dík no.", getDate(2017,1,2,8,0), MessageState.READ));
+        messages.add(new Message(-1L, userDao.getOne(9l), userDao.getOne(5l), "Čau, já jsem hustej uživatel.", getDate(2017,1,1,12,47), MessageState.READ));
+        messages.add(new Message(-2L, userDao.getOne(5l), userDao.getOne(9l), "Čau, já jsem Pepa. Jak se máš?", getDate(2017,1,1,13,21), MessageState.READ));
+        messages.add(new Message(-2L, userDao.getOne(9l), userDao.getOne(5l), "Ale jo, dá se. Co ty?", getDate(2017,1,1,13,25), MessageState.READ));
+        messages.add(new Message(-4L, userDao.getOne(5l), userDao.getOne(9l), "No nic moc. Už musim jít, tak čau.", getDate(2017,1,1,13,30), MessageState.READ));
+        messages.add(new Message(-5L, userDao.getOne(9l), userDao.getOne(5l), "Čau.", getDate(2017,1,1,13,32), MessageState.READ));
+        messages.add(new Message(-6L, userDao.getOne(9l), userDao.getOne(5l), "Čau.", getDate(2017,1,2,7,30), MessageState.READ));
+        messages.add(new Message(-7L, userDao.getOne(9l), userDao.getOne(5l), "Tak co, jak se máš?", getDate(2017,1,2,7,31), MessageState.READ));
+        messages.add(new Message(-8L, userDao.getOne(9l), userDao.getOne(5l), "Tady ti posílám vážně dlouhou zprávu: Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.", getDate(2017,1,2,7,35), MessageState.READ));
+        messages.add(new Message(-9L, userDao.getOne(9l), userDao.getOne(5l), "Čau, já jsem hsutej uživatel.", getDate(2017,1,2,12,47), MessageState.READ));
+        messages.add(new Message(-10L, userDao.getOne(5l), userDao.getOne(9l), "Dík no.", getDate(2017,1,2,8,0), MessageState.READ));
+
+        for(Message m : messages) {
+            messageDao.save(m);
+        }
 
         return new Conversation(-5L, userManager.loadByUsername("Hustej uživatel"), userManager.loadByUsername("Pepa Uživatel"), messages, false);
     }

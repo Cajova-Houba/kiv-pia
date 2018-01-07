@@ -7,6 +7,8 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 
+import java.util.UUID;
+
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
@@ -25,20 +27,28 @@ public class UserDaoTest extends BaseDaoTest{
      */
     @Before
     public void setUp() {
-        User u1 = new User(-1L, "user@kivbook.com", "user1", "psw", "Pepa Uživatel", Visibility.REGISTERED_USERS);
+        User u1 = new User(-1L, "user1@kivbook.com", "user1", "psw", "Pepa Uživatel", Visibility.REGISTERED_USERS);
         if(!userDao.existsByUsername(u1.getUsername())) {
             userDao.save(u1);
         }
     }
 
-
     @Test
     public void testFindByUsername() {
-        User user = userDao.findByUsername("user1");
+        // test data
+        String username = "user1"+ UUID.randomUUID().toString();
+        User u1 = new User(-1L, "user1@kivbook.com", username, "psw", "Pepa Uživatel", Visibility.REGISTERED_USERS);
+        u1 = userDao.save(u1);
+
+        // tests
+        User user = userDao.findByUsername(username);
         assertNotNull("User not found!", user);
 
         user = userDao.findByUsername("non-existent-user");
         assertNull("Non existent user found!", user);
+
+        // cleanup
+//        userDao.delete(u1);
     }
 
     /**

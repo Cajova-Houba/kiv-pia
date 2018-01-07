@@ -63,7 +63,7 @@ public class Message {
         this.id = id;
     }
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     public User getSender() {
         return sender;
     }
@@ -72,7 +72,7 @@ public class Message {
         this.sender = sender;
     }
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     public User getReceiver() {
         return receiver;
     }
@@ -132,5 +132,17 @@ public class Message {
     @Override
     public int hashCode() {
         return id.hashCode();
+    }
+
+    @Override
+    public String toString() {
+        return "Message{" +
+                "id=" + id +
+                ", sender=" + sender +
+                ", receiver=" + receiver +
+                ", text='" + text + '\'' +
+                ", timestamp=" + timestamp +
+                ", state=" + state +
+                '}';
     }
 }

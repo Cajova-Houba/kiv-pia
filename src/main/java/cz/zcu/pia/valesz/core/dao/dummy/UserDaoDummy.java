@@ -1,12 +1,13 @@
 package cz.zcu.pia.valesz.core.dao.dummy;
 
 import cz.zcu.pia.valesz.core.dao.UserDao;
+import cz.zcu.pia.valesz.core.domain.Gender;
 import cz.zcu.pia.valesz.core.domain.User;
 import org.apache.commons.io.IOUtils;
+import org.joda.time.DateTime;
 import org.springframework.data.repository.NoRepositoryBean;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
@@ -23,7 +24,7 @@ public class UserDaoDummy extends Dummygeneric<User, Long> implements UserDao {
 
     @Override
     public User findByUsername(String username) {
-        User u = new User(username, "123456789", new ArrayList<>());
+        User u = new User(username+"@email.com", username, "123456789", new DateTime(1965,5,6,2,4).toDate(), username, Gender.MALE);
         switch (username) {
             case "Někdo úplně jinej":
             case "Kámoš":
