@@ -25,12 +25,14 @@
         <!-- todo: use exception handler to display custom access denied page -->
 
     </http>
+
+    <!-- TODO: use something to hash passwords -->
     <authentication-manager>
-        <authentication-provider>
-            <user-service>
-                <user name="user@kivbook.com" password="{noop}123456789" authorities="ROLE_USER" />
-                <user name="admin@user.com" password="{noop}123456789" authorities="ROLE_USER, ROLE_ADMIN" />
-            </user-service>
+        <authentication-provider ref="userManager">
+            <!--<user-service>-->
+                <!--<user name="user@kivbook.com" password="{noop}123456789" authorities="ROLE_USER" />-->
+                <!--<user name="admin@user.com" password="{noop}123456789" authorities="ROLE_USER, ROLE_ADMIN" />-->
+            <!--</user-service>-->
         </authentication-provider>
     </authentication-manager>
 </beans:beans>

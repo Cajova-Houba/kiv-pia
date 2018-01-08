@@ -3,14 +3,12 @@ package cz.zcu.pia.valesz.core.dao;
 import cz.zcu.pia.valesz.core.domain.FriendRequest;
 import cz.zcu.pia.valesz.core.domain.FriendRequestState;
 import cz.zcu.pia.valesz.core.domain.User;
-import org.springframework.data.repository.NoRepositoryBean;
 
 import java.util.List;
 
 /**
  * DAO for friend related stuff.
  */
-@NoRepositoryBean
 public interface FriendDao extends GenericDao<FriendRequest, Long> {
 
     /**

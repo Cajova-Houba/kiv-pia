@@ -13,11 +13,6 @@ import java.util.List;
 public class Conversation {
 
     /**
-     * Database id.
-     */
-    private Long id;
-
-    /**
      * The user who is displaying this conversation.
      */
     private User firstUser;
@@ -41,21 +36,13 @@ public class Conversation {
     public Conversation() {
     }
 
-    public Conversation(Long id, User firstUser, User secondUser, List<Message> messages, boolean newFlag) {
-        this.id = id;
+    public Conversation(User firstUser, User secondUser, List<Message> messages, boolean newFlag) {
         this.firstUser = firstUser;
         this.secondUser = secondUser;
         this.messages = messages;
         this.newFlag = newFlag;
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public User getFirstUser() {
         return firstUser;
@@ -97,18 +84,4 @@ public class Conversation {
         return messages.get(0);
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        Conversation that = (Conversation) o;
-
-        return id.equals(that.id);
-    }
-
-    @Override
-    public int hashCode() {
-        return id.hashCode();
-    }
 }

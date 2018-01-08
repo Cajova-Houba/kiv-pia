@@ -31,20 +31,18 @@ public class PostManagerImpl implements PostManager {
 
     @Override
     public List<Post> listPostsForUser() {
-        List<Post> posts = postDaoDummy.listPostsForUser();
-        if (posts.isEmpty()) {
-            User u1 = userDao.getOne(5L);
-            Post p1 = new Post(new DateTime(2017, 10, 12, 0, 0).toDate(), "Tohle je fakt dobrá sociální síť.", u1);
-            p1.setId(0L);
-            User u2 = userDao.getOne(9L);
-            Post p2 = new Post(new DateTime(2017, 10, 2, 0, 0).toDate(), "Hej lidi, taky máte ten pocit, jako bychom žili na planetě opic?", u2);
-            p2.setId(1L);
-            postDaoDummy.save(p1);
-            postDaoDummy.save(p2);
-            postDao.save(p1);
-            postDao.save(p2);
-            posts = postDaoDummy.listPostsForUser();
-        }
+        List<Post> posts = postDao.listPostsForUser(userDao.getOne(5l));
+//        if (posts.isEmpty()) {
+//            User u1 = userDao.getOne(5L);
+//            Post p1 = new Post(new DateTime(2017, 10, 12, 0, 0).toDate(), "Tohle je fakt dobrá sociální síť.", u1);
+//            p1.setId(0L);
+//            User u2 = userDao.getOne(9L);
+//            Post p2 = new Post(new DateTime(2017, 10, 2, 0, 0).toDate(), "Hej lidi, taky máte ten pocit, jako bychom žili na planetě opic?", u2);
+//            p2.setId(1L);
+//            postDaoDummy.save(p1);
+//            postDaoDummy.save(p2);
+//            posts = postDaoDummy.listPostsForUser();
+//        }
         return posts;
     }
 
@@ -52,7 +50,7 @@ public class PostManagerImpl implements PostManager {
     public Post createNewPost(String text) {
         User currentUser = userDaoDummy.findByUsername("Pepa Uživatel");
         Post post = new Post(new DateTime().toDate(), text, currentUser);
-        post.setId(postDaoDummy.listPostsForUser().size()+1L);
+        post.setId(postDaoDummy.listPostsForUser(new User()).size()+1L);
         return postDaoDummy.save(post);
     }
 }

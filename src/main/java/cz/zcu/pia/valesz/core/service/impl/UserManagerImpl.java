@@ -21,10 +21,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.social.security.SocialUserDetails;
 import org.springframework.social.security.SocialUserDetailsService;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 /**
  * This class serves as a user manager and as a spring user / social user details service.
@@ -33,23 +30,18 @@ public class UserManagerImpl implements UserManager, UserDetailsService, SocialU
 
     private static final Logger log = LoggerFactory.getLogger(UserManagerImpl.class);
 
-
-    @Autowired
-    @Qualifier("userDaoDummy")
-    private UserDao userDaoDummy;
-
     @Autowired
     @Qualifier("userDao")
     private UserDao userDao;
 
     @Override
     public User getCurrentlyLoggerUser() {
-        return userDaoDummy.findByUsername("Pepa Uživatel");
+        return findById(5L);
     }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userDaoDummy.findByUsername(username);
+        User user = userDao.findByUsername(username);
         if(user == null) {
             throw new UsernameNotFoundException("User with username "+username+" not found!");
         }
@@ -65,11 +57,7 @@ public class UserManagerImpl implements UserManager, UserDetailsService, SocialU
 
     @Override
     public User loadByUsername(String username) {
-        User u = userDaoDummy.findByUsername(username);
-        if(!userDao.existsByUsername(u.getUsername())) {
-            userDao.save(u);
-        }
-        return userDaoDummy.findByUsername(username);
+        return userDao.findByUsername(username);
     }
 
     @Override
@@ -77,11 +65,11 @@ public class UserManagerImpl implements UserManager, UserDetailsService, SocialU
         String name = authentication.getName();
         String password = authentication.getCredentials().toString();
 
-        log.debug("Authenticating {0},{1}.",name,password);
-        User u = userDaoDummy.findByUsername(name);
+        log.debug("Authenticating {},{}.",name,password);
+        User u = userDao.findByUsername(name);
         if (u != null && u.getPasswordHash().equals(password)) {
         } else {
-            log.debug("Credentials {0},{1} are bad!",name, password);
+            log.debug("Credentials {},{} are bad!",name, password);
             throw new BadCredentialsException("Bad credentials!");
         }
         // use the credentials
@@ -97,7 +85,7 @@ public class UserManagerImpl implements UserManager, UserDetailsService, SocialU
 
     @Override
     public boolean existsByUsername(String username) {
-        return userDaoDummy.existsByUsername(username);
+        return userDao.existsByUsername(username);
     }
 
     @Override
@@ -238,5 +226,11 @@ public class UserManagerImpl implements UserManager, UserDetailsService, SocialU
     @Override
     public User registerUser(User toBeCreated) {
         return userDao.save(toBeCreated);
+    }
+
+    @Override
+    public User findById(Long id) {
+        Optional<User> user = userDao.findById(id);
+        return user.isPresent() ? user.get() : null;
     }
 }

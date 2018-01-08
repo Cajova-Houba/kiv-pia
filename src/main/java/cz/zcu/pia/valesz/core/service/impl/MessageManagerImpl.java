@@ -46,7 +46,9 @@ public class MessageManagerImpl implements MessageManager {
 
     @Override
     public Conversation getConversation(User currentUser, User otherUser) {
-        return createDummyConversation();
+        List<Message> messages = messageDao.getConversation(currentUser, otherUser);
+        Conversation c = new Conversation(currentUser, otherUser, messages, false);
+        return c;
     }
 
     /**
@@ -55,24 +57,18 @@ public class MessageManagerImpl implements MessageManager {
      */
     private List<Conversation> createDummyConversations() {
         List<Conversation> conversations = new ArrayList<>();
-        conversations.add(new Conversation(0L, null, userManager.loadByUsername("Hustej Uživatel"), Arrays.asList(
-                new Message(-10L, userDao.getOne(5L), userDao.getOne(9L), "Dík no.", getDate(2017,1,2,8,0), MessageState.READ)
+        conversations.add(new Conversation( null, userManager.findById(9L), Arrays.asList(
+                new Message(10L, userManager.findById(5L), userManager.findById(9L), "Dík no.", getDate(2017,1,2,8,0), MessageState.READ)
         ), false));
-        conversations.add(new Conversation(41L, null, userManager.loadByUsername("Maminečka"), Arrays.asList(
-                new Message(-11L, userDao.getOne(9l), userDao.getOne(5l), "Už jsi dneska jedl?", getDate(2016,7,6,19,10), MessageState.SENT)
+        conversations.add(new Conversation( null, userManager.findById(10L), Arrays.asList(
+                new Message(10L,userManager.findById(10l), userManager.findById(5l), "Už jsi dneska jedl?", getDate(2016,7,6,19,10), MessageState.SENT)
         ), true));
-        conversations.add(new Conversation(41L, null, userManager.loadByUsername("Někdo úplně jinej"), Arrays.asList(
-                new Message(-12L, userDao.getOne(11l), userDao.getOne(5l), "Hi, you just won 1 MILLION DOLLARS!!!", getDate(2016,7,6,19,10), MessageState.SENT)
+        conversations.add(new Conversation( null, userManager.findById(11L), Arrays.asList(
+                new Message(10L,userManager.findById(11l), userManager.findById(5l), "Hi, you just won 1 MILLION DOLLARS!!!", getDate(2016,7,6,19,10), MessageState.SENT)
         ), true));
-        conversations.add(new Conversation(41L, null, userManager.loadByUsername("Kámoš"), Arrays.asList(
-                new Message(-13L, userDao.getOne(8l), userDao.getOne(5l), "Tahle zpráva je už dávno přečtená.", getDate(2016,7,6,19,10), MessageState.READ)
+        conversations.add(new Conversation( null, userManager.findById(8L), Arrays.asList(
+                new Message(10L,userManager.findById(8l), userManager.findById(5l), "Tahle zpráva je už dávno přečtená.", getDate(2016,7,6,19,10), MessageState.READ)
         ), false));
-
-        for(Conversation c : conversations) {
-            for(Message m : c.getMessages()) {
-                messageDao.save(m);
-            }
-        }
 
         return conversations;
     }
@@ -93,11 +89,8 @@ public class MessageManagerImpl implements MessageManager {
         messages.add(new Message(-9L, userDao.getOne(9l), userDao.getOne(5l), "Čau, já jsem hsutej uživatel.", getDate(2017,1,2,12,47), MessageState.READ));
         messages.add(new Message(-10L, userDao.getOne(5l), userDao.getOne(9l), "Dík no.", getDate(2017,1,2,8,0), MessageState.READ));
 
-        for(Message m : messages) {
-            messageDao.save(m);
-        }
 
-        return new Conversation(-5L, userManager.loadByUsername("Hustej uživatel"), userManager.loadByUsername("Pepa Uživatel"), messages, false);
+        return new Conversation( userManager.loadByUsername("Hustej uživatel"), userManager.loadByUsername("Pepa Uživatel"), messages, false);
     }
 
     private Date getDate(int year, int month, int day, int hour, int minute) {

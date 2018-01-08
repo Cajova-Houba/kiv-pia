@@ -15,6 +15,10 @@ public class FriendManagerImpl implements FriendManager {
 
     @Autowired
     @Qualifier("friendDaoDummy")
+    private FriendDao friendDaoDummy;
+
+    @Autowired
+    @Qualifier("friendDao")
     private FriendDao friendDao;
 
     @Autowired
@@ -47,45 +51,12 @@ public class FriendManagerImpl implements FriendManager {
 
     @Override
     public List<FriendRequest> listNewFriendRequests(User user) {
-        List<FriendRequest> frs = friendDao.findByReceiverAndFriendRequestState(user, FriendRequestState.PENDING);
-        if(frs.isEmpty()) {
-            createDummyRequests();
-            frs.addAll(friendDao.findByReceiverAndFriendRequestState(user, FriendRequestState.PENDING));
-        }
 
-        return frs;
+        return friendDao.findByReceiverAndFriendRequestState(user, FriendRequestState.PENDING);
     }
 
     @Override
     public List<FriendRequest> listFriendships(User user) {
-        List<FriendRequest> friends = friendDao.findByReceiverAndFriendRequestState(user, FriendRequestState.ACCEPTED);
-        if(friends.isEmpty()) {
-            createDummyFriends();
-            friends.addAll(friendDao.findByReceiverAndFriendRequestState(user, FriendRequestState.ACCEPTED));
-        }
-
-        return friends;
-    }
-
-    /**
-     * Creates dummy requests and saves them..
-     */
-    private void createDummyRequests() {
-        friendDao.save(new FriendRequest(1L, userManager.loadByUsername("Nový kamarád"), userManager.getCurrentlyLoggerUser(), FriendRequestState.PENDING));
-        friendDao.save(new FriendRequest(0L, userManager.loadByUsername("Nová kamarádka"), userManager.getCurrentlyLoggerUser(), FriendRequestState.PENDING));
-    }
-
-    /**
-     * Create dummy friendships
-     */
-    private void createDummyFriends() {
-        friendDao.save(new FriendRequest(-1L, userManager.loadByUsername("Kámoš"), userManager.getCurrentlyLoggerUser(), FriendRequestState.ACCEPTED));
-        friendDao.save(new FriendRequest(-2L, userManager.loadByUsername("Hustej Uživatel"), userManager.getCurrentlyLoggerUser(), FriendRequestState.ACCEPTED));
-        friendDao.save(new FriendRequest(-1L, userManager.loadByUsername("Maminečka"), userManager.getCurrentlyLoggerUser(), FriendRequestState.ACCEPTED));
-        friendDao.save(new FriendRequest(-2L, userManager.loadByUsername("Někdo úplně jinej"), userManager.getCurrentlyLoggerUser(), FriendRequestState.ACCEPTED));
-        friendDao.save(new FriendRequest(-1L, userManager.loadByUsername("Spolužák Petr"), userManager.getCurrentlyLoggerUser(), FriendRequestState.ACCEPTED));
-        friendDao.save(new FriendRequest(-2L, userManager.loadByUsername("Kamarádka Míša"), userManager.getCurrentlyLoggerUser(), FriendRequestState.ACCEPTED));
-        friendDao.save(new FriendRequest(-1L, userManager.loadByUsername("Kolega Pavel"), userManager.getCurrentlyLoggerUser(), FriendRequestState.ACCEPTED));
-        friendDao.save(new FriendRequest(-2L, userManager.loadByUsername("Klára Nováková"), userManager.getCurrentlyLoggerUser(), FriendRequestState.ACCEPTED));
+       return friendDao.findByReceiverAndFriendRequestState(user, FriendRequestState.ACCEPTED);
     }
 }

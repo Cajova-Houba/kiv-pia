@@ -24,6 +24,13 @@ public interface UserManager {
     String REG_SHUT_UP_AND_ACCEPT = "errShutUpAndAccept";
 
     /**
+     * Returns user with this id.
+     * @param id Id.
+     * @return User.
+     */
+    User findById(Long id);
+
+    /**
      * Returns the currently logged user.
      * @return
      */

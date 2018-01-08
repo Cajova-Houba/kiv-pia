@@ -33,9 +33,10 @@ public class MessagesController {
     @RequestMapping(method = RequestMethod.GET)
     public String displayPage(ModelMap modelMap) {
 
-        User currentUser = userManager.getCurrentlyLoggerUser();
+        User currentUser = userManager.loadByUsername("user1");
+        User otherUser = userManager.loadByUsername("user5");
         List<Conversation> conversations = messageManager.listConversations(currentUser);
-        Conversation conversation = messageManager.getConversation(currentUser, null);
+        Conversation conversation = messageManager.getConversation(currentUser, otherUser);
 
         modelMap.addAttribute("currentUser", currentUser);
         modelMap.addAttribute("conversations", conversations);

@@ -23,4 +23,5 @@ public interface GenericDao<T, PK extends Serializable> extends JpaRepository<T,
      * @return
      */
     List<T> findAll();
+
 }

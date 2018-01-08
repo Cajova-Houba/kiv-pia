@@ -28,6 +28,11 @@ public class MessageDaoDummy extends Dummygeneric<Message, Long> implements Mess
     }
 
     @Override
+    public List<Message> getConversation(User user1, User user2) {
+        return null;
+    }
+
+    @Override
     public List<Message> findAll() {
         return null;
     }

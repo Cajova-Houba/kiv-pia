@@ -40,7 +40,7 @@
                     <img src="data:image/png;base64,${currentUser.profilePhoto}" class="img-thumbnail" alt="Profile photo">
                 </div>
                 <div class="row">
-                    <h4><a href="${feedLink}">${currentUser.username}</a></h4>
+                    <h4><a href="${feedLink}">${currentUser.fullName}</a></h4>
                 </div>
 
                 <div class="row">
@@ -54,11 +54,11 @@
                             <div class="card-body">
                                 <div class="row">
                                     <div class="col-md-3">
-                                        <img src="data:image/png;base64,${newRequest.sender.profilePhoto}" class="img-thumbnail medium-thumbnail" alt="${newRequest.sender.username}" width="64" height="64">
+                                        <img src="data:image/png;base64,${newRequest.sender.profilePhoto}" class="img-thumbnail medium-thumbnail" alt="${newRequest.sender.fullName}" width="64" height="64">
                                     </div>
                                     <div class="col-md-9">
                                         <div class="row">
-                                            <b>${newRequest.sender.username}</b>
+                                            <b>${newRequest.sender.fullName}</b>
                                         </div>
                                         <div class="row">
                                             <div class="col-md-6">
@@ -94,10 +94,10 @@
                                 <div class="card card-borderless">
                                     <div class="card-body user-panel">
                                         <div class="row justify-content-center">
-                                            <img src="data:image/png;base64,${friendship.sender.profilePhoto}" class="img-thumbnail medium-thumbnail" alt="${friendship.sender.username}" width="64" height="64">
+                                            <img src="data:image/png;base64,${friendship.sender.profilePhoto}" class="img-thumbnail medium-thumbnail" alt="${friendship.sender.fullName}" width="64" height="64">
                                         </div>
                                         <div class="row justify-content-center">
-                                            <a href="${feedLink}">${friendship.sender.username}</a>
+                                            <a href="${feedLink}">${friendship.sender.fullName}</a>
                                         </div>
                                     </div>
                                 </div>

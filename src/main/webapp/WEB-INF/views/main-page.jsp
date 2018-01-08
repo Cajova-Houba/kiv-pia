@@ -44,7 +44,7 @@
                     <img src="data:image/png;base64,${currentUser.profilePhoto}" class="img-thumbnail" alt="Profile photo">
                 </div>
                 <div class="row">
-                    <h4><a href="${feedLink}">${currentUser.username}</a></h4>
+                    <h4><a href="${feedLink}">${currentUser.fullName}</a></h4>
                 </div>
 
                 <div class="row user-menu">
@@ -78,7 +78,7 @@
                             </div>
                             <div class="row">  
                                 <div class="col-md-3">
-                                    <h5 class="card-title">${currentUser.username}</h5>
+                                    <h5 class="card-title">${currentUser.fullName}</h5>
                                 </div>
                                 <div class="col-md-9">
                                     <div class="float-right">
@@ -99,7 +99,7 @@
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-md-3">
-                                    <a href="#"><img src="data:image/png;base64,${post.owner.profilePhoto}" class="img-thumbnail" alt="${post.owner.username}" height="32"></a>
+                                    <a href="#"><img src="data:image/png;base64,${post.owner.profilePhoto}" class="img-thumbnail" alt="${post.owner.fullName}" height="32"></a>
                                 </div>
                                 <div class="col-md-9">
                                     ${post.text}
@@ -107,7 +107,7 @@
                             </div>
                             <div class="row">
                                 <div class="col-md-3 profile-link">
-                                    <h5 class="card-title"><a href="#">${post.owner.username}</a></h5>
+                                    <h5 class="card-title"><a href="#">${post.owner.fullName}</a></h5>
                                 </div>
                                 <div class="col-md-9">
                                     <p class="text-right"><fmt:formatDate value="${post.datePosted}" pattern="dd. MM. yyyy"/></p>

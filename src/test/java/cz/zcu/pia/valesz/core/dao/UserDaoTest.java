@@ -9,8 +9,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 
 import java.util.UUID;
 
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
+import static org.junit.Assert.*;
 
 /**
  * Simple integration test to see if the stuff works.
@@ -38,11 +37,14 @@ public class UserDaoTest extends BaseDaoTest{
         // test data
         String username = "user1"+ UUID.randomUUID().toString();
         User u1 = new User(-1L, "user1@kivbook.com", username, "psw", "Pepa Uživatel", Visibility.REGISTERED_USERS);
+        u1.setProfilePhoto("asd");
         u1 = userDao.save(u1);
 
         // tests
         User user = userDao.findByUsername(username);
         assertNotNull("User not found!", user);
+        assertEquals("Wrong username!", username, user.getUsername());
+        assertNotNull("NUll profile photo!", user.getProfilePhoto());
 
         user = userDao.findByUsername("non-existent-user");
         assertNull("Non existent user found!", user);
