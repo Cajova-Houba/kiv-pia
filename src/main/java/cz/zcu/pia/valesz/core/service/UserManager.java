@@ -2,6 +2,7 @@ package cz.zcu.pia.valesz.core.service;
 
 
 import cz.zcu.pia.valesz.core.domain.User;
+import cz.zcu.pia.valesz.core.domain.vo.UserForm;
 
 import java.util.Date;
 import java.util.Set;
@@ -56,6 +57,7 @@ public interface UserManager {
      * @param acceptTerms Must be true otherwise REG_SHUT_UP_AND_ACCEPT will be added to returned set.
      * @return Set containing errors. Empty set if everything is ok.
      */
+    @Deprecated
     Set<String> validateRegistration(String username,
                              String email,
                              String password,
@@ -65,6 +67,22 @@ public interface UserManager {
                              String gender,
                              boolean acceptTerms
     );
+
+    /**
+     * Validates data passed from registration form.
+     *
+     * @param toBeValidated Object containing data to be validated.
+     * username Username must be unique otherwise REG_USERNAME_EXISTS will be added to returned set is it exists already and REG_USERNAME_WRONG is it's null, empty, or has bad format.
+     * email Email must have right format otherwise REG_WRONG_EMAIL will be added to returned set.
+     * password Password must have right format otherwise REG_WRONG_PASS will be added to returned set.
+     * passwrodConf Password confirmation must the same as password otherwise REG_PAS_DONT_MATCH will be added to returned set.
+     * fullName Full name, yeah no one cares about your name, just fill something.
+     * birthDate Birth date must be at least 13 years old otherwise REG_TOO_YOUNG_MAN will be added to returned set.
+     * gender Gender must have correct format otherwise REG_NOT_A_GENDER will be added to returned set.
+     * accpetTerms Must be true otherwise REG_SHUT_UP_AND_ACCEPT will be added to returned set.
+     * @return
+     */
+    Set<String> validateRegistration(UserForm toBeValidated);
 
     /**
      * Registers new user. It is assumed that user parameters were already validated before.

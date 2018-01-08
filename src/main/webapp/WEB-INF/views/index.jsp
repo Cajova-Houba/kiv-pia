@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html;" pageEncoding="UTF-8"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <spring:url value="/resources/css/style.css" var="myStyle" />
@@ -31,82 +32,82 @@
   	<div class="container">
   		<div class="row">
   			<div class="col-md-4">
-  				<form method="post" action="${registerLink}">
+  				<form:form method="post" action="${registerLink}" modelAttribute="userForm" >
                     <fieldset>
                         <legend>Register now!</legend>
                         <div class="form-group">
-                            <label for="username">username</label>
+                            <form:label path="username">username</form:label>
                             <c:if test="${errUsernameWrong || errUsernameExists}">
-                                <label for="username" class="text-danger">Wrong username!</label>
+                                <form:label path="username" cssClass="text-danger">Wrong username!</form:label>
                             </c:if>
-                            <input type="text" name="username" id="username" class="form-control" placeholder="username" maxlength="255">
+                            <form:input path="username" cssClass="form-control" maxlength="255" />
                         </div>
 
                         <div class="form-group">
-                            <label for="email">email</label>
+                            <form:label path="email">email</form:label>
                             <c:if test="${errWrongEmail}">
-                                <label for="email" class="text-danger">Wrong email!</label>
+                                <form:label path="email" cssClass="text-danger">Wrong email!</form:label>
                             </c:if>
-                            <input type="text" name="email" id="email" class="form-control" placeholder="email@email.com" maxlength="255">
+                            <form:input path="email" id="email" cssClass="form-control" maxlength="255" />
                         </div>
 
                         <div class="form-group">
-                            <label for="password">password</label>
+                            <form:label path="password">password</form:label>
                             <c:if test="${errWrongPass}">
-                                <label for="password" class="text-danger">Wrong password!</label>
+                                <form:label path="password" cssClass="text-danger">Wrong password!</form:label>
                             </c:if>
-                            <input type="password" name="password" id="password" class="form-control" placeholder="" maxlength="255">
+                            <form:password path="password" id="password" cssClass="form-control" maxlength="255" />
                         </div>
 
                         <div class="form-group">
-                            <label for="password-conf">confirm password</label>
+                            <form:label path="passwordConf">confirm password</form:label>
                             <c:if test="${errPassDontMatch}">
-                                <label for="password-conf" class="text-danger">Passwords don't match!</label>
+                                <form:label path="passwordConf" cssClass="text-danger">Passwords don't match!</form:label>
                             </c:if>
-                            <input type="password" name="password-conf" id="password-conf" class="form-control" placeholder="" maxlength="255">
+                            <form:password path="passwordConf" id="passwordConf" cssClass="form-control"  maxlength="255" />
                         </div>
 
                         <div class="form-group">
-                            <label for="full-name">full name</label>
+                            <form:label path="fullName">full name</form:label>
                             <c:if test="${errWrongFullName}">
-                                <label for="full-name" class="text-danger">Wrong full name!</label>
+                                <form:label path="fullName" cssClass="text-danger">Wrong full name!</form:label>
                             </c:if>
-                            <input type="text" id="full-name" name="full-name" class="form-control" placeholder="Bobby McJohnson" maxlength="500">
+                            <form:input path="fullName" id="fullName" cssClass="form-control"  maxlength="500" />
                         </div>
 
                         <div class="form-group">
-                            <label for="birth-date">birth date</label>
+                            <form:label path="birthDate">birth date</form:label>
                             <c:if test="${errTooYoungMan}">
-                                <label for="birth-date" class="text-danger">Sorry man, you're too young...</label>
+                                <form:label path="birthDate" cssClass="text-danger">Sorry man, you're too young...</form:label>
                             </c:if>
-                            <input type="date" id="birth-date" class="form-control">
+                            <form:input type="date" path="birthDate" id="birthDate" cssClass="form-control" />
                         </div>
 
                         <div class="row">
                             <div class="col-md-6">
-                                <label>Gender</label>
+                                <form:label path="gender">Gender</form:label>
                                 <c:if test="${errNotAGender}">
-                                    <label class="text-danger">That's not a gender. Not at all.</label>
+                                    <form:label path="gender" cssClass="text-danger">That's not a gender. Not at all.</form:label>
                                 </c:if>
                             </div>
                             <div class="col-md-6">
                                 <div class="radio">
-                                    <label><input type="radio" name="gender" id="male" checked>Male</label>
+                                    <label><form:radiobutton path="gender" value="male" id="male" />Male</label>
                                 </div>
                                 <div class="radio">
-                                    <label><input type="radio" name="gender" id="female">Female</label>
+                                    <label><form:radiobutton path="gender" value="female" id="female" />Female</label>
                                 </div>
                                 <div class="radio">
-                                    <label><input type="radio" name="gender" id="mayo">Mayonnaise</label>
+                                    <label><form:radiobutton path="gender" value="mayo" id="mayo" />Mayonnaise</label>
                                 </div>
                             </div>
                         </div>
 
                         <div class="form-group">
-                            <label for="accept-terms">Accept terms of use </label>
-                            <input type="checkbox" id="accept-terms" name="accept-terms">
+                            <form:label path="acceptTerms">Accept terms of use </form:label>
+                            <form:checkbox path="acceptTerms" />
                             <c:if test="${errShutUpAndAccept}">
-                                <label for="accept-terms" class="text-danger">How can you have any fun if you don't accept our terms?</label>
+                                <form:label path="accept-terms" cssClass="text-danger">How can you have any fun if you don't accept our terms?</form:label>
                             </c:if>
                         </div>
 
@@ -122,7 +123,7 @@
                                name="${_csrf.parameterName}"
                                value="${_csrf.token}"/>
                     </fieldset>
-  				</form>
+  				</form:form>
   			</div>
   			<div class="col-md-8">
                 <div class="jumbotron">

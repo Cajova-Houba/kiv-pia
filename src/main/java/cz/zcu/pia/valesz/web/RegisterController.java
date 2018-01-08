@@ -1,13 +1,17 @@
 package cz.zcu.pia.valesz.web;
 
-import cz.zcu.pia.valesz.core.domain.Gender;
 import cz.zcu.pia.valesz.core.domain.User;
+import cz.zcu.pia.valesz.core.domain.vo.UserForm;
 import cz.zcu.pia.valesz.core.service.UserManager;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -20,6 +24,8 @@ import java.util.Set;
 @Controller
 @RequestMapping("/register")
 public class RegisterController {
+
+    private static final Logger log = LoggerFactory.getLogger(RegisterController.class);
 
     // errors passed back to registration form
     public static final String REG_USERNAME_EXISTS = "errUsernameExists";
@@ -35,6 +41,7 @@ public class RegisterController {
     @RequestMapping(method = RequestMethod.GET)
     public String displayPage(ModelMap modelMap) {
         modelMap.addAttribute("currDate", new Date());
+        modelMap.addAttribute("userForm", new UserForm());
         return "index";
     }
 
@@ -46,22 +53,24 @@ public class RegisterController {
     @RequestMapping(method = RequestMethod.POST)
     // todo: use spring model or something instead
     public String handleRegistration(Model model,
-                                     @Param("username") String username,
-                                     @Param("email") String email,
-                                     @Param("password-conf") String passwordConf,
-                                     @Param("password") String password,
-                                     @Param("full-name") String fullName,
-                                     @Param("birth-date") Date birthDate,
-                                     @Param("gender") String gender,
-                                     @Param("accept-terms") boolean acceptTerms
-                                     ) {
+                                     @ModelAttribute("userForm")UserForm userForm,
+                                     BindingResult bindingResult) {
+        if(bindingResult.hasErrors()) {
+            log.warn("Error occurred while binding registration form to UserForm object.");
+            for(ObjectError error : bindingResult.getAllErrors()) {
+                log.warn("Error: object name = {}; code = {}; toString = {}.",error.getObjectName(), error.getCode(), error.toString());
+            }
+
+            return "index";
+        }
+
         // todo: handle registration
-        Set<String> errors = userManager.validateRegistration(username, email, password, passwordConf, fullName, birthDate, gender, acceptTerms);
+        Set<String> errors = userManager.validateRegistration(userForm);
 
         if(errors.isEmpty()) {
             // proceed with registration
             // todo: hash password
-            User u = new User(email, username, password, birthDate, fullName, Gender.webNameToGender(gender));
+            User u = new User(userForm);
             u = userManager.registerUser(u);
             return "reg-succ";
         } else {

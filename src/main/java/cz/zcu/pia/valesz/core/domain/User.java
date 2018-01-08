@@ -1,5 +1,6 @@
 package cz.zcu.pia.valesz.core.domain;
 
+import cz.zcu.pia.valesz.core.domain.vo.UserForm;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -107,6 +108,14 @@ public class User implements UserDetails {
         this.email = email;
         this.fullName = fullName;
         this.profileVisibility = profileVisibility;
+    }
+
+    /**
+     * Creates new user object from userForm model. It is expected that userForm was already validated.
+     * @param userForm Model containing data from user form.
+     */
+    public User(UserForm userForm) {
+        this(userForm.getEmail(), userForm.getEmail(), userForm.getPassword(), userForm.getBirthDate(), userForm.getFullName(), Gender.webNameToGender(userForm.getGender()));
     }
 
     /**

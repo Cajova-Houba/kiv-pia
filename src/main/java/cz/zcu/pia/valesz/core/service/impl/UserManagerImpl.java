@@ -3,6 +3,7 @@ package cz.zcu.pia.valesz.core.service.impl;
 import cz.zcu.pia.valesz.core.dao.UserDao;
 import cz.zcu.pia.valesz.core.domain.Gender;
 import cz.zcu.pia.valesz.core.domain.User;
+import cz.zcu.pia.valesz.core.domain.vo.UserForm;
 import cz.zcu.pia.valesz.core.service.UserManager;
 import org.joda.time.DateTime;
 import org.slf4j.Logger;
@@ -102,6 +103,78 @@ public class UserManagerImpl implements UserManager, UserDetailsService, SocialU
     @Override
     public Set<String> validateRegistration(String username, String email, String password, String passwordConf, String fullName, Date birthDate, String gender, boolean acceptTerms) {
         Set<String> errors = new HashSet<>();
+
+        // validation process:
+        // check that valid (unique) username was provided
+        // check that valid email (format) was provided
+        // check that password isn't empty and password == password-conf
+        // check age (13+)
+        // check that correct gender was entered
+        // check that terms are accepted
+        if(username == null || username.isEmpty()) {
+            log.debug("Username '{}' is wrong.", username);
+            errors.add(REG_USERNAME_WRONG);
+        }
+
+        if(userDao.existsByUsername(username)) {
+            log.debug("Username '{}' already exists.", username);
+            errors.add(REG_USERNAME_EXISTS);
+        }
+
+        // todo: email check
+        if(email == null || email.isEmpty()) {
+            log.debug("Email '{}' is wrong.", email);
+            errors.add(REG_WRONG_EMAIL);
+        }
+
+        if(password == null || password.isEmpty()) {
+            log.debug("Password '{}' is wrong.", password);
+            errors.add(REG_WRONG_PASS);
+        }
+
+        if( !password.equals(passwordConf)) {
+            log.debug("Passwords '{}' and '{}' don't match.", password, passwordConf);
+            errors.add(REG_PASS_DONT_MATCH);
+        }
+
+        if(fullName == null || fullName.isEmpty()) {
+            log.debug("Full name '{}' is wrong.", fullName);
+            errors.add(REG_WRONG_FULL_NAME);
+        }
+
+        // todo: check age, move min age to some constant
+        Date maxBirthDate = new DateTime().minusYears(13).toDate();
+        if(birthDate == null || birthDate.after(maxBirthDate)) {
+            log.debug("Date of birth '{}' is wrong.", birthDate);
+            errors.add(REG_TOO_YOUNG_MAN);
+        }
+
+        Gender realGender = Gender.webNameToGender(gender);
+        if(realGender == null) {
+            log.debug("Gender '{}' is wrong.", gender);
+            errors.add(REG_NOT_A_GENDER);
+        }
+
+        if(!acceptTerms) {
+            log.debug("Terms not accepted.");
+            errors.add(REG_SHUT_UP_AND_ACCEPT);
+        }
+
+        return errors;
+    }
+
+    @Override
+    public Set<String> validateRegistration(UserForm toBeValidated) {
+        Set<String> errors = new HashSet<>();
+
+        String username = toBeValidated.getUsername(),
+               email = toBeValidated.getEmail(),
+               password = toBeValidated.getPassword(),
+               passwordConf = toBeValidated.getPasswordConf(),
+               fullName = toBeValidated.getFullName(),
+               gender = toBeValidated.getGender();
+        Date birthDate = toBeValidated.getBirthDate();
+        boolean acceptTerms = toBeValidated.isAcceptTerms();
 
         // validation process:
         // check that valid (unique) username was provided
