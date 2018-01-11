@@ -2,10 +2,10 @@ package cz.zcu.pia.valesz.web;
 
 import cz.zcu.pia.valesz.core.domain.Post;
 import cz.zcu.pia.valesz.core.domain.User;
+import cz.zcu.pia.valesz.core.service.AuthUtils;
 import cz.zcu.pia.valesz.core.service.FriendManager;
 import cz.zcu.pia.valesz.core.service.MessageManager;
 import cz.zcu.pia.valesz.core.service.PostManager;
-import cz.zcu.pia.valesz.core.service.UserManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -25,7 +25,7 @@ import java.util.List;
 public class MainController {
 
     @Autowired
-    private UserManager userManager;
+    private AuthUtils authUtils;
 
     @Autowired
     private PostManager postManager;
@@ -39,10 +39,10 @@ public class MainController {
     @RequestMapping(method = RequestMethod.GET)
     public String displayPage(ModelMap modelMap) {
 
-        User currentUser = userManager.getCurrentlyLoggerUser();
-        int newFriendReq = friendManager.getNumberOfNewFriendRequests();
+        User currentUser = authUtils.getCurrentlyLoggerUser();
+        int newFriendReq = friendManager.getNumberOfNewFriendRequests(currentUser);
         int newMsgs = messageManager.getNumberOfNewMessages(currentUser);
-        List<Post> posts = postManager.listPostsForUser();
+        List<Post> posts = postManager.listPostsForUser(currentUser);
 
         modelMap.addAttribute("newFriendReq", newFriendReq);
         modelMap.addAttribute("newMsgs", newMsgs);
@@ -54,7 +54,8 @@ public class MainController {
 
     @RequestMapping(method = RequestMethod.POST)
     public String createPost(@RequestParam("post-text") String postText, ModelMap modelMap) {
-        postManager.createNewPost(postText);
+        User currentUser = authUtils.getCurrentlyLoggerUser();
+        postManager.createNewPost(postText, currentUser);
         return "redirect:/feed";
     }
 }

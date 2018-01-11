@@ -14,10 +14,6 @@ import java.util.List;
 public class FriendManagerImpl implements FriendManager {
 
     @Autowired
-    @Qualifier("friendDaoDummy")
-    private FriendDao friendDaoDummy;
-
-    @Autowired
     @Qualifier("friendDao")
     private FriendDao friendDao;
 
@@ -45,8 +41,8 @@ public class FriendManagerImpl implements FriendManager {
     }
 
     @Override
-    public int getNumberOfNewFriendRequests() {
-        return listNewFriendRequests(userManager.getCurrentlyLoggerUser()).size();
+    public int getNumberOfNewFriendRequests(User user) {
+        return listNewFriendRequests(user).size();
     }
 
     @Override

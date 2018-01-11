@@ -16,7 +16,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.social.security.SocialUserDetails;
 import org.springframework.social.security.SocialUserDetailsService;
@@ -26,18 +25,13 @@ import java.util.*;
 /**
  * This class serves as a user manager and as a spring user / social user details service.
  */
-public class UserManagerImpl implements UserManager, UserDetailsService, SocialUserDetailsService, AuthenticationProvider {
+public class UserManagerImpl implements UserManager, SocialUserDetailsService, AuthenticationProvider {
 
     private static final Logger log = LoggerFactory.getLogger(UserManagerImpl.class);
 
     @Autowired
     @Qualifier("userDao")
     private UserDao userDao;
-
-    @Override
-    public User getCurrentlyLoggerUser() {
-        return findById(5L);
-    }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {

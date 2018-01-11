@@ -3,6 +3,7 @@ package cz.zcu.pia.valesz.core.service;
 
 import cz.zcu.pia.valesz.core.domain.User;
 import cz.zcu.pia.valesz.core.domain.vo.UserForm;
+import org.springframework.security.core.userdetails.UserDetailsService;
 
 import java.util.Date;
 import java.util.Set;
@@ -10,7 +11,7 @@ import java.util.Set;
 /**
  * Interface for user-related actions.
  */
-public interface UserManager {
+public interface UserManager extends UserDetailsService{
 
     // errors which may rise during registration validation
     String REG_USERNAME_WRONG = "errUsernameWrong";
@@ -29,12 +30,6 @@ public interface UserManager {
      * @return User.
      */
     User findById(Long id);
-
-    /**
-     * Returns the currently logged user.
-     * @return
-     */
-    User getCurrentlyLoggerUser();
 
     /**
      * Loads user by his username.

@@ -2,6 +2,7 @@ package cz.zcu.pia.valesz.web;
 
 import cz.zcu.pia.valesz.core.domain.FriendRequest;
 import cz.zcu.pia.valesz.core.domain.User;
+import cz.zcu.pia.valesz.core.service.AuthUtils;
 import cz.zcu.pia.valesz.core.service.FriendManager;
 import cz.zcu.pia.valesz.core.service.UserManager;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,9 @@ import java.util.List;
 public class FriendsController {
 
     @Autowired
+    private AuthUtils authUtils;
+
+    @Autowired
     private FriendManager friendManager;
 
     @Autowired
@@ -33,7 +37,7 @@ public class FriendsController {
     @RequestMapping(method = RequestMethod.GET)
     public String displayPage(Model model) {
 
-        User currentUser = userManager.getCurrentlyLoggerUser();
+        User currentUser = authUtils.getCurrentlyLoggerUser();
         List<FriendRequest> newRequests = friendManager.listNewFriendRequests(currentUser);
         List<FriendRequest> friendships = friendManager.listFriendships(currentUser);
 

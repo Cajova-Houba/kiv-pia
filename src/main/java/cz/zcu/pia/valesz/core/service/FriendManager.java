@@ -42,10 +42,10 @@ public interface FriendManager {
     FriendRequest cancelRequest(FriendRequest request);
 
     /**
-     * Returns the number of new friend requests for currently logged user.
+     * Returns the number of new friend requests for user.
      * @return Number of new requests.
      */
-    int getNumberOfNewFriendRequests();
+    int getNumberOfNewFriendRequests(User user);
 
     /**
      * Returns a list of friend requests to which user hasn't responded yet.,
