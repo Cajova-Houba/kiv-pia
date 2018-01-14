@@ -16,6 +16,6 @@ public interface PostDao extends GenericDao<Post, Long> {
      * @param user User to whom posts will be displayed.
      * @return Posts to be displayed.
      */
-    @Query("SELECT p FROM Post p LEFT JOIN FETCH p.owner")
+    @Query("SELECT p FROM Post p LEFT JOIN FETCH p.owner ORDER BY p.datePosted DESC, p.timePosted DESC")
     List<Post> listPostsForUser(User user);
 }

@@ -36,7 +36,7 @@ public class MessageManagerImpl implements MessageManager {
 
     @Override
     public int getNumberOfNewMessages(User user) {
-        return messageDaoDummy.getNumberOfNewMessages(user);
+        return messageDao.countByReceiverAndState(user, MessageState.SENT);
     }
 
     @Override
@@ -51,46 +51,33 @@ public class MessageManagerImpl implements MessageManager {
         return c;
     }
 
+    @Override
+    public Message markAsRead(Message message) {
+        message.markAsRead();
+        return messageDao.save(message);
+    }
+
     /**
      * Creates dummy conversation overview.
      * @return
      */
     private List<Conversation> createDummyConversations() {
         List<Conversation> conversations = new ArrayList<>();
-        conversations.add(new Conversation( null, userManager.findById(9L), Arrays.asList(
-                new Message(10L, userManager.findById(5L), userManager.findById(9L), "Dík no.", getDate(2017,1,2,8,0), MessageState.READ)
+        User current = userManager.findById(5L);
+        conversations.add(new Conversation( current, userManager.findById(9L), Arrays.asList(
+                messageDao.getOne(65L)
         ), false));
-        conversations.add(new Conversation( null, userManager.findById(10L), Arrays.asList(
-                new Message(10L,userManager.findById(10l), userManager.findById(5l), "Už jsi dneska jedl?", getDate(2016,7,6,19,10), MessageState.SENT)
+        conversations.add(new Conversation( current, userManager.findById(10L), Arrays.asList(
+                messageDao.getOne(53L)
         ), true));
-        conversations.add(new Conversation( null, userManager.findById(11L), Arrays.asList(
-                new Message(10L,userManager.findById(11l), userManager.findById(5l), "Hi, you just won 1 MILLION DOLLARS!!!", getDate(2016,7,6,19,10), MessageState.SENT)
+        conversations.add(new Conversation( current, userManager.findById(11L), Arrays.asList(
+                messageDao.getOne(54L)
         ), true));
-        conversations.add(new Conversation( null, userManager.findById(8L), Arrays.asList(
-                new Message(10L,userManager.findById(8l), userManager.findById(5l), "Tahle zpráva je už dávno přečtená.", getDate(2016,7,6,19,10), MessageState.READ)
+        conversations.add(new Conversation( current, userManager.findById(8L), Arrays.asList(
+                messageDao.getOne(55L)
         ), false));
 
         return conversations;
-    }
-
-    /**
-     * Creates and dummy conversation.
-     */
-    private Conversation createDummyConversation() {
-        List<Message> messages = new ArrayList<>();
-        messages.add(new Message(-1L, userDao.getOne(9l), userDao.getOne(5l), "Čau, já jsem hustej uživatel.", getDate(2017,1,1,12,47), MessageState.READ));
-        messages.add(new Message(-2L, userDao.getOne(5l), userDao.getOne(9l), "Čau, já jsem Pepa. Jak se máš?", getDate(2017,1,1,13,21), MessageState.READ));
-        messages.add(new Message(-2L, userDao.getOne(9l), userDao.getOne(5l), "Ale jo, dá se. Co ty?", getDate(2017,1,1,13,25), MessageState.READ));
-        messages.add(new Message(-4L, userDao.getOne(5l), userDao.getOne(9l), "No nic moc. Už musim jít, tak čau.", getDate(2017,1,1,13,30), MessageState.READ));
-        messages.add(new Message(-5L, userDao.getOne(9l), userDao.getOne(5l), "Čau.", getDate(2017,1,1,13,32), MessageState.READ));
-        messages.add(new Message(-6L, userDao.getOne(9l), userDao.getOne(5l), "Čau.", getDate(2017,1,2,7,30), MessageState.READ));
-        messages.add(new Message(-7L, userDao.getOne(9l), userDao.getOne(5l), "Tak co, jak se máš?", getDate(2017,1,2,7,31), MessageState.READ));
-        messages.add(new Message(-8L, userDao.getOne(9l), userDao.getOne(5l), "Tady ti posílám vážně dlouhou zprávu: Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.", getDate(2017,1,2,7,35), MessageState.READ));
-        messages.add(new Message(-9L, userDao.getOne(9l), userDao.getOne(5l), "Čau, já jsem hsutej uživatel.", getDate(2017,1,2,12,47), MessageState.READ));
-        messages.add(new Message(-10L, userDao.getOne(5l), userDao.getOne(9l), "Dík no.", getDate(2017,1,2,8,0), MessageState.READ));
-
-
-        return new Conversation( userManager.loadByUsername("Hustej uživatel"), userManager.loadByUsername("Pepa Uživatel"), messages, false);
     }
 
     private Date getDate(int year, int month, int day, int hour, int minute) {

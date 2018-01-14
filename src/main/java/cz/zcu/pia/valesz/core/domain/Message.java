@@ -119,6 +119,13 @@ public class Message {
         return getState() == MessageState.SENT;
     }
 
+    /**
+     * Marks this message as read.
+     */
+    public void markAsRead() {
+        setState(MessageState.READ);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

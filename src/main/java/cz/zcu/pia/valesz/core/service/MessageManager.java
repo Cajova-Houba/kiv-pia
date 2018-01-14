@@ -1,5 +1,6 @@
 package cz.zcu.pia.valesz.core.service;
 
+import cz.zcu.pia.valesz.core.domain.Message;
 import cz.zcu.pia.valesz.core.domain.User;
 import cz.zcu.pia.valesz.core.domain.vo.Conversation;
 
@@ -33,4 +34,11 @@ public interface MessageManager {
      * @return Conversation between two users.
      */
     Conversation getConversation(User currentUser, User otherUser);
+
+    /**
+     * Marks message as read, saves it and returns it.
+     * @param message Message to be marked as read.
+     * @return Read message.
+     */
+    Message markAsRead(Message message);
 }

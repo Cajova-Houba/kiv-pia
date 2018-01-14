@@ -2,6 +2,7 @@ package cz.zcu.pia.valesz.core.dao.dummy;
 
 import cz.zcu.pia.valesz.core.dao.MessageDao;
 import cz.zcu.pia.valesz.core.domain.Message;
+import cz.zcu.pia.valesz.core.domain.MessageState;
 import cz.zcu.pia.valesz.core.domain.User;
 import org.springframework.data.repository.NoRepositoryBean;
 
@@ -68,7 +69,7 @@ public class MessageDaoDummy extends Dummygeneric<Message, Long> implements Mess
     }
 
     @Override
-    public int getNumberOfNewMessages(User user) {
+    public int countByReceiverAndState(User user, MessageState state) {
         return 3;
     }
 }

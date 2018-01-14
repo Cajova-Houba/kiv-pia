@@ -2,6 +2,7 @@ package cz.zcu.pia.valesz.web;
 
 import cz.zcu.pia.valesz.core.domain.User;
 import cz.zcu.pia.valesz.core.domain.vo.Conversation;
+import cz.zcu.pia.valesz.core.service.AuthUtils;
 import cz.zcu.pia.valesz.core.service.MessageManager;
 import cz.zcu.pia.valesz.core.service.UserManager;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,9 @@ import java.util.List;
 public class MessagesController {
 
     @Autowired
+    private AuthUtils authUtils;
+
+    @Autowired
     private UserManager userManager;
 
     @Autowired
@@ -27,16 +31,28 @@ public class MessagesController {
 
     /**
      * Displays the base page with messages overview.
+     * If there are messages, the newest one will be displayed. Otherwise message 'No messages' will ebe displayed.
+     *
      * @param modelMap
      * @return
      */
     @RequestMapping(method = RequestMethod.GET)
     public String displayPage(ModelMap modelMap) {
 
-        User currentUser = userManager.loadByUsername("user1");
-        User otherUser = userManager.loadByUsername("user5");
+        User currentUser = authUtils.getCurrentlyLoggerUser();
         List<Conversation> conversations = messageManager.listConversations(currentUser);
-        Conversation conversation = messageManager.getConversation(currentUser, otherUser);
+        Conversation conversation;
+        if(conversations.isEmpty()) {
+            conversation = null;
+        } else {
+            Conversation firstSelected = conversations.get(0);
+            conversation = messageManager.getConversation(currentUser, firstSelected.getOtherUser(currentUser));
+
+            // if the last message in conversation was sent to the current user, mark it as read
+            if(conversation.getNewestMessage().getReceiver().equals(currentUser)) {
+                messageManager.markAsRead(conversation.getNewestMessage());
+            }
+        }
 
         modelMap.addAttribute("currentUser", currentUser);
         modelMap.addAttribute("conversations", conversations);

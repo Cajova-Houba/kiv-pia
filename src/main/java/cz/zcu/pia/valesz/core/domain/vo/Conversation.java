@@ -84,4 +84,20 @@ public class Conversation {
         return messages.get(0);
     }
 
+    /**
+     * If provided user object is first user, the second one is returned, otherwise the first one is returned.
+     * If the provided user object doesn't match neither the first nor the second user, null is returned.
+     * @param user User.
+     * @return Other user.
+     */
+    public User getOtherUser(User user) {
+        if(getFirstUser().equals(user)) {
+            return getSecondUser();
+        } else if (getSecondUser().equals(user)) {
+            return getFirstUser();
+        } else {
+            return null;
+        }
+    }
+
 }
