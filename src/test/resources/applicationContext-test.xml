@@ -32,6 +32,8 @@
     <!--<property name="warnLogCategory" value="exceptionResolver.logger"/>-->
     <!--</bean>-->
 
+    <bean id="authUtils" class="cz.zcu.pia.valesz.core.service.AuthUtils"/>
+
     <!-- daos -->
     <bean id="userDaoDummy" class="cz.zcu.pia.valesz.core.dao.dummy.UserDaoDummy" />
     <bean id="postDaoDummy" class="cz.zcu.pia.valesz.core.dao.dummy.PostDaoDummy" />

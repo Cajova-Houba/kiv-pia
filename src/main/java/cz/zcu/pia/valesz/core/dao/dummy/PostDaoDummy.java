@@ -1,6 +1,7 @@
 package cz.zcu.pia.valesz.core.dao.dummy;
 
 import cz.zcu.pia.valesz.core.dao.PostDao;
+import cz.zcu.pia.valesz.core.domain.FriendRequest;
 import cz.zcu.pia.valesz.core.domain.Post;
 import cz.zcu.pia.valesz.core.domain.User;
 import org.springframework.data.repository.NoRepositoryBean;
@@ -16,8 +17,8 @@ public class PostDaoDummy extends Dummygeneric<Post, Long> implements PostDao {
     private static List<Post> postRepo = new ArrayList<>();
 
     @Override
-    public List<Post> listPostsForUser(User user) {
-        return postRepo;
+    public List<Post> listPostsForUser(User user, List<FriendRequest> usersFriendships) {
+        return null;
     }
 
     @Override

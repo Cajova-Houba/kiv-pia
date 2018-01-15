@@ -59,6 +59,6 @@
 
 
     <!-- base package for custom daos -->
-    <jpa:repositories base-package="cz.zcu.pia.valesz.core.dao" entity-manager-factory-ref="entityManagerFactory"/>
+    <jpa:repositories base-package="cz.zcu.pia.valesz.core.dao" entity-manager-factory-ref="entityManagerFactory" repository-impl-postfix="Impl"/>
 
 </beans>

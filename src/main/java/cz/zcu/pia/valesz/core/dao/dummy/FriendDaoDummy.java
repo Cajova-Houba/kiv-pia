@@ -17,6 +17,11 @@ public class FriendDaoDummy extends Dummygeneric<FriendRequest, Long> implements
     private static List<FriendRequest> friendRequestsRepository = new ArrayList<>();
 
     @Override
+    public List<FriendRequest> findUsersFriendRequests(User user, FriendRequestState friendRequestState) {
+        return null;
+    }
+
+    @Override
     public List<FriendRequest> findByReceiverAndFriendRequestState(User receiver, FriendRequestState friendRequestState) {
         switch (friendRequestState) {
             case PENDING:

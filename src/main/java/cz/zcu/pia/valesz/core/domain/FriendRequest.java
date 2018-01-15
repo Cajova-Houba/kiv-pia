@@ -126,6 +126,22 @@ public class FriendRequest {
         return getFriendRequestState() == FriendRequestState.ACCEPTED;
     }
 
+    /**
+     * Returns the other user from provided one. If user == sender, receiver is returned, ...
+     * @param user User.
+     * @return Other user.
+     */
+    @Transient
+    public User getOtherUser(User user) {
+        if(getSender() != null && getSender().equals(user)) {
+            return getReceiver();
+        } else if (getReceiver() != null && getReceiver().equals(user)) {
+            return getSender();
+        } else {
+            return null;
+        }
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
