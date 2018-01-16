@@ -3,8 +3,8 @@ package cz.zcu.pia.valesz.core.service.impl;
 import cz.zcu.pia.valesz.core.dao.UserDao;
 import cz.zcu.pia.valesz.core.domain.Gender;
 import cz.zcu.pia.valesz.core.domain.User;
-import cz.zcu.pia.valesz.core.domain.vo.UserForm;
 import cz.zcu.pia.valesz.core.service.UserManager;
+import cz.zcu.pia.valesz.web.vo.UserForm;
 import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -59,11 +59,9 @@ public class UserManagerImpl implements UserManager, SocialUserDetailsService, A
         String name = authentication.getName();
         String password = authentication.getCredentials().toString();
 
-        log.debug("Authenticating {},{}.",name,password);
         User u = userDao.findByUsername(name);
         if (u != null && u.getPasswordHash().equals(password)) {
         } else {
-            log.debug("Credentials {},{} are bad!",name, password);
             throw new BadCredentialsException("Bad credentials!");
         }
         // use the credentials

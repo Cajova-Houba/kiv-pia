@@ -1,4 +1,4 @@
-package cz.zcu.pia.valesz.core.domain.vo;
+package cz.zcu.pia.valesz.web.vo;
 
 import org.springframework.format.annotation.DateTimeFormat;
 

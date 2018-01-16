@@ -2,7 +2,7 @@ package cz.zcu.pia.valesz.core.service;
 
 
 import cz.zcu.pia.valesz.core.domain.User;
-import cz.zcu.pia.valesz.core.domain.vo.UserForm;
+import cz.zcu.pia.valesz.web.vo.UserForm;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
 import java.util.Date;

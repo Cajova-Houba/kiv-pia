@@ -7,7 +7,10 @@ import cz.zcu.pia.valesz.core.service.PostManager;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class PostManagerImpl implements PostManager {
@@ -32,5 +35,18 @@ public class PostManagerImpl implements PostManager {
         Post post = new Post(new DateTime().toDate(), text, creator);
         post.setVisibility(visibility);
         return postDao.save(post);
+    }
+
+    @Override
+    public Page<Post> listPostsForUser(User user, Pageable pageRequest) {
+        // load users's friends
+        List<FriendRequest> usersFriendships = friendDao.findUsersFriendRequests(user, FriendRequestState.ACCEPTED);
+        List<User> usersFriends = new ArrayList<>();
+        for(FriendRequest usersFriendship : usersFriendships) {
+            usersFriends.add(usersFriendship.getOtherUser(user));
+        }
+
+        // return page with post feed
+        return postDao.getPostFeedForUser(user, usersFriends, pageRequest);
     }
 }

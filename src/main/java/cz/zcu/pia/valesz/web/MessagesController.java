@@ -1,10 +1,10 @@
 package cz.zcu.pia.valesz.web;
 
 import cz.zcu.pia.valesz.core.domain.User;
-import cz.zcu.pia.valesz.core.domain.vo.Conversation;
 import cz.zcu.pia.valesz.core.service.AuthUtils;
 import cz.zcu.pia.valesz.core.service.MessageManager;
 import cz.zcu.pia.valesz.core.service.UserManager;
+import cz.zcu.pia.valesz.web.vo.Conversation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;

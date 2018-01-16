@@ -27,8 +27,7 @@ public class PostDaoCustomImpl implements PostDaoCustom {
                 "       p.visibility = :visibleOwnerFriends " +
                 "       AND p.owner IN :usersFriends " +
                 " ) OR (" +
-                "       p.visibility = :visibleOwner" +
-                "       AND p.owner = :user" +
+                "       p.owner = :user" +
                 " )" +
                 " ORDER BY p.datePosted DESC, p.timePosted DESC";
 
@@ -46,7 +45,6 @@ public class PostDaoCustomImpl implements PostDaoCustom {
         q.setParameter("visibleEveryoneRegistered", everyoneRegistered);
         q.setParameter("usersFriends", usersFriends);
         q.setParameter("visibleOwnerFriends", Visibility.OWNER_FRIENDS);
-        q.setParameter("visibleOwner", Visibility.OWNER);
         q.setParameter("user", user);
 
         return q.getResultList();

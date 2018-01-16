@@ -1,8 +1,8 @@
 package cz.zcu.pia.valesz.web;
 
 import cz.zcu.pia.valesz.core.domain.User;
-import cz.zcu.pia.valesz.core.domain.vo.UserForm;
 import cz.zcu.pia.valesz.core.service.UserManager;
+import cz.zcu.pia.valesz.web.vo.UserForm;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,4 +1,4 @@
-package cz.zcu.pia.valesz.core.domain.vo;
+package cz.zcu.pia.valesz.web.vo;
 
 import cz.zcu.pia.valesz.core.domain.Message;
 import cz.zcu.pia.valesz.core.domain.User;

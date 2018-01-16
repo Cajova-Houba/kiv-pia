@@ -1,6 +1,6 @@
 package cz.zcu.pia.valesz.core.domain;
 
-import cz.zcu.pia.valesz.core.domain.vo.UserForm;
+import cz.zcu.pia.valesz.web.vo.UserForm;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;

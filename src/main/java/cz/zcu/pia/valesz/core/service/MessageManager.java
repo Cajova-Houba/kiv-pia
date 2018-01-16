@@ -2,7 +2,7 @@ package cz.zcu.pia.valesz.core.service;
 
 import cz.zcu.pia.valesz.core.domain.Message;
 import cz.zcu.pia.valesz.core.domain.User;
-import cz.zcu.pia.valesz.core.domain.vo.Conversation;
+import cz.zcu.pia.valesz.web.vo.Conversation;
 
 import java.util.List;
 

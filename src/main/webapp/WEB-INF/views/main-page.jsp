@@ -74,7 +74,7 @@
                                     <img src="data:image/png;base64,${currentUser.profilePhoto}" class="img-thumbnail" alt="Profile photo" height="32">
                                 </div>
                                 <div class="col-md-9">
-                                    <form:input path="text" placeholder="Say something..." class="form-control" />
+                                    <form:input path="text" placeholder="Say something..." class="form-control" maxlength="1000"/>
                                 </div>
                             </div>
                             <div class="row">  
@@ -97,6 +97,59 @@
                         </form:form>
                     </div>
                 </div>
+
+                <!-- pagination -->
+                <%-- won't be displayed if there's only 1 page --%>
+                <c:if test="${!(pageControls.firstPage && pageControls.lastPge)}">
+                    <ul class="pagination">
+                        <%-- 'previous' and 'next' buttons are enabled only if the current page is not first or last respectively --%>
+                        <c:choose>
+                            <c:when test="${pageControls.firstPage}">
+                                <li class="page-item disabled">
+                                    <span class="page-link">
+                                        <span aria-hidden="true">&laquo;</span>
+                                        <span class="sr-only">Previous</span>
+                                    </span>
+                                </li>
+                            </c:when>
+                            <c:otherwise>
+                                <li class="page-item">
+                                    <a class="page-link" href="${feedLink}/${pageControls.prevPage}">
+                                        <span aria-hidden="true">&laquo;</span>
+                                        <span class="sr-only">Previous</span>
+                                    </a>
+                                </li>
+                            </c:otherwise>
+                        </c:choose>
+
+                        <%-- create page number list and highlight the current one --%>
+                        <c:forEach items="${pageControls.pageNumbers}" var="pageNum">
+                            <li class="page-item <c:if test="${pageNum == pageControls.currentPage}">active</c:if>" >
+                                <a class="page-link" href="${feedLink}/${pageNum}">${pageNum}</a>
+                            </li>
+                        </c:forEach>
+
+                        <%-- next button --%>
+                        <c:choose>
+                            <c:when test="${pageControls.lastPge}">
+                                <li class="page-item disabled">
+                                    <span class="page-link">
+                                        <span aria-hidden="true">&raquo;</span>
+                                        <span class="sr-only">Next</span>
+                                    </span>
+                                </li>                                </c:when>
+                            <c:otherwise>
+                                <li class="page-item">
+                                    <a class="page-link" href="${feedLink}/${pageControls.nextPage}" aria-label="Next">
+                                        <span aria-hidden="true">&raquo;</span>
+                                        <span class="sr-only">Next</span>
+                                    </a>
+                                </li>
+                            </c:otherwise>
+                        </c:choose>
+                    </ul>
+                </c:if>
+
 
                 <c:forEach items="${posts}" var="post">
                     <div class="card post-panel">
