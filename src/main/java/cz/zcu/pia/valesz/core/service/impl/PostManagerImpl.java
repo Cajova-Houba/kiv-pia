@@ -2,10 +2,7 @@ package cz.zcu.pia.valesz.core.service.impl;
 
 import cz.zcu.pia.valesz.core.dao.FriendDao;
 import cz.zcu.pia.valesz.core.dao.PostDao;
-import cz.zcu.pia.valesz.core.domain.FriendRequest;
-import cz.zcu.pia.valesz.core.domain.FriendRequestState;
-import cz.zcu.pia.valesz.core.domain.Post;
-import cz.zcu.pia.valesz.core.domain.User;
+import cz.zcu.pia.valesz.core.domain.*;
 import cz.zcu.pia.valesz.core.service.PostManager;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,8 +28,9 @@ public class PostManagerImpl implements PostManager {
     }
 
     @Override
-    public Post createNewPost(String text, User creator) {
+    public Post createNewPost(String text, Visibility visibility, User creator) {
         Post post = new Post(new DateTime().toDate(), text, creator);
+        post.setVisibility(visibility);
         return postDao.save(post);
     }
 }

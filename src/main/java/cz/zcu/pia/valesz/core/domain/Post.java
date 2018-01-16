@@ -4,11 +4,14 @@ package cz.zcu.pia.valesz.core.domain;
 import org.joda.time.DateTime;
 
 import javax.persistence.*;
+import javax.xml.bind.annotation.XmlRootElement;
 import java.util.Date;
 
 /**
  * Post datePosted by user to his feed.
+ * Also acts as a model for post form.
  */
+@XmlRootElement
 @Entity
 @Table(name = "post")
 public class Post {

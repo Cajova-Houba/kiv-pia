@@ -1,5 +1,8 @@
 package cz.zcu.pia.valesz.core.domain;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Visibility of a particular item.
  */
@@ -23,7 +26,21 @@ public enum Visibility {
     /**
      * Guess what...
      */
-    EVERYONE
+    EVERYONE;
+
+    /**
+     * Returns visibilities for convenient form handling.
+     * @return
+     */
+    public static Map<String, String> getFormVisibilities() {
+        Map<String, String> visibilityMap = new HashMap<>();
+        visibilityMap.put("OWNER", "Only you");
+        visibilityMap.put("OWNER_FRIENDS", "Friends");
+        visibilityMap.put("REGISTERED_USERS", "Others");
+        visibilityMap.put("EVERYONE", "Everyone");
+
+        return visibilityMap;
+    }
 
 
 }

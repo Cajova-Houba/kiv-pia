@@ -2,16 +2,21 @@ package cz.zcu.pia.valesz.web;
 
 import cz.zcu.pia.valesz.core.domain.Post;
 import cz.zcu.pia.valesz.core.domain.User;
+import cz.zcu.pia.valesz.core.domain.Visibility;
 import cz.zcu.pia.valesz.core.service.AuthUtils;
 import cz.zcu.pia.valesz.core.service.FriendManager;
 import cz.zcu.pia.valesz.core.service.MessageManager;
 import cz.zcu.pia.valesz.core.service.PostManager;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -23,6 +28,8 @@ import java.util.List;
 @Controller
 @RequestMapping("/feed")
 public class MainController {
+
+    private static final Logger log = LoggerFactory.getLogger(MainController.class);
 
     @Autowired
     private AuthUtils authUtils;
@@ -48,14 +55,24 @@ public class MainController {
         modelMap.addAttribute("newMsgs", newMsgs);
         modelMap.addAttribute("posts", posts);
         modelMap.addAttribute("currentUser", currentUser);
+        modelMap.addAttribute("allowedVisibilities", Visibility.getFormVisibilities());
+        modelMap.addAttribute("newPost", new Post());
 
         return "main-page";
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public String createPost(@RequestParam("post-text") String postText, ModelMap modelMap) {
+    public String createPost(@ModelAttribute("newPost") Post newPost, BindingResult bindingResult) {
+        if(bindingResult.hasErrors()) {
+            log.warn("Error occurred while binding registration form to Post object.");
+            for(ObjectError error : bindingResult.getAllErrors()) {
+                log.warn("Error: object name = {}; code = {}; toString = {}.",error.getObjectName(), error.getCode(), error.toString());
+            }
+
+            return "main-page";
+        }
         User currentUser = authUtils.getCurrentlyLoggerUser();
-        postManager.createNewPost(postText, currentUser);
+        postManager.createNewPost(newPost.getText(), newPost.getVisibility(), currentUser);
         return "redirect:/feed";
     }
 }

@@ -51,7 +51,6 @@ public class RegisterController {
      * @return
      */
     @RequestMapping(method = RequestMethod.POST)
-    // todo: use spring model or something instead
     public String handleRegistration(Model model,
                                      @ModelAttribute("userForm")UserForm userForm,
                                      BindingResult bindingResult) {
