@@ -13,9 +13,22 @@ public interface PostDaoCustom {
 
     /**
      * Returns the current post feed which should be displayed to user.
+     *
      * @param user User to whom posts will be displayed.
      * @param usersFriendships Users friendships. Used for visibility based displaying.
      * @return Posts to be displayed.
      */
     List<Post> listPostsForUser(User user, List<FriendRequest> usersFriendships);
+
+    /**
+     * Returns the current post feed which should be displayed to user.
+     * Posts are returned as pages.
+     *
+     * @param user User to whom posts will be displayed.
+     * @param usersFriendships Users friendships. Used for visibility based displaying.
+     * @param pagingInfo Page size, stuff like that.
+     * @return Posts to be displayed.
+     */
+//    Page<Post> listPostsForUserPageable(User user, List<FriendRequest> usersFriendships, Pageable pagingInfo);
+
 }

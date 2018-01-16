@@ -7,11 +7,15 @@ import cz.zcu.pia.valesz.core.domain.User;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 
+import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.*;
 
 
 public class PostDaoTest extends BaseDaoTest{
@@ -43,5 +47,23 @@ public class PostDaoTest extends BaseDaoTest{
 
         List<Post> posts = postDao.listPostsForUser(user, friendships);
         assertFalse("No posts returned!", posts.isEmpty());
+    }
+
+    @Test
+    public void testGetPostFeedForUser() {
+        User user = userDao.findByUsername("user1");
+        List<FriendRequest> friendRequests = friendDao.findUsersFriendRequests(user, FriendRequestState.ACCEPTED);
+        List<User> usersFriends = new ArrayList<>();
+        for(FriendRequest usersFriendship : friendRequests) {
+            usersFriends.add(usersFriendship.getOtherUser(user));
+        }
+        Pageable pageable = PageRequest.of(0,10,
+                new Sort(Sort.Direction.DESC, "datePosted", "timePosted"));
+
+
+        List<Post> postList = postDao.listPostsForUser(user, friendRequests);
+        Page<Post> posts = postDao.getPostFeedForUser(user, usersFriends, pageable);
+        assertNotNull("Null returned!", posts);
+        assertEquals("Wrong number of posts returned!", postList.size(), (int)posts.getTotalElements());
     }
 }

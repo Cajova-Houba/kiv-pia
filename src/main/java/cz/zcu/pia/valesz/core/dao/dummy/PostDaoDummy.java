@@ -4,6 +4,8 @@ import cz.zcu.pia.valesz.core.dao.PostDao;
 import cz.zcu.pia.valesz.core.domain.FriendRequest;
 import cz.zcu.pia.valesz.core.domain.Post;
 import cz.zcu.pia.valesz.core.domain.User;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.NoRepositoryBean;
 
 import java.util.ArrayList;
@@ -61,5 +63,10 @@ public class PostDaoDummy extends Dummygeneric<Post, Long> implements PostDao {
                 pIter.remove();
             }
         }
+    }
+
+    @Override
+    public Page<Post> getPostFeedForUser(User user, List<User> usersFriends, Pageable pageRequest) {
+        return null;
     }
 }
