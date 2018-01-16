@@ -13,6 +13,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import static org.junit.Assert.*;
@@ -60,10 +61,14 @@ public class PostDaoTest extends BaseDaoTest{
         Pageable pageable = PageRequest.of(0,10,
                 new Sort(Sort.Direction.DESC, "datePosted", "timePosted"));
 
-
+        // use posts returned by this method as reference
         List<Post> postList = postDao.listPostsForUser(user, friendRequests);
         Page<Post> posts = postDao.getPostFeedForUser(user, usersFriends, pageable);
         assertNotNull("Null returned!", posts);
         assertEquals("Wrong number of posts returned!", postList.size(), (int)posts.getTotalElements());
+        Iterator<Post> postIterator = posts.iterator();
+        for (int i = 0; i < postList.size(); i++) {
+            assertEquals("Wrong post returned!", postList.get(i), postIterator.next());
+        }
     }
 }
