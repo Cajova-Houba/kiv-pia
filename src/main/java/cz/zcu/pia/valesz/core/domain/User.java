@@ -115,7 +115,7 @@ public class User implements UserDetails {
      * @param userForm Model containing data from user form.
      */
     public User(UserForm userForm) {
-        this(userForm.getEmail(), userForm.getEmail(), userForm.getPassword(), userForm.getBirthDate(), userForm.getFullName(), Gender.webNameToGender(userForm.getGender()));
+        this(userForm.getEmail(), userForm.getUsername(), userForm.getPassword(), userForm.getBirthDate(), userForm.getFullName(), Gender.webNameToGender(userForm.getGender()));
     }
 
     /**
@@ -285,7 +285,7 @@ public class User implements UserDetails {
     @Override
     @Transient
     public String getName() {
-        return getFullName();
+        return getUsername();
     }
 
     @Override

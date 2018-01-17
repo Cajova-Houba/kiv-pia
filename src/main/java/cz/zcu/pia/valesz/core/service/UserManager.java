@@ -88,6 +88,8 @@ public interface UserManager extends UserDetailsService{
 
     /**
      * Registers new user. It is assumed that user parameters were already validated before.
+     * Password is hashed before saving.
+     *
      * @param toBeCreated User to be registered.
      * @return Registered user.
      */

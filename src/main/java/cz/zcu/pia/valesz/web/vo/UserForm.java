@@ -23,12 +23,13 @@ public class UserForm implements Serializable {
     private boolean acceptTerms;
 
     public UserForm() {
-        setUsername("username");
-        setEmail("email@email.com");
+        setUsername("");
+        setEmail("");
         setPassword("");
         setPasswordConf("");
         setFullName("Bobby McJohnson");
         setGender("male");
+        setBirthDate(new Date());
         setAcceptTerms(false);
     }
 

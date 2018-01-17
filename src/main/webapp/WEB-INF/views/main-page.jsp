@@ -3,6 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@ taglib prefix="kivbook" tagdir="/WEB-INF/tags" %>
 
 <spring:url value="/resources/css/style.css" var="myStyle" />
 <c:url value="/feed" var="feedLink"/>
@@ -33,8 +34,7 @@
                 <input type="text" name="search" placeholder="search" class="form-control mr-sm-2">
                 <button class="btn btn-outline-dark my-2 my-sm-0" type="submit">Search</button>
             </form>
-
-            <a href="${logoutLink}" class="nav-link"><span class="glyphicon glyphicon-log-in"></span>Time to go...</a>
+            <kivbook:logout logoutLink="${logoutLink}"/>
         </div>
     </nav>
 

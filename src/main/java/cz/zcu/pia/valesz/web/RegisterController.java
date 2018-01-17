@@ -68,7 +68,6 @@ public class RegisterController {
 
         if(errors.isEmpty()) {
             // proceed with registration
-            // todo: hash password
             User u = new User(userForm);
             u = userManager.registerUser(u);
             return "reg-succ";

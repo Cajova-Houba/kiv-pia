@@ -10,22 +10,21 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.security.authentication.AuthenticationProvider;
-import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.social.security.SocialUserDetails;
 import org.springframework.social.security.SocialUserDetailsService;
 
-import java.util.*;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.Optional;
+import java.util.Set;
 
 /**
  * This class serves as a user manager and as a spring user / social user details service.
  */
-public class UserManagerImpl implements UserManager, SocialUserDetailsService, AuthenticationProvider {
+public class UserManagerImpl implements UserManager, SocialUserDetailsService {
 
     private static final Logger log = LoggerFactory.getLogger(UserManagerImpl.class);
 
@@ -33,10 +32,14 @@ public class UserManagerImpl implements UserManager, SocialUserDetailsService, A
     @Qualifier("userDao")
     private UserDao userDao;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userDao.findByUsername(username);
         if(user == null) {
+            log.warn("User with username {} not found!", username);
             throw new UsernameNotFoundException("User with username "+username+" not found!");
         }
 
@@ -52,27 +55,6 @@ public class UserManagerImpl implements UserManager, SocialUserDetailsService, A
     @Override
     public User loadByUsername(String username) {
         return userDao.findByUsername(username);
-    }
-
-    @Override
-    public Authentication authenticate(Authentication authentication) throws AuthenticationException {
-        String name = authentication.getName();
-        String password = authentication.getCredentials().toString();
-
-        User u = userDao.findByUsername(name);
-        if (u != null && u.getPasswordHash().equals(password)) {
-        } else {
-            throw new BadCredentialsException("Bad credentials!");
-        }
-        // use the credentials
-        // and authenticate against the third-party system
-        return new UsernamePasswordAuthenticationToken(
-                name, password, new ArrayList<>());
-    }
-
-    @Override
-    public boolean supports(Class<?> aClass) {
-        return aClass.equals(UsernamePasswordAuthenticationToken.class);
     }
 
     @Override
@@ -217,6 +199,8 @@ public class UserManagerImpl implements UserManager, SocialUserDetailsService, A
 
     @Override
     public User registerUser(User toBeCreated) {
+        String password = toBeCreated.getPasswordHash();
+        toBeCreated.setPasswordHash(passwordEncoder.encode(password));
         return userDao.save(toBeCreated);
     }
 

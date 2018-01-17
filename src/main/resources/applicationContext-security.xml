@@ -20,19 +20,23 @@
                 default-target-url="/feed"
                 authentication-failure-url="/login?error=true" />
 
-        <logout logout-success-url="/login" />
+        <logout
+                logout-url="/logout"
+                logout-success-url="/login" />
 
         <!-- todo: use exception handler to display custom access denied page -->
 
     </http>
 
-    <!-- TODO: use something to hash passwords -->
+    <beans:bean id="passwordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder" />
+
+    <beans:bean id="authProvider" class="org.springframework.security.authentication.dao.DaoAuthenticationProvider">
+        <beans:property name="userDetailsService" ref="userManager"/>
+        <beans:property name="passwordEncoder" ref="passwordEncoder"/>
+    </beans:bean>
+
     <authentication-manager>
-        <authentication-provider ref="userManager">
-            <!--<user-service>-->
-                <!--<user name="user@kivbook.com" password="{noop}123456789" authorities="ROLE_USER" />-->
-                <!--<user name="admin@user.com" password="{noop}123456789" authorities="ROLE_USER, ROLE_ADMIN" />-->
-            <!--</user-service>-->
+        <authentication-provider ref="authProvider">
         </authentication-provider>
     </authentication-manager>
 </beans:beans>
