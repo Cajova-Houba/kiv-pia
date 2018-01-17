@@ -74,7 +74,7 @@
                                     <img src="data:image/png;base64,${currentUser.profilePhoto}" class="img-thumbnail" alt="Profile photo" height="32">
                                 </div>
                                 <div class="col-md-9">
-                                    <form:input path="text" placeholder="Say something..." class="form-control" maxlength="1000"/>
+                                    <form:input path="text" placeholder="Say something..." class="form-control" maxlength="1000" required="required"/>
                                 </div>
                             </div>
                             <div class="row">  

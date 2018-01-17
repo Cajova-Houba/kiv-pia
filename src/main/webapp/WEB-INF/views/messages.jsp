@@ -6,6 +6,7 @@
 <spring:url value="/resources/css/style.css" var="myStyle" />
 <c:url value="/feed" var="feedLink"/>
 <c:url value="/logout" var="logoutLink"/>
+<c:url value="/messages" var="messageLink"/>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -57,26 +58,27 @@
                 </div>
 
                 <!-- conversations -->
-                <!-- user counter to autoselect the first item -->
-                <c:set var="counter" value="1" scope="page" />
+                <%-- it may happen tha ${conversation} is null in that case ${conversations} should also be empty --%>
                 <c:forEach items="${conversations}" var="conv">
                     <div class="row">
-                        <div class="card conversation-card <c:if test="${conv.newFlag}">card-unread</c:if> <c:if test="${counter == 1}">conversation-card-selected</c:if> ">
-                            <div class="card-body">
-                                <div class="row">
-                                    <div class="col-md-3">
-                                        <img src="data:image/png;base64,${conv.secondUser.profilePhoto}" class="img-thumbnail" alt="${conv.secondUser.fullName}" height="16">
-                                    </div>
-                                    <div class="col-md-9">
-                                        <div class="row">
-                                            <b>${conv.secondUser.fullName}</b>
+                        <div class="card conversation-card <c:if test="${conv.newFlag}">card-unread</c:if> <c:if test="${conv == conversation}">conversation-card-selected</c:if> ">
+                            <a href="${messageLink}/${conv.getOtherUser(currentUser).username}">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <img src="data:image/png;base64,${conv.secondUser.profilePhoto}" class="img-thumbnail" alt="${conv.secondUser.fullName}" height="16">
                                         </div>
-                                        <div class="row">
-                                            ${conv.newestMessage.text}
+                                        <div class="col-md-9">
+                                            <div class="row">
+                                                <b>${conv.secondUser.fullName}</b>
+                                            </div>
+                                            <div class="row">
+                                                ${conv.newestMessage.text}
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            </a>
                         </div>
                     </div>
                     <c:set var="counter" value="${counter+1}" scope="page" />
@@ -141,6 +143,21 @@
 
                                     </div>
                                 </c:forEach>
+
+                                <%-- form for response to conversation --%>
+                                <div class="row">
+                                    <div class="col-md-7"></div>
+                                    <div class="col-md-5">
+                                        <form method="POST" action="${messageLink}/${conversation.secondUser.username}" class="form-inline">
+                                            <label class="sr-only" for="msgText">Name</label>
+                                            <input type="text" maxlength="500" placeholder="Respond..." id="msgText" name="msgText" class="form-control" required>
+                                            <input type="hidden"
+                                                   name="${_csrf.parameterName}"
+                                                   value="${_csrf.token}"/>
+                                            <input type="submit" value="Send" class="btn btn-success">
+                                        </form>
+                                    </div>
+                                </div>
                             </div>
                         </div> <!-- end of message card -->
                     </c:otherwise>

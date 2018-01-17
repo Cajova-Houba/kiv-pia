@@ -32,6 +32,8 @@ public interface PostManager {
 
     /**
      * Creates new post with given text and current date.
+     * If the post's text is longer than allowed maximum, it will be cut to match the allowed length.
+     *
      * @param text Text of the post.
      * @param visibility Visibility of the post.
      * @param creator Create post as this user.

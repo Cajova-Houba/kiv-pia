@@ -2,7 +2,7 @@ package cz.zcu.pia.valesz.core.service;
 
 import cz.zcu.pia.valesz.core.domain.Message;
 import cz.zcu.pia.valesz.core.domain.User;
-import cz.zcu.pia.valesz.web.vo.Conversation;
+import cz.zcu.pia.valesz.web.vo.ConversationVO;
 
 import java.util.List;
 
@@ -19,12 +19,12 @@ public interface MessageManager {
     int getNumberOfNewMessages(User user);
 
     /**
-     * Returns a list of last messages from every sender.
+     * Returns a list of last messages from every sender wrapped in ConversationVO.
      *
      * @param receiver Receiver of the messages.
      * @return Conversations.
      */
-    List<Conversation> listConversations(User receiver);
+    List<ConversationVO> listConversations(User receiver);
 
     /**
      * List conversation between two users.
@@ -33,7 +33,7 @@ public interface MessageManager {
      * @param otherUser Other user.
      * @return Conversation between two users.
      */
-    Conversation getConversation(User currentUser, User otherUser);
+    ConversationVO getConversation(User currentUser, User otherUser);
 
     /**
      * Marks message as read, saves it and returns it.
@@ -41,4 +41,14 @@ public interface MessageManager {
      * @return Read message.
      */
     Message markAsRead(Message message);
+
+    /**
+     * Saves new message and marks it as last in the conversation.
+     * If the conversation doesn't exist, new one will be created.
+     * If the message text is longer than allowed maximum, it will be cut to match the allowed length.
+     *
+     * @param message Message to be saved.
+     * @return Saved message.
+     */
+    Message sendMessage(Message message);
 }

@@ -10,6 +10,8 @@ import java.util.Date;
 @Table(name = "message")
 public class Message {
 
+    public static final int MAX_MESSAGE_LENGTH = 500;
+
     /**
      * Database id.
      */
@@ -42,6 +44,7 @@ public class Message {
 
     public Message() {
         state = MessageState.CREATED;
+        timestamp = new Date();
     }
 
     public Message(Long id, User sender, User receiver, String text, Date timestamp, MessageState state) {
@@ -51,6 +54,13 @@ public class Message {
         this.text = text;
         this.timestamp = timestamp;
         this.state = state;
+    }
+
+    public Message(User sender, User receiver, String text) {
+        this();
+        this.sender = sender;
+        this.receiver = receiver;
+        this.text = text;
     }
 
     @Id
@@ -81,7 +91,7 @@ public class Message {
         this.receiver = receiver;
     }
 
-    @Column(length = 500, nullable = false)
+    @Column(length = MAX_MESSAGE_LENGTH, nullable = false)
     public String getText() {
         return text;
     }

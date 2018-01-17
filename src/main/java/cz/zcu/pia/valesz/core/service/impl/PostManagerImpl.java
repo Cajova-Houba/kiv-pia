@@ -32,6 +32,10 @@ public class PostManagerImpl implements PostManager {
 
     @Override
     public Post createNewPost(String text, Visibility visibility, User creator) {
+        if(text.length() > Post.MAX_POST_LENGTH) {
+            text = text.substring(0, Post.MAX_POST_LENGTH);
+        }
+
         Post post = new Post(new DateTime().toDate(), text, creator);
         post.setVisibility(visibility);
         return postDao.save(post);
@@ -44,6 +48,11 @@ public class PostManagerImpl implements PostManager {
         List<User> usersFriends = new ArrayList<>();
         for(FriendRequest usersFriendship : usersFriendships) {
             usersFriends.add(usersFriendship.getOtherUser(user));
+        }
+
+        // if the user has no friends use different method
+        if(usersFriends.isEmpty()) {
+            return postDao.getPostFeedForFriendlessUser(user, pageRequest);
         }
 
         // return page with post feed

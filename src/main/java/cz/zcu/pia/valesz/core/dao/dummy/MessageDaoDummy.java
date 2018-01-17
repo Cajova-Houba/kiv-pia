@@ -18,12 +18,6 @@ public class MessageDaoDummy extends Dummygeneric<Message, Long> implements Mess
 
 
     @Override
-    public List<Message> listConversations(User receiver) {
-
-        return null;
-    }
-
-    @Override
     public void delete(Message deleted) {
 
     }

@@ -31,4 +31,18 @@ public interface PostDao extends GenericDao<Post, Long>, PostDaoCustom {
             "       p.owner = :user" +
             " )")
     Page<Post> getPostFeedForUser(@Param("user")User user, @Param("usersFriends") List<User> usersFriends, Pageable pageRequest);
+
+    /**
+     * Returns posts which are visible for user.
+     *
+     * @param user User for which posts will be returns.
+     * @param pageRequest Object containing page info.
+     * @return Page with posts
+     */
+    @Query("SELECT p FROM Post p WHERE " +
+            " p.visibility IN ('EVERYONE', 'REGISTERED_USERS')" +
+            " OR (" +
+            "       p.owner = :user" +
+            " )")
+    Page<Post> getPostFeedForFriendlessUser(@Param("user")User user, Pageable pageRequest);
 }

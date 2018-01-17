@@ -23,6 +23,12 @@ public class PostDaoDummy extends Dummygeneric<Post, Long> implements PostDao {
         return null;
     }
 
+
+    @Override
+    public Page<Post> getPostFeedForFriendlessUser(User user, Pageable pageRequest) {
+        return null;
+    }
+
     @Override
     public void delete(Post deleted) {
 

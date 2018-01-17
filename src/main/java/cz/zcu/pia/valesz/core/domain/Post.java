@@ -16,6 +16,8 @@ import java.util.Date;
 @Table(name = "post")
 public class Post {
 
+    public static final int MAX_POST_LENGTH = 1000;
+
     /**
      * Database id.
      */
@@ -46,7 +48,7 @@ public class Post {
     /**
      * Content of the post.
      */
-    @Column(length = 1000, nullable = false)
+    @Column(length = MAX_POST_LENGTH, nullable = false)
     private String text;
 
     /**

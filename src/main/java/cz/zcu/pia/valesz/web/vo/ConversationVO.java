@@ -6,11 +6,12 @@ import cz.zcu.pia.valesz.core.domain.User;
 import java.util.List;
 
 /**
+ * Wrapper for conversations.
+ *
  * Conversation groups together messages between two users.
  *
- * It is user as a wrapper in view layer.
  */
-public class Conversation {
+public class ConversationVO {
 
     /**
      * The user who is displaying this conversation.
@@ -33,10 +34,10 @@ public class Conversation {
      */
     private boolean newFlag;
 
-    public Conversation() {
+    public ConversationVO() {
     }
 
-    public Conversation(User firstUser, User secondUser, List<Message> messages, boolean newFlag) {
+    public ConversationVO(User firstUser, User secondUser, List<Message> messages, boolean newFlag) {
         this.firstUser = firstUser;
         this.secondUser = secondUser;
         this.messages = messages;
@@ -100,4 +101,21 @@ public class Conversation {
         }
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        ConversationVO that = (ConversationVO) o;
+
+        if (firstUser != null ? !firstUser.equals(that.firstUser) : that.firstUser != null) return false;
+        return secondUser != null ? secondUser.equals(that.secondUser) : that.secondUser == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = firstUser != null ? firstUser.hashCode() : 0;
+        result = 31 * result + (secondUser != null ? secondUser.hashCode() : 0);
+        return result;
+    }
 }

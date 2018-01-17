@@ -1,15 +1,18 @@
 package cz.zcu.pia.valesz.web;
 
+import cz.zcu.pia.valesz.core.domain.Message;
 import cz.zcu.pia.valesz.core.domain.User;
 import cz.zcu.pia.valesz.core.service.AuthUtils;
 import cz.zcu.pia.valesz.core.service.MessageManager;
 import cz.zcu.pia.valesz.core.service.UserManager;
-import cz.zcu.pia.valesz.web.vo.Conversation;
+import cz.zcu.pia.valesz.web.vo.ConversationVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -30,8 +33,88 @@ public class MessagesController {
     private MessageManager messageManager;
 
     /**
-     * Displays the base page with messages overview.
-     * If there are messages, the newest one will be displayed. Otherwise message 'No messages' will ebe displayed.
+     * Displays a page with form to send a new message.
+     *
+     * @param modelMap
+     * @return
+     */
+    @RequestMapping(value = "/new", method = RequestMethod.GET)
+    public String displayNewMessageForm(ModelMap modelMap) {
+        return "messages";
+    }
+
+    /**
+     * Handles a new message being sent to existing conversation.
+     *
+     * @param username Currently logged user and this user are participants in conversation.
+     * @return
+     */
+    @RequestMapping(value = "/{username}", method = RequestMethod.POST)
+    public String handleNewMessageInConversation(@PathVariable String username, @RequestParam("msgText") String messageText) {
+
+        User currentUser = authUtils.getCurrentlyLoggerUser();
+        User otherUser = userManager.loadByUsername(username);
+
+        // check
+        if(otherUser == null) {
+            return "redirect:/messages";
+        }
+        if(messageText.isEmpty()) {
+           return "redirect:/messages/"+username;
+        }
+
+        // send message
+        Message message = new Message(currentUser, otherUser, messageText);
+        messageManager.sendMessage(message);
+
+        // redirect back to conversation
+        return "redirect:/messages/"+username;
+    }
+
+    /**
+     * Displays messages between the currently logged user and user giver by 'username' path variable.
+     *
+     * If the other user doesn't exist, method will redirect to /messages page which should either display empty
+     * message page or redirect to correct conversation.
+     *
+     * @param modelMap
+     * @param username Username of the other user.
+     * @return
+     */
+    @RequestMapping(value = "/{username}", method = RequestMethod.GET)
+    public String displayMessages(ModelMap modelMap, @PathVariable String username) {
+
+        User currentUser = authUtils.getCurrentlyLoggerUser();
+        User otherUser = userManager.loadByUsername(username);
+
+        if(otherUser == null) {
+            return "redirect:/messages";
+        }
+
+        // load main conversation
+        ConversationVO currentConversation = messageManager.getConversation(currentUser, otherUser);
+        // if the last message in conversation was sent to the current user, mark it as read
+        if(!currentConversation.getMessages().isEmpty() && currentConversation.getNewestMessage().getReceiver().equals(currentUser)) {
+            messageManager.markAsRead(currentConversation.getNewestMessage());
+        }
+
+        // load other conversations
+        List<ConversationVO> conversations = messageManager.listConversations(currentUser);
+
+        // add attributes for jsp
+        modelMap.addAttribute("currentUser", currentUser);
+        modelMap.addAttribute("conversations", conversations);
+        modelMap.addAttribute("conversation", currentConversation);
+
+        // return view name
+        return "messages";
+    }
+
+    /**
+     * Loads currently logged user's conversations, selects the first one a redirects to /messages/{username} where
+     * {username} is the username of the other user form the selected conversation.
+     *
+     * If the currently logged user has no conversations, empty message page will be displayed.
      *
      * @param modelMap
      * @return
@@ -40,18 +123,14 @@ public class MessagesController {
     public String displayPage(ModelMap modelMap) {
 
         User currentUser = authUtils.getCurrentlyLoggerUser();
-        List<Conversation> conversations = messageManager.listConversations(currentUser);
-        Conversation conversation;
+        List<ConversationVO> conversations = messageManager.listConversations(currentUser);
+        ConversationVO conversation;
         if(conversations.isEmpty()) {
             conversation = null;
         } else {
-            Conversation firstSelected = conversations.get(0);
-            conversation = messageManager.getConversation(currentUser, firstSelected.getOtherUser(currentUser));
-
-            // if the last message in conversation was sent to the current user, mark it as read
-            if(conversation.getNewestMessage().getReceiver().equals(currentUser)) {
-                messageManager.markAsRead(conversation.getNewestMessage());
-            }
+            // select first conversation and redirect to it
+            ConversationVO firstSelected = conversations.get(0);
+            return "redirect:/messages/"+firstSelected.getOtherUser(currentUser).getUsername();
         }
 
         modelMap.addAttribute("currentUser", currentUser);
