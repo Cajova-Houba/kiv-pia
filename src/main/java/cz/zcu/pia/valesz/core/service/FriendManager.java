@@ -64,4 +64,13 @@ public interface FriendManager {
      * @return Accepted requests.
      */
     List<FriendRequest> listFriendships(User user);
+
+    /**
+     * Returns true if there's a friend request with accepted state between provided users.
+     *
+     * @param user1 User 1.
+     * @param user2 User 2.
+     * @return True if users are firends.
+     */
+    boolean isFriendOf(User user1, User user2);
 }

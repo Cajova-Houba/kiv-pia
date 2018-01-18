@@ -13,30 +13,9 @@
 
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
-
-    <link rel="stylesheet" type="text/css" href="${myStyle}">
-    <title>News feed</title>
-  </head>
+  <kivbook:head title="Kivbook"/>
   <body class="bg-light">
-    <nav class="navbar navbar-dark bg-green">
-        <div class="container">
-            <div class="navbar-header">
-                <h2><a href="${feedLink}">Cool social network</a></h2>
-            </div>
-            <form class="form-inline">
-                <input type="text" name="search" placeholder="search" class="form-control mr-sm-2">
-                <button class="btn btn-outline-dark my-2 my-sm-0" type="submit">Search</button>
-            </form>
-            <kivbook:logout logoutLink="${logoutLink}"/>
-        </div>
-    </nav>
+    <kivbook:navbar isAnonymous="false"/>
 
     <div class="container">
         <div class="row">
@@ -163,11 +142,7 @@
         </div>
     </div>
 
-    <footer class="footer">
-        <div class="container text-center">
-            Cool Social Network - Zdeněk Valeš 2017
-        </div>
-    </footer>
+    <kivbook:footer />
 
 
     <!-- Optional JavaScript -->

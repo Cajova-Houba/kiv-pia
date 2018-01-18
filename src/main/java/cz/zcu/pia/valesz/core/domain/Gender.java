@@ -6,21 +6,26 @@ package cz.zcu.pia.valesz.core.domain;
 public enum Gender {
 
 
-    MALE("male"),
+    MALE("male", "Male"),
 
-    FEMALE("female"),
+    FEMALE("female", "Female"),
 
-    MAYONNAISE("mayo");
+    MAYONNAISE("mayo", "Mayonnaise");
 
     /**
      * Name used in web formular.
      */
     public final String webName;
 
-    Gender(String webName) {
-        this.webName = webName;
-    }
+    /**
+     * Displayable name.
+     */
+    public final String displayName;
 
+    Gender(String webName, String displayName) {
+        this.webName = webName;
+        this.displayName = displayName;
+    }
 
     /**
      * Converts gender web name to Gender object.

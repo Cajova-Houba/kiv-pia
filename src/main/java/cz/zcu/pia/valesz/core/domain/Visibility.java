@@ -11,22 +11,31 @@ public enum Visibility {
     /**
      * Only owner can access this.
      */
-    OWNER,
+    OWNER("Only you"),
 
     /**
      * Only owner and his friends can see this.
      */
-    OWNER_FRIENDS,
+    OWNER_FRIENDS("Friends"),
 
     /**
      * Everyone who is registered (logged) can see this. Default.
      */
-    REGISTERED_USERS,
+    REGISTERED_USERS("Others"),
 
     /**
      * Guess what...
      */
-    EVERYONE;
+    EVERYONE("Everyone");
+
+    /**
+     * Displayable visibility name.
+     */
+    public final String displayName;
+
+    Visibility(String displayName) {
+        this.displayName = displayName;
+    }
 
     /**
      * Returns visibilities for convenient form handling.
@@ -34,10 +43,10 @@ public enum Visibility {
      */
     public static Map<String, String> getFormVisibilities() {
         Map<String, String> visibilityMap = new HashMap<>();
-        visibilityMap.put("OWNER", "Only you");
-        visibilityMap.put("OWNER_FRIENDS", "Friends");
-        visibilityMap.put("REGISTERED_USERS", "Others");
-        visibilityMap.put("EVERYONE", "Everyone");
+        visibilityMap.put(OWNER.name(), OWNER.displayName);
+        visibilityMap.put(OWNER_FRIENDS.name(), OWNER_FRIENDS.displayName);
+        visibilityMap.put(REGISTERED_USERS.name(), REGISTERED_USERS.displayName);
+        visibilityMap.put(EVERYONE.name(), EVERYONE.displayName);
 
         return visibilityMap;
     }

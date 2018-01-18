@@ -27,14 +27,6 @@ public class RegisterController {
 
     private static final Logger log = LoggerFactory.getLogger(RegisterController.class);
 
-    // errors passed back to registration form
-    public static final String REG_USERNAME_EXISTS = "errUsernameExists";
-    public static final String REG_WRONG_EMAIL = "errWrongEmail";
-    public static final String REG_PASS_DONT_MATCH = "errPassDontMatch";
-    public static final String REG_TOO_YOUNG_MAN = "errTooYoungMan";
-    public static final String REG_NOT_A_GENDER = "errNotAGender";
-    public static final String REG_SHUT_UP_AND_ACCEPT = "errShutUpAndAccept";
-
     @Autowired
     private UserManager userManager;
 
@@ -52,7 +44,7 @@ public class RegisterController {
      */
     @RequestMapping(method = RequestMethod.POST)
     public String handleRegistration(Model model,
-                                     @ModelAttribute("userForm")UserForm userForm,
+                                     @ModelAttribute("userForm") UserForm userForm,
                                      BindingResult bindingResult) {
         if(bindingResult.hasErrors()) {
             log.warn("Error occurred while binding registration form to UserForm object.");

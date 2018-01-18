@@ -7,59 +7,34 @@ import org.joda.time.LocalDate;
 import org.joda.time.Years;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import javax.xml.bind.annotation.XmlRootElement;
-import java.io.Serializable;
 import java.util.Date;
 
 /**
- * A model object for user forms and profile display.
+ * Model for profile updating form.
  */
-@XmlRootElement
-public class UserForm implements Serializable {
-
+public class ProfileUpdateForm {
     private String username;
     private String email;
-    private String password;
-    private String passwordConf;
     private String fullName;
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     private Date birthDate;
-    private String stringBirthDate;
-    private String gender;
+    private Gender gender;
     private Visibility profileVisibility;
-    private boolean acceptTerms;
 
-    public UserForm() {
-        setUsername("");
-        setEmail("");
-        setPassword("");
-        setPasswordConf("");
-        setFullName("Bobby McJohnson");
-        setGender("male");
-        setBirthDate(new Date());
-        setProfileVisibility(Visibility.REGISTERED_USERS);
-        setAcceptTerms(false);
+    public ProfileUpdateForm() {
     }
 
     /**
-     * Creates a form model for user object.
-     * password and passwordConf are set to passwordHash and should not be used.
-     * acceptTerms is set to false;
-     *
-     * @param user
+     * Fills form model with current user data.
+     * @param currentUserData
      */
-    public UserForm(User user) {
-        setUsername(user.getUsername());
-        setEmail(user.getEmail());
-        setPassword(user.getPasswordHash());
-        setPasswordConf(user.getPasswordHash());
-        setFullName(user.getFullName());
-        setGender(user.getGender().webName);
-        if(user.getBirthDate() != null) {
-            setBirthDate(user.getBirthDate());
-        }
-        setProfileVisibility(user.getProfileVisibility());
-        setAcceptTerms(false);
+    public ProfileUpdateForm(User currentUserData) {
+        setUsername(currentUserData.getUsername());
+        setEmail(currentUserData.getEmail());
+        setFullName(currentUserData.getFullName());
+        setBirthDate(currentUserData.getBirthDate());
+        setGender(currentUserData.getGender());
+        setProfileVisibility(currentUserData.getProfileVisibility());
     }
 
     public String getUsername() {
@@ -78,22 +53,6 @@ public class UserForm implements Serializable {
         this.email = email;
     }
 
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getPasswordConf() {
-        return passwordConf;
-    }
-
-    public void setPasswordConf(String passwordConf) {
-        this.passwordConf = passwordConf;
-    }
-
     public String getFullName() {
         return fullName;
     }
@@ -108,16 +67,13 @@ public class UserForm implements Serializable {
 
     public void setBirthDate(Date birthDate) {
         this.birthDate = birthDate;
-        if(birthDate != null) {
-            setStringBirthDate(birthDate.toString());
-        }
     }
 
-    public String getGender() {
+    public Gender getGender() {
         return gender;
     }
 
-    public void setGender(String gender) {
+    public void setGender(Gender gender) {
         this.gender = gender;
     }
 
@@ -127,22 +83,6 @@ public class UserForm implements Serializable {
 
     public void setProfileVisibility(Visibility profileVisibility) {
         this.profileVisibility = profileVisibility;
-    }
-
-    public String getStringBirthDate() {
-        return stringBirthDate;
-    }
-
-    public void setStringBirthDate(String stringBirthDate) {
-        this.stringBirthDate = stringBirthDate;
-    }
-
-    public boolean isAcceptTerms() {
-        return acceptTerms;
-    }
-
-    public void setAcceptTerms(boolean acceptTerms) {
-        this.acceptTerms = acceptTerms;
     }
 
     /**
@@ -165,7 +105,7 @@ public class UserForm implements Serializable {
      * @return
      */
     public String getDisplayGender() {
-        Gender g = Gender.webNameToGender(getGender());
+        Gender g = getGender();
         if(g == null) {
             return "-";
         } else {
@@ -185,4 +125,15 @@ public class UserForm implements Serializable {
         return Visibility.values();
     }
 
+    @Override
+    public String toString() {
+        return "ProfileUpdateForm{" +
+                "username='" + username + '\'' +
+                ", email='" + email + '\'' +
+                ", fullName='" + fullName + '\'' +
+                ", birthDate=" + birthDate +
+                ", gender=" + gender +
+                ", profileVisibility=" + profileVisibility +
+                '}';
+    }
 }

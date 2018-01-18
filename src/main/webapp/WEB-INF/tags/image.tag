@@ -2,6 +2,7 @@
     Custom tag which will render the photo from kivbookImage object.
 --%>
 
+<%@tag pageEncoding="UTF-8"%>
 <%@ attribute name="kivbookImage" required="true" rtexprvalue="true" type="cz.zcu.pia.valesz.core.domain.KivbookImage" %>
 <%@ attribute name="alt" required="true" rtexprvalue="true" %>
 <%@ attribute name="classes" required="false" %>

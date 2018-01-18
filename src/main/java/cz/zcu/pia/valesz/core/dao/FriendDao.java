@@ -45,4 +45,23 @@ public interface FriendDao extends GenericDao<FriendRequest, Long> {
             " fr.friendRequestState = :friendRequestState " +
             " AND (fr.receiver = :user OR fr.sender = :user)")
     List<FriendRequest> findUsersFriendRequests(@Param("user") User user, @Param("friendRequestState") FriendRequestState friendRequestState);
+
+    /**
+     * Returns friend request (if it exists) for two users with particualr state.
+     *
+     * @param user1 User 1.
+     * @param user2 User 2.
+     * @param friendRequestState State of the request.
+     * @return Friend request.
+     */
+    @Query("  SELECT fr FROM FriendRequest fr " +
+            " LEFT JOIN FETCH fr.receiver " +
+            " LEFT JOIN FETCH fr.sender " +
+            " WHERE " +
+            " fr.friendRequestState = :friendRequestState " +
+            " AND (" +
+            " (fr.receiver = :user1 AND fr.sender = :user2) " +
+            "  OR (fr.receiver = :user2 AND fr.sender = :user1)" +
+            " )")
+    FriendRequest findByUsersAndState(@Param("user1") User user1, @Param("user2") User user2, @Param("friendRequestState") FriendRequestState friendRequestState);
 }

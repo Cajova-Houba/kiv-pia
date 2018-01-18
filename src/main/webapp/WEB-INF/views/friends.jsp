@@ -10,125 +10,99 @@
 
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
-
-    <link rel="stylesheet" type="text/css" href="${myStyle}">
-    <title>Friends</title>
-  </head>
-  <body class="bg-light">
-    <nav class="navbar navbar-dark bg-green">
+    <kivbook:head title="Friends"/>
+    <body class="bg-light">
+        <kivbook:navbar isAnonymous="false"/>
         <div class="container">
-            <div class="navbar-header">
-                <h2><a href="${feedLink}">Cool social network</a></h2>
-            </div>
-            <form class="form-inline">
-                <input type="text" name="search" placeholder="search" class="form-control mr-sm-2">
-                <button class="btn btn-outline-dark my-2 my-sm-0" type="submit">Search</button>
-            </form>
-
-            <kivbook:logout logoutLink="${logoutLink}"/>
-        </div>
-    </nav>
-    <div class="container">
-        <div class="row">
-            <div class="col-md-4 user-panel">
-                <div class="row">
-                    <kivbook:image kivbookImage="${currentUser.profilePhoto}" alt="Profile ptoho"/>
-                </div>
-                <div class="row">
-                    <h4><a href="${feedLink}">${currentUser.fullName}</a></h4>
-                </div>
-
-                <div class="row">
-                    <h5>New friend requests:</h5>
-                </div>
-
-                <!-- new friend requets -->
-                <c:forEach items="${newRequests}" var="newRequest" >
+            <div class="row">
+                <div class="col-md-4 user-panel">
                     <div class="row">
-                        <div class="card conversation-card card-unread">
-                            <div class="card-body">
-                                <div class="row">
-                                    <div class="col-md-3">
-                                        <kivbook:image kivbookImage="${newRequest.sender.profilePhoto}" alt="${newRequest.sender.fullName}" />
-                                    </div>
-                                    <div class="col-md-9">
-                                        <div class="row">
-                                            <b>${newRequest.sender.fullName}</b>
+                        <kivbook:image kivbookImage="${currentUser.profilePhoto}" alt="Profile ptoho"/>
+                    </div>
+                    <div class="row">
+                        <h4><a href="${feedLink}">${currentUser.fullName}</a></h4>
+                    </div>
+
+                    <div class="row">
+                        <h5>New friend requests:</h5>
+                    </div>
+
+                    <!-- new friend requets -->
+                    <c:forEach items="${newRequests}" var="newRequest" >
+                        <div class="row">
+                            <div class="card conversation-card card-unread">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <kivbook:image kivbookImage="${newRequest.sender.profilePhoto}" alt="${newRequest.sender.fullName}" />
                                         </div>
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <button class="btn btn-success">OK</button>
+                                        <div class="col-md-9">
+                                            <div class="row">
+                                                <b>${newRequest.sender.fullName}</b>
                                             </div>
-                                            <div class="col-md-6">
-                                                <button class="btn btn-danger">X</button>
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <button class="btn btn-success">OK</button>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <button class="btn btn-danger">X</button>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </c:forEach>
-            </div>
+                    </c:forEach>
+                </div>
 
 
-            <div class="col-md-8">
-                <h4>My friends</h4>
-                <div class="card">
-                    <div class="card-body">
-                        <c:set var="rowItemCount" value="0" scope="page" />
-                        <c:forEach items="${friendships}" var="friendship">
-                            <%-- start new row after 4 friendships to make table-like structure --%>
-                            <c:if test="${rowItemCount % 4 ==0}">
-                                <div class="row">
-                            </c:if>
+                <div class="col-md-8">
+                    <h4>My friends</h4>
+                    <div class="card">
+                        <div class="card-body">
+                            <c:set var="rowItemCount" value="0" scope="page" />
+                            <c:forEach items="${friendships}" var="friendship">
+                                <%-- start new row after 4 friendships to make table-like structure --%>
+                                <c:if test="${rowItemCount % 4 ==0}">
+                                    <div class="row">
+                                </c:if>
 
 
-                            <%-- display element --%>
-                            <div class="col-md-3">
-                                <div class="card card-borderless">
-                                    <div class="card-body user-panel">
-                                        <div class="row justify-content-center">
-                                            <kivbook:image kivbookImage="${friendship.sender.profilePhoto}" alt="${friendship.sender.fullName}" classes="medium-thumbnail"/>
-                                        </div>
-                                        <div class="row justify-content-center">
-                                            <a href="${feedLink}">${friendship.sender.fullName}</a>
+                                <%-- display element --%>
+                                <div class="col-md-3">
+                                    <div class="card card-borderless">
+                                        <div class="card-body user-panel">
+                                            <div class="row justify-content-center">
+                                                <kivbook:image kivbookImage="${friendship.sender.profilePhoto}" alt="${friendship.sender.fullName}" classes="medium-thumbnail"/>
+                                            </div>
+                                            <div class="row justify-content-center">
+                                                <a href="${feedLink}">${friendship.sender.fullName}</a>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
 
-                            <%--increment counter--%>
-                            <c:set var="rowItemCount" value="${rowItemCount+1}" scope="page"/>
+                                <%--increment counter--%>
+                                <c:set var="rowItemCount" value="${rowItemCount+1}" scope="page"/>
 
-                            <%-- close the row element after the 4th friendship --%>
-                            <c:if test="${rowItemCount % 4 == 0 || rowItemCount == friendships.size()}">
-                                </div>
-                            </c:if>
-                        </c:forEach>
+                                <%-- close the row element after the 4th friendship --%>
+                                <c:if test="${rowItemCount % 4 == 0 || rowItemCount == friendships.size()}">
+                                    </div>
+                                </c:if>
+                            </c:forEach>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
 
-    <footer class="footer">
-        <div class="container text-center">
-            Cool Social Network - Zdeněk Valeš 2017
-        </div>
-    </footer>
+        <kivbook:footer />
 
-    <!-- Optional JavaScript -->
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
-  </body>
+        <!-- Optional JavaScript -->
+        <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
+    </body>
 </html>

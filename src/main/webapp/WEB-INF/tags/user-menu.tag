@@ -1,6 +1,8 @@
 <%--
     Custom tag to render user's menu.
 --%>
+
+<%@tag pageEncoding="UTF-8"%>
 <%@ attribute name="newMsgsCount" required="true" rtexprvalue="true" %>
 <%@ attribute name="newFriendsCount" required="true" rtexprvalue="true" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>

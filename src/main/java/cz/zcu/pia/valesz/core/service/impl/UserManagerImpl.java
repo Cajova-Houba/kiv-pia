@@ -6,7 +6,9 @@ import cz.zcu.pia.valesz.core.domain.Gender;
 import cz.zcu.pia.valesz.core.domain.KivbookImage;
 import cz.zcu.pia.valesz.core.domain.User;
 import cz.zcu.pia.valesz.core.service.UserManager;
+import cz.zcu.pia.valesz.web.vo.ProfileUpdateForm;
 import cz.zcu.pia.valesz.web.vo.UserForm;
+import org.apache.commons.validator.routines.EmailValidator;
 import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -84,69 +86,6 @@ public class UserManagerImpl implements UserManager, SocialUserDetailsService {
     }
 
     @Override
-    public Set<String> validateRegistration(String username, String email, String password, String passwordConf, String fullName, Date birthDate, String gender, boolean acceptTerms) {
-        Set<String> errors = new HashSet<>();
-
-        // validation process:
-        // check that valid (unique) username was provided
-        // check that valid email (format) was provided
-        // check that password isn't empty and password == password-conf
-        // check age (13+)
-        // check that correct gender was entered
-        // check that terms are accepted
-        if(username == null || username.isEmpty()) {
-            log.debug("Username '{}' is wrong.", username);
-            errors.add(REG_USERNAME_WRONG);
-        }
-
-        if(userDao.existsByUsername(username)) {
-            log.debug("Username '{}' already exists.", username);
-            errors.add(REG_USERNAME_EXISTS);
-        }
-
-        // todo: email check
-        if(email == null || email.isEmpty()) {
-            log.debug("Email '{}' is wrong.", email);
-            errors.add(REG_WRONG_EMAIL);
-        }
-
-        if(password == null || password.isEmpty()) {
-            log.debug("Password '{}' is wrong.", password);
-            errors.add(REG_WRONG_PASS);
-        }
-
-        if( !password.equals(passwordConf)) {
-            log.debug("Passwords '{}' and '{}' don't match.", password, passwordConf);
-            errors.add(REG_PASS_DONT_MATCH);
-        }
-
-        if(fullName == null || fullName.isEmpty()) {
-            log.debug("Full name '{}' is wrong.", fullName);
-            errors.add(REG_WRONG_FULL_NAME);
-        }
-
-        // todo: check age, move min age to some constant
-        Date maxBirthDate = new DateTime().minusYears(13).toDate();
-        if(birthDate == null || birthDate.after(maxBirthDate)) {
-            log.debug("Date of birth '{}' is wrong.", birthDate);
-            errors.add(REG_TOO_YOUNG_MAN);
-        }
-
-        Gender realGender = Gender.webNameToGender(gender);
-        if(realGender == null) {
-            log.debug("Gender '{}' is wrong.", gender);
-            errors.add(REG_NOT_A_GENDER);
-        }
-
-        if(!acceptTerms) {
-            log.debug("Terms not accepted.");
-            errors.add(REG_SHUT_UP_AND_ACCEPT);
-        }
-
-        return errors;
-    }
-
-    @Override
     public Set<String> validateRegistration(UserForm toBeValidated) {
         Set<String> errors = new HashSet<>();
 
@@ -168,54 +107,62 @@ public class UserManagerImpl implements UserManager, SocialUserDetailsService {
         // check that terms are accepted
         if(username == null || username.isEmpty()) {
             log.debug("Username '{}' is wrong.", username);
-            errors.add(REG_USERNAME_WRONG);
+            errors.add(ERR_USERNAME_WRONG);
         }
 
         if(userDao.existsByUsername(username)) {
             log.debug("Username '{}' already exists.", username);
-            errors.add(REG_USERNAME_EXISTS);
+            errors.add(ERR_USERNAME_EXISTS);
         }
 
-        // todo: email check
-        if(email == null || email.isEmpty()) {
+        if(email == null || email.isEmpty() || !EmailValidator.getInstance().isValid(email)) {
             log.debug("Email '{}' is wrong.", email);
-            errors.add(REG_WRONG_EMAIL);
+            errors.add(ERR_WRONG_EMAIL);
         }
 
         if(password == null || password.isEmpty()) {
             log.debug("Password '{}' is wrong.", password);
-            errors.add(REG_WRONG_PASS);
+            errors.add(ERR_WRONG_PASS);
         }
 
         if( !password.equals(passwordConf)) {
             log.debug("Passwords '{}' and '{}' don't match.", password, passwordConf);
-            errors.add(REG_PASS_DONT_MATCH);
+            errors.add(ERR_PASS_DONT_MATCH);
         }
 
         if(fullName == null || fullName.isEmpty()) {
             log.debug("Full name '{}' is wrong.", fullName);
-            errors.add(REG_WRONG_FULL_NAME);
+            errors.add(ERR_WRONG_FULL_NAME);
         }
 
         // todo: check age, move min age to some constant
         Date maxBirthDate = new DateTime().minusYears(13).toDate();
-        if(birthDate == null || birthDate.after(maxBirthDate)) {
+        if(birthDate != null && birthDate.after(maxBirthDate)) {
             log.debug("Date of birth '{}' is wrong.", birthDate);
-            errors.add(REG_TOO_YOUNG_MAN);
+            errors.add(ERR_TOO_YOUNG_MAN);
         }
 
         Gender realGender = Gender.webNameToGender(gender);
         if(realGender == null) {
             log.debug("Gender '{}' is wrong.", gender);
-            errors.add(REG_NOT_A_GENDER);
+            errors.add(ERR_NOT_AGENDER);
         }
 
         if(!acceptTerms) {
             log.debug("Terms not accepted.");
-            errors.add(REG_SHUT_UP_AND_ACCEPT);
+            errors.add(ERR_SHUT_UP_AND_ACCEPT);
         }
 
         return errors;
+    }
+
+    @Override
+    public User updateUserProfile(User toBeUpdated, ProfileUpdateForm updateData) {
+        toBeUpdated.setEmail(updateData.getEmail());
+        toBeUpdated.setFullName(updateData.getFullName());
+        toBeUpdated.setBirthDate(updateData.getBirthDate());
+        toBeUpdated.setProfileVisibility(updateData.getProfileVisibility());
+        return userDao.save(toBeUpdated);
     }
 
     @Override

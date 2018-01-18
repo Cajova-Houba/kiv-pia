@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html;" pageEncoding="UTF-8"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="kivbook" tagdir="/WEB-INF/tags" %>
 
 <spring:url value="/resources/css/style.css" var="myStyle" />
 <c:url value="/login" var="loginLink" />
@@ -8,27 +9,9 @@
 
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
-
-    <link rel="stylesheet" type="text/css" href="${myStyle}">
-    <title>I'm going in!</title>
-  </head>
+  <kivbook:head title="I'm going in!"/>
   <body class="bg-light">
-    <nav class="navbar navbar-dark bg-green">
-        <div class="container">
-            <div class="navbar-header">
-                <h2><a href="${registerLink}">Cool social network</a></h2>
-            </div>
-
-            <a href="${loginLink}" class="nav-link active"><span class="glyphicon glyphicon-log-in"></span>Going in!</a>
-        </div>
-    </nav>
+    <kivbook:navbar isAnonymous="true"/>
     <div class="container">
         <div class="row">
             <div class="col-md-3">
@@ -44,11 +27,7 @@
         </div>
     </div>
 
-    <footer class="footer">
-        <div class="container text-center">
-            Cool Social Network - Zdeněk Valeš 2017
-        </div>
-    </footer>
+    <kivbook:footer />
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->

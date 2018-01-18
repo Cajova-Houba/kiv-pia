@@ -55,4 +55,9 @@ public class FriendManagerImpl implements FriendManager {
     public List<FriendRequest> listFriendships(User user) {
        return friendDao.findByReceiverAndFriendRequestState(user, FriendRequestState.ACCEPTED);
     }
+
+    @Override
+    public boolean isFriendOf(User user1, User user2) {
+        return friendDao.findByUsersAndState(user1, user2, FriendRequestState.ACCEPTED) != null;
+    }
 }
