@@ -98,6 +98,7 @@ public interface UserManager extends UserDetailsService{
     /**
      * Registers new user. It is assumed that user parameters were already validated before.
      * Password is hashed before saving.
+     * First photo (if any) is assigned as a profile one.
      *
      * @param toBeCreated User to be registered.
      * @return Registered user.

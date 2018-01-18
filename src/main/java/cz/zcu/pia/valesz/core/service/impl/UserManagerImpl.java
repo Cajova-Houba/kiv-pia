@@ -1,7 +1,9 @@
 package cz.zcu.pia.valesz.core.service.impl;
 
+import cz.zcu.pia.valesz.core.dao.KivbookImageDao;
 import cz.zcu.pia.valesz.core.dao.UserDao;
 import cz.zcu.pia.valesz.core.domain.Gender;
+import cz.zcu.pia.valesz.core.domain.KivbookImage;
 import cz.zcu.pia.valesz.core.domain.User;
 import cz.zcu.pia.valesz.core.service.UserManager;
 import cz.zcu.pia.valesz.web.vo.UserForm;
@@ -31,6 +33,10 @@ public class UserManagerImpl implements UserManager, SocialUserDetailsService {
     @Autowired
     @Qualifier("userDao")
     private UserDao userDao;
+
+    @Autowired
+    @Qualifier("kivbookImageDao")
+    private KivbookImageDao kivbookImageDao;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -216,6 +222,8 @@ public class UserManagerImpl implements UserManager, SocialUserDetailsService {
     public User registerUser(User toBeCreated) {
         String password = toBeCreated.getPasswordHash();
         toBeCreated.setPasswordHash(passwordEncoder.encode(password));
+        KivbookImage defaultImage = kivbookImageDao.getOne(kivbookImageDao.getMinId());
+        toBeCreated.setProfilePhoto(defaultImage);
         return userDao.save(toBeCreated);
     }
 
