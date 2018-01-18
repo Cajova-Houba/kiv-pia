@@ -48,22 +48,8 @@
                     <h4><a href="${feedLink}">${currentUser.fullName}</a></h4>
                 </div>
 
-                <div class="row user-menu">
-                    <ul>
-                        <li>Profile</li>
-                        <li><a href="${messagesLink}">Messages
-                            <c:if test="${newMsgs > 0}">
-                                <span class="text-highlight">${newMsgs}</span>
-                            </c:if>
-                        </a></li>
-                        <li><a href="${friendsLink}">Friends
-                            <c:if test="${newFriendReq > 0}">
-                                <span class="text-highlight">${newFriendReq}</span>
-                            </c:if>
-                        </a></li>
-                        <li>Settings</li>
-                    </ul>
-                </div>
+                <kivbook:user-menu newMsgsCount="${newMsgs}" newFriendsCount="${newFriendReq}"/>
+
             </div>
             <div class="col-md-8">
                 <div class="card post-panel">
@@ -71,7 +57,7 @@
                         <form:form method="post" action="${feedLink}" modelAttribute="newPost">
                             <div class="row">
                                 <div class="col-md-3">
-                                    <kivbook:image kivbookImage="${currentUser.profilePhoto}" alt="Profile photo"/>
+                                    <kivbook:image kivbookImage="${currentUser.profilePhoto}" alt="Profile photo" classes="medium-thumbnail"/>
                                 </div>
                                 <div class="col-md-9">
                                     <form:input path="text" placeholder="Say something..." class="form-control" maxlength="1000" required="required"/>
@@ -156,7 +142,7 @@
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-md-3">
-                                    <a href="#"><kivbook:image kivbookImage="${post.owner.profilePhoto}" alt="${post.owner.fullName}" /></a>
+                                    <a href="#"><kivbook:image kivbookImage="${post.owner.profilePhoto}" alt="${post.owner.fullName}" classes="medium-thumbnail"/></a>
                                 </div>
                                 <div class="col-md-9">
                                     ${post.text}
