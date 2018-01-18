@@ -45,24 +45,36 @@
 
                 </div>
                 <div class="col-md-9">
-                    <h3>${user.fullName} profile</h3>
+                    <h3 class="bottom-margin">${user.fullName} profile</h3>
                     <%--
                         if the edit mode is off, display normal profile, otherwise display edit form
-                        all info which is being displayed / edited in profile card is passed via UserForm object
+                        all info which is being displayed / edited in profile card is passed via ProfileUpdateForm object
                     --%>
                     <c:choose>
                         <c:when test="${isEditMode}">
                             <h4>Upload new profile photo</h4>
-                            <form method="POST" action="#" enctype="multipart/form-data">
-                                <table>
-                                    <tr>
-                                        <td><label path="file">Select your new profile photo</label></td>
-                                        <td><input type="file" name="file" /></td>
-                                    </tr>
-                                    <tr>
-                                        <td><input type="submit" value="Submit" /></td>
-                                    </tr>
-                                </table>
+                            <p>Here you can upload new photo. The old one will be deleted (if it's not one of the default ones). Maximum size of your new photo is 100 kB.</p>
+                            <span class="text-danger"><b>Warning:</b> you can upload any file you want (non-image) but you will have to face the consequences.</span>
+                            <form method="POST" action="${profileLink}/${username}/edit/profile-photo?${_csrf.parameterName}=${_csrf.token}" enctype="multipart/form-data" class="bottom-margin">
+                                <div class="row bottom-margin">
+                                    <div class="col-md-6">
+                                        <label class="custom-file">
+                                            <input type="file" id="file" name="file" class="custom-file-input" required>
+                                            <span class="custom-file-control"></span>
+                                        </label>
+                                    </div>
+                                    <c:if test="${isImageSizeError}">
+                                        <div class="col-md-6">
+                                            <span class="text-danger">Your photo is too big! Choose another one.</span>
+                                        </div>
+                                    </c:if>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <input type="submit" value="Upload" class="btn btn-success"/>
+                                    </div>
+
+                                </div>
                             </form>
                             <h4>Profile edit</h4>
                             <form:form modelAttribute="userForm">

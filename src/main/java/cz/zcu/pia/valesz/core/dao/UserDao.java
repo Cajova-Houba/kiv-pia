@@ -1,5 +1,6 @@
 package cz.zcu.pia.valesz.core.dao;
 
+import cz.zcu.pia.valesz.core.domain.KivbookImage;
 import cz.zcu.pia.valesz.core.domain.User;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -32,4 +33,11 @@ public interface UserDao extends GenericDao<User, Long> {
      * @return True if user with this username already exists in database.
      */
     boolean existsByUsername(String username);
+
+    /**
+     * Returns the number of users which are using the same profile photo.
+     * @param profilePhoto Profile photo.
+     * @return Number of users with same profile photo.
+     */
+    long countUsersByProfilePhoto(KivbookImage profilePhoto);
 }

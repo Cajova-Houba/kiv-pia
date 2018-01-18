@@ -10,5 +10,7 @@
 
 <img src="data:image/png;base64,${kivbookImage.imageData}" class="img-thumbnail
     <c:if test="${classes != null}">${classes}</c:if>
-" alt="${alt}"
+    "
+     alt="${alt}"
+    style="max-height: 128px; max-width: 128px;"
 />

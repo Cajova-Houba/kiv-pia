@@ -167,3 +167,7 @@ footer .container {
 .small-font {
     font-size: 75%;
 }
+
+.bottom-margin {
+    margin-bottom: 10px;
+}

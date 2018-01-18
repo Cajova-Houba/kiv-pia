@@ -33,6 +33,15 @@
     <!--</bean>-->
 
     <bean id="authUtils" class="cz.zcu.pia.valesz.core.service.AuthUtils"/>
+    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <property name="maxUploadSize" value="100000"/>
+    </bean>
+    <bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
+        <property name="basename" value="messages"/>
+    </bean>
+
+    <!-- validators -->
+    <bean id="profileUpdateValidator" class="cz.zcu.pia.valesz.web.validation.ProfileUpdateValidator"/>
 
     <!-- daos -->
 

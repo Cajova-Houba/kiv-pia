@@ -10,6 +10,17 @@ import javax.persistence.*;
 public class KivbookImage {
 
     /**
+     * Ids of profile photos which should be kept in database and used as default ones.
+     */
+    public static final long[] DEFAULT_PHOTO_IDS = new long[] {1l, 2l, 3l};
+    public static final long MAX_IMAGE_SIZE_BYTES = 100000;
+
+    /**
+     * Image is store in Base64 encoding which increases size of the data, so more space is needed.
+     */
+    public static final long MAX_IMAGE_DATA_SIZE = MAX_IMAGE_SIZE_BYTES*2;
+
+    /**
      * Database id.
      */
     private Long id;
@@ -20,7 +31,7 @@ public class KivbookImage {
     private String imageData;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     public Long getId() {
         return id;
     }
@@ -30,13 +41,34 @@ public class KivbookImage {
     }
 
     @Lob
-    @Column(name = "image_data", length = 100000)
+    @Column(name = "image_data", length = (int)MAX_IMAGE_DATA_SIZE)
     public String getImageData() {
         return imageData;
     }
 
     public void setImageData(String imageData) {
         this.imageData = imageData;
+    }
+
+    /**
+     * Returns true if this object has default id.
+     * If the id is null, false is returned.
+     * .
+     * @return True if this object has default id.
+     */
+    public boolean hasDefaultId() {
+        if(getId() == null) {
+            return false;
+        }
+
+        long idl = getId().longValue();
+        for (int i = 0; i < DEFAULT_PHOTO_IDS.length; i++) {
+            if(idl == DEFAULT_PHOTO_IDS[i]) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     @Override

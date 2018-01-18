@@ -1,7 +1,6 @@
 package cz.zcu.pia.valesz.core.dao;
 
 import cz.zcu.pia.valesz.core.domain.User;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -11,7 +10,7 @@ import static org.junit.Assert.*;
 /**
  * Simple integration test to see if the stuff works.
  */
-@Ignore
+//@Ignore
 public class UserDaoTest extends BaseDaoTest{
 
 

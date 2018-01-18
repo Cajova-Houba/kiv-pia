@@ -17,6 +17,9 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
 
 /**
  * Controller which handles displaying and editing of users profile.
@@ -45,6 +48,60 @@ public class ProfileController {
     @InitBinder("userForm")
     protected void initBinder(WebDataBinder binder) {
         binder.addValidators(profileUpdateValidator);
+    }
+
+    /**
+     * Handles update of a new profile photo.
+     *
+     * @param username User who is updating his profile photo is identified by this username.
+     * @param modelMap
+     * @param multipartFile File containing the new profile photo.
+     * @return
+     */
+    @RequestMapping(value = "/{username}/edit/profile-photo", method = RequestMethod.POST)
+    public String handleProfilePhotoUpdate(@PathVariable String username,
+                                           ModelMap modelMap,
+                                           @RequestParam("file")MultipartFile multipartFile) {
+        log.info("Updating profile photo of user {}.", username);
+
+        // check if username matches username of the current user
+        User currentUser = authUtils.getCurrentlyLoggedUser();
+        if(!currentUser.getUsername().equals(username)) {
+            log.warn("User {} tried to upload new profile photo for user {}.", username, currentUser.getUsername());
+            return "redirect:/profile";
+        }
+
+        // check file content
+        if(multipartFile.isEmpty()) {
+            log.warn("Empty file uploaded!");
+            return "redirect:/profile";
+        }
+        log.info("Picture size: {}.",multipartFile.getSize());
+        try {
+            log.info("Bytes: {}.",multipartFile.getBytes().length);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        log.info("Content type: {}.", multipartFile.getContentType());
+
+        // update
+        try {
+            userManager.updateProfilePhoto(currentUser, multipartFile.getBytes());
+        } catch (IOException e) {
+            log.error("Update failed with exception {}. Exception message: {}.", e.toString(), e.getMessage());
+            return "redirect:/profile";
+        }
+
+        return "redirect:/profile";
+    }
+
+    /**
+     * This method will handle possible GET requests to photo upload url simply by redirecting to profile page..
+     * @return
+     */
+    @RequestMapping(value = "/{username}/edit/profile-photo", method = RequestMethod.GET)
+    public String handleGetPhotoUpload(@PathVariable String username) {
+        return "redirect:/profile";
     }
 
     /**
@@ -84,7 +141,7 @@ public class ProfileController {
 
             modelMap.addAttribute("newMsgs", newMsgs);
             modelMap.addAttribute("newFriendReq", newFriendReq);
-            modelMap.addAttribute("user", currentUser);
+            modelMap.addAttribute("user", authUtils.getCurrentlyLoggedUserWithProfilePhoto());
             modelMap.addAttribute("isCurrentUser", true);
             modelMap.addAttribute("isEditMode", true);
             modelMap.addAttribute("isAnonymous",false);

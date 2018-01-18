@@ -91,4 +91,12 @@ public interface UserManager extends UserDetailsService{
      */
     User registerUser(User toBeCreated);
 
+    /**
+     * Updates user's profile photo. The old one is deleted from database, if it's not on of the default ones.
+     * @param user User which will have photo updated.
+     * @param profilePhotoData New profile photo data.
+     * @return User with updated profile photo.
+     */
+    User updateProfilePhoto(User user, byte[] profilePhotoData);
+
 }

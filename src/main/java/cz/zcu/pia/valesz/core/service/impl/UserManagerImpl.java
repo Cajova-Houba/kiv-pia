@@ -20,10 +20,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.social.security.SocialUserDetails;
 import org.springframework.social.security.SocialUserDetailsService;
 
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Optional;
-import java.util.Set;
+import java.nio.charset.Charset;
+import java.util.*;
 
 /**
  * This class serves as a user manager and as a spring user / social user details service.
@@ -178,5 +176,31 @@ public class UserManagerImpl implements UserManager, SocialUserDetailsService {
     public User findById(Long id) {
         Optional<User> user = userDao.findById(id);
         return user.isPresent() ? user.get() : null;
+    }
+
+    @Override
+    public User updateProfilePhoto(User user, byte[] profilePhotoData) {
+        User userWithProfilePhoto = userDao.findByUsernameFetchProfilePhoto(user.getUsername());
+
+        // create new profile photo
+        KivbookImage oldProfilePhoto = userWithProfilePhoto.getProfilePhoto();
+        KivbookImage newProfilePhoto = new KivbookImage();
+        newProfilePhoto.setImageData(new String(Base64.getEncoder().encode(profilePhotoData), Charset.forName("ASCII")));
+        newProfilePhoto = kivbookImageDao.save(newProfilePhoto);
+
+        // set it to user
+        userWithProfilePhoto.setProfilePhoto(newProfilePhoto);
+        userWithProfilePhoto = userDao.save(userWithProfilePhoto);
+
+        // optionally delete the old profile photo
+        if(!oldProfilePhoto.hasDefaultId()) {
+            // old photo doesn't have default id, check if it's used by anyone else
+            if(userDao.countUsersByProfilePhoto(oldProfilePhoto) == 0) {
+                // delete old photo
+                kivbookImageDao.delete(oldProfilePhoto);
+            }
+        }
+
+        return userWithProfilePhoto;
     }
 }
