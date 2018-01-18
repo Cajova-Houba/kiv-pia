@@ -69,9 +69,9 @@ public class User implements UserDetails {
     private SocialIdentityProvider socialIdentityProvider;
 
     /**
-     * User's profile photo stored as byte array.
+     * User's profile photo.
      */
-    private String profilePhoto;
+    private KivbookImage profilePhoto;
 
     /**
      * User's authorities. Not actually persisted.
@@ -229,13 +229,13 @@ public class User implements UserDetails {
         this.socialIdentityProvider = socialIdentityProvider;
     }
 
-    @Lob
-    @Column(name = "profile_photo", length = 100000)
-    public String getProfilePhoto() {
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "profile_photo_id")
+    public KivbookImage getProfilePhoto() {
         return profilePhoto;
     }
 
-    public void setProfilePhoto(String profilePhoto) {
+    public void setProfilePhoto(KivbookImage profilePhoto) {
         this.profilePhoto = profilePhoto;
     }
 

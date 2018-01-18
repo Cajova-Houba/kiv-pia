@@ -50,7 +50,7 @@ public class MainController {
     @RequestMapping(value = "/{page}", method = RequestMethod.GET)
     public String displayPostFeed(ModelMap modelMap, @PathVariable int page) {
         // load current user
-        User currentUser = authUtils.getCurrentlyLoggerUser();
+        User currentUser = authUtils.getCurrentlyLoggedUserWithProfilePhoto();
 
         // load notifications
         int newFriendReq = friendManager.getNumberOfNewFriendRequests(currentUser);
@@ -98,7 +98,7 @@ public class MainController {
 
             return "main-page";
         }
-        User currentUser = authUtils.getCurrentlyLoggerUser();
+        User currentUser = authUtils.getCurrentlyLoggedUser();
         postManager.createNewPost(newPost.getText(), newPost.getVisibility(), currentUser);
         return "redirect:/feed";
     }

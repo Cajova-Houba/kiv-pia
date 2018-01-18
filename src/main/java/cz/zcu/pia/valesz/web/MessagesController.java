@@ -52,7 +52,7 @@ public class MessagesController {
     @RequestMapping(value = "/{username}", method = RequestMethod.POST)
     public String handleNewMessageInConversation(@PathVariable String username, @RequestParam("msgText") String messageText) {
 
-        User currentUser = authUtils.getCurrentlyLoggerUser();
+        User currentUser = authUtils.getCurrentlyLoggedUser();
         User otherUser = userManager.loadByUsername(username);
 
         // check
@@ -84,8 +84,8 @@ public class MessagesController {
     @RequestMapping(value = "/{username}", method = RequestMethod.GET)
     public String displayMessages(ModelMap modelMap, @PathVariable String username) {
 
-        User currentUser = authUtils.getCurrentlyLoggerUser();
-        User otherUser = userManager.loadByUsername(username);
+        User currentUser = authUtils.getCurrentlyLoggedUserWithProfilePhoto();
+        User otherUser = userManager.loadByUsername(username, true);
 
         if(otherUser == null) {
             return "redirect:/messages";
@@ -122,7 +122,7 @@ public class MessagesController {
     @RequestMapping(method = RequestMethod.GET)
     public String displayPage(ModelMap modelMap) {
 
-        User currentUser = authUtils.getCurrentlyLoggerUser();
+        User currentUser = authUtils.getCurrentlyLoggedUser();
         List<ConversationVO> conversations = messageManager.listConversations(currentUser);
         ConversationVO conversation;
         if(conversations.isEmpty()) {

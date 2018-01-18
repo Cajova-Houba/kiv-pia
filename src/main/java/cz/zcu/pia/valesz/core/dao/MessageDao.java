@@ -19,13 +19,15 @@ public interface MessageDao extends GenericDao<Message, Long> {
 
     /**
      * Returns all messages between user1 and user2, chronologically ordered.
+     * Profile photos are not fetched together with conversation participants.
      *
      * @param user1 First user.
      * @param user2 Second user.
      * @return List of messages between two users.
      */
     @Query("  SELECT m FROM Message m " +
-            " LEFT JOIN FETCH m.receiver LEFT JOIN FETCH m.sender " +
+            " LEFT JOIN FETCH m.receiver mr " +
+            " LEFT JOIN FETCH m.sender ms " +
             " WHERE " +
             " (m.receiver = :u1 AND m.sender = :u2) " +
             " OR (m.receiver = :u2 AND m.sender = :u1) " +

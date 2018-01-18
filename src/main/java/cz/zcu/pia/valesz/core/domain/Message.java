@@ -73,7 +73,7 @@ public class Message {
         this.id = id;
     }
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     public User getSender() {
         return sender;
     }
@@ -82,7 +82,7 @@ public class Message {
         this.sender = sender;
     }
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     public User getReceiver() {
         return receiver;
     }

@@ -20,6 +20,7 @@ public interface MessageManager {
 
     /**
      * Returns a list of last messages from every sender wrapped in ConversationVO.
+     * This method will also fetch profile photos of conversation participants.
      *
      * @param receiver Receiver of the messages.
      * @return Conversations.

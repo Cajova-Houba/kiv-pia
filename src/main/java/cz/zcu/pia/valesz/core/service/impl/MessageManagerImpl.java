@@ -8,7 +8,6 @@ import cz.zcu.pia.valesz.core.domain.Message;
 import cz.zcu.pia.valesz.core.domain.MessageState;
 import cz.zcu.pia.valesz.core.domain.User;
 import cz.zcu.pia.valesz.core.service.MessageManager;
-import cz.zcu.pia.valesz.core.service.UserManager;
 import cz.zcu.pia.valesz.web.vo.ConversationVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -21,15 +20,8 @@ import java.util.List;
 public class MessageManagerImpl implements MessageManager {
 
     @Autowired
-    @Qualifier("messageDaoDummy")
-    private MessageDao messageDaoDummy;
-
-    @Autowired
     @Qualifier("messageDao")
     private MessageDao messageDao;
-
-    @Autowired
-    private UserManager userManager;
 
     @Autowired
     @Qualifier("userDao")
@@ -49,9 +41,14 @@ public class MessageManagerImpl implements MessageManager {
         List<ConversationVO> conversations = new ArrayList<>();
 
         // load last messages and wrap them in conversation view objects
-        List<Message> lastMessages = conversationDao.listLastMessagesInConversations(receiver);
-        for(Message lastMessage : lastMessages) {
+        List<Conversation> convs = conversationDao.listConversationsByUser(receiver);
+        for(Conversation conversation : convs) {
+            Message lastMessage = conversation.getLastMessage();
             User otherUser = lastMessage.getReceiver().equals(receiver) ? lastMessage.getSender() : lastMessage.getReceiver();
+
+            // users which are bound to the conversation object have profile photos fetched with them, so those should be used in the
+            // returned objects
+            otherUser = otherUser.equals(conversation.getFirstUser()) ? conversation.getFirstUser() : conversation.getSecondUser();
 
             // mark conversation as new if there are some unread messages for receiver
             boolean newFlag = false;

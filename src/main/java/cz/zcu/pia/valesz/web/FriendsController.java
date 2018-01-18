@@ -37,7 +37,7 @@ public class FriendsController {
     @RequestMapping(method = RequestMethod.GET)
     public String displayPage(Model model) {
 
-        User currentUser = authUtils.getCurrentlyLoggerUser();
+        User currentUser = authUtils.getCurrentlyLoggedUserWithProfilePhoto();
         List<FriendRequest> newRequests = friendManager.listNewFriendRequests(currentUser);
         List<FriendRequest> friendships = friendManager.listFriendships(currentUser);
 

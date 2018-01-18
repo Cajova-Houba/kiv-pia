@@ -48,7 +48,9 @@ public interface FriendManager {
     int getNumberOfNewFriendRequests(User user);
 
     /**
-     * Returns a list of friend requests to which user hasn't responded yet.,
+     * Returns a list of friend requests to which user hasn't responded yet.
+     * Profile photos are returned together with user in friend requests.
+     *
      * @param user User whose new requests will be listed.
      * @return List of new requests.
      */
@@ -56,6 +58,8 @@ public interface FriendManager {
 
     /**
      * Lists friendships of a user. Those are accepted requests where the user is receiver.
+     * Profile photos are returned together with user in friend requests.
+     *
      * @param user Requests with this user as receiver will be listed.
      * @return Accepted requests.
      */

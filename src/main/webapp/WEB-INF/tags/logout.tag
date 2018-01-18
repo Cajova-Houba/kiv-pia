@@ -1,3 +1,7 @@
+<%--
+    Custom tag which will render logout button as spring form.
+--%>
+
 <%@ attribute name="logoutLink" required="true" rtexprvalue="true" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 

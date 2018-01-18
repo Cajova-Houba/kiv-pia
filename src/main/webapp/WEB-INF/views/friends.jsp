@@ -39,7 +39,7 @@
         <div class="row">
             <div class="col-md-4 user-panel">
                 <div class="row">
-                    <img src="data:image/png;base64,${currentUser.profilePhoto}" class="img-thumbnail" alt="Profile photo">
+                    <kivbook:image kivbookImage="${currentUser.profilePhoto}" alt="Profile ptoho"/>
                 </div>
                 <div class="row">
                     <h4><a href="${feedLink}">${currentUser.fullName}</a></h4>
@@ -56,7 +56,7 @@
                             <div class="card-body">
                                 <div class="row">
                                     <div class="col-md-3">
-                                        <img src="data:image/png;base64,${newRequest.sender.profilePhoto}" class="img-thumbnail medium-thumbnail" alt="${newRequest.sender.fullName}" width="64" height="64">
+                                        <kivbook:image kivbookImage="${newRequest.sender.profilePhoto}" alt="${newRequest.sender.fullName}" />
                                     </div>
                                     <div class="col-md-9">
                                         <div class="row">
@@ -96,7 +96,7 @@
                                 <div class="card card-borderless">
                                     <div class="card-body user-panel">
                                         <div class="row justify-content-center">
-                                            <img src="data:image/png;base64,${friendship.sender.profilePhoto}" class="img-thumbnail medium-thumbnail" alt="${friendship.sender.fullName}" width="64" height="64">
+                                            <kivbook:image kivbookImage="${friendship.sender.profilePhoto}" alt="${friendship.sender.fullName}" classes="medium-thumbnail"/>
                                         </div>
                                         <div class="row justify-content-center">
                                             <a href="${feedLink}">${friendship.sender.fullName}</a>

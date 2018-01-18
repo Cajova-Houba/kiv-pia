@@ -15,6 +15,7 @@ public interface PostManager {
 
     /**
      * Returns the current post feed which should be displayed to user.
+     *
      * @param user User whose post feed is about to be displayed.
      * @return Posts to be displayed.
      */
@@ -22,6 +23,7 @@ public interface PostManager {
 
     /**
      * Returns one page of the current post feed for a user.
+     * Posts returned by this method will also have users with their profile photos loaded.
      *
      * @param user User whose post feed is about to be displayed.
      * @param pageRequest Object containing paging details. If the requested page is out of bounds, the first one will

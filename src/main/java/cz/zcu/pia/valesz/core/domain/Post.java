@@ -29,6 +29,7 @@ public class Post {
      * User who posted this.
      */
     @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name="owner_id")
     private User owner;
 
     /**

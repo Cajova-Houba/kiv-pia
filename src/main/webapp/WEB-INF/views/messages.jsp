@@ -40,7 +40,7 @@
         <div class="row">
             <div class="col-md-4 user-panel">
                 <div class="row">
-                    <img src="data:image/png;base64,${currentUser.profilePhoto}" class="img-thumbnail" alt="Profile photo">
+                    <kivbook:image kivbookImage="${currentUser.profilePhoto}" alt="Profile photo"/>
                 </div>
                 <div class="row">
                     <h4><a href="${feedLink}">${currentUser.fullName}</a></h4>
@@ -67,7 +67,7 @@
                                 <div class="card-body">
                                     <div class="row">
                                         <div class="col-md-3">
-                                            <img src="data:image/png;base64,${conv.secondUser.profilePhoto}" class="img-thumbnail" alt="${conv.secondUser.fullName}" height="16">
+                                            <kivbook:image kivbookImage="${conv.secondUser.profilePhoto}" alt="${conv.secondUser.fullName}"/>
                                         </div>
                                         <div class="col-md-9">
                                             <div class="row">
@@ -99,9 +99,6 @@
                         <h4>${conversation.secondUser.fullName}</h4>
                         <div class="card">
                             <div class="card-body">
-                                <!-- <div class="row">
-                                    <h4>Hustej uživatel</h4>
-                                </div> -->
                                 <fmt:formatDate value="${conversation.oldestMessage.timestamp}" pattern="dd" var="curDay"/>
                                 <c:set var="counter" value="1" />
                                 <c:forEach items="${conversation.messages}" var="msg">

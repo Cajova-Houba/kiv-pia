@@ -21,7 +21,15 @@ public interface FriendDao extends GenericDao<FriendRequest, Long> {
      *                           find all friendships of a receiver.
      * @return List of friend requests.
      */
-    List<FriendRequest> findByReceiverAndFriendRequestState(User receiver, FriendRequestState friendRequestState);
+    @Query("  SELECT fr FROM FriendRequest fr " +
+            " LEFT JOIN FETCH fr.receiver rec " +
+            " LEFT JOIN FETCH fr.sender sen " +
+            " LEFT JOIN FETCH rec.profilePhoto " +
+            " LEFT JOIN FETCH sen.profilePhoto " +
+            " WHERE " +
+            " fr.friendRequestState = :friendRequestState " +
+            " AND fr.receiver = :receiver")
+    List<FriendRequest> findByReceiverAndFriendRequestState(@Param("receiver") User receiver,@Param("friendRequestState") FriendRequestState friendRequestState);
 
     /**
      * Returns a list of friend requests where user is receiver or sender.
@@ -30,6 +38,11 @@ public interface FriendDao extends GenericDao<FriendRequest, Long> {
      * @param friendRequestState Particular state.
      * @return Users friend requests.
      */
-    @Query("SELECT fr FROM FriendRequest fr WHERE fr.friendRequestState = :friendRequestState AND (fr.receiver = :user OR fr.sender = :user)")
+    @Query("  SELECT fr FROM FriendRequest fr " +
+            " LEFT JOIN FETCH fr.receiver " +
+            " LEFT JOIN FETCH fr.sender " +
+            " WHERE " +
+            " fr.friendRequestState = :friendRequestState " +
+            " AND (fr.receiver = :user OR fr.sender = :user)")
     List<FriendRequest> findUsersFriendRequests(@Param("user") User user, @Param("friendRequestState") FriendRequestState friendRequestState);
 }

@@ -1,7 +1,6 @@
 package cz.zcu.pia.valesz.core.dao;
 
 import cz.zcu.pia.valesz.core.domain.Conversation;
-import cz.zcu.pia.valesz.core.domain.Message;
 import cz.zcu.pia.valesz.core.domain.User;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -26,14 +25,20 @@ public interface ConversationDao extends GenericDao<Conversation, Long> {
     Conversation getConversationBetweenUsers(@Param("user1") User user1, @Param("user2") User user2);
 
     /**
-     * Returns a list of last messages between one user and list of other users.
-     * So basically a list of last messages from conversations between one user and list of other users.
+     * Returns a list of conversations between two users. Conversations participants are fetched
+     * together with their profile photos.
+     * Profiles photos are fetched together with user objects.
      *
      * @param receiver Receiver/sender of the messages.
      * @return List of last messages from conversations user had ever took part in.
      */
-    @Query("  SELECT c.lastMessage FROM Conversation c " +
+    @Query("  SELECT c FROM Conversation c " +
+            " LEFT JOIN FETCH c.lastMessage lm" +
+            " LEFT JOIN FETCH c.firstUser fu " +
+            " LEFT JOIN FETCH c.secondUser su " +
+            " LEFT JOIN FETCH fu.profilePhoto " +
+            " LEFT JOIN FETCH su.profilePhoto " +
             " WHERE " +
             " c.firstUser = :user OR c.secondUser = :user")
-    List<Message> listLastMessagesInConversations(@Param("user") User receiver);
+    List<Conversation> listConversationsByUser(@Param("user") User receiver);
 }

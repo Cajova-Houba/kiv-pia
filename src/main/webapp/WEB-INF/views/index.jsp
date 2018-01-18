@@ -102,7 +102,7 @@
                                 </div>
                             </div>
                         </div>
-
+                        
                         <div class="form-group">
                             <form:label path="acceptTerms">Accept terms of use </form:label>
                             <form:checkbox path="acceptTerms" />

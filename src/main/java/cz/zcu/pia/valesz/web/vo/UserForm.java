@@ -20,6 +20,7 @@ public class UserForm implements Serializable {
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     private Date birthDate;
     private String gender;
+    private String profilePhoto;
     private boolean acceptTerms;
 
     public UserForm() {
@@ -87,6 +88,14 @@ public class UserForm implements Serializable {
 
     public void setGender(String gender) {
         this.gender = gender;
+    }
+
+    public String getProfilePhoto() {
+        return profilePhoto;
+    }
+
+    public void setProfilePhoto(String profilePhoto) {
+        this.profilePhoto = profilePhoto;
     }
 
     public boolean isAcceptTerms() {

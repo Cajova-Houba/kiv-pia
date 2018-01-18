@@ -36,6 +36,21 @@ public class UserManagerImpl implements UserManager, SocialUserDetailsService {
     private PasswordEncoder passwordEncoder;
 
     @Override
+    public User loadByUsername(String username, boolean fetchProfilePhoto) {
+        if(fetchProfilePhoto) {
+            User user = userDao.findByUsernameFetchProfilePhoto(username);
+            if(user == null) {
+                log.warn("User with username {} not found!", username);
+                throw new UsernameNotFoundException("User with username "+username+" not found!");
+            }
+
+            return user;
+        } else {
+            return loadByUsername(username);
+        }
+    }
+
+    @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userDao.findByUsername(username);
         if(user == null) {

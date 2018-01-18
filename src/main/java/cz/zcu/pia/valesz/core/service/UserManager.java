@@ -32,6 +32,15 @@ public interface UserManager extends UserDetailsService{
     User findById(Long id);
 
     /**
+     * Loads user and optionally also his profile photo.
+     *
+     * @param username Username.
+     * @param fetchProfilePhoto If true, user's profile photo will be loaded also.
+     * @return User with his profile photo or null if no user is found.
+     */
+    User loadByUsername(String username, boolean fetchProfilePhoto);
+
+    /**
      * Loads user by his username.
      * @param username Username.
      * @return User or null if no user is found.

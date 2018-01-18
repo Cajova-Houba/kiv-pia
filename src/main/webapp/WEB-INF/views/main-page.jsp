@@ -42,7 +42,7 @@
         <div class="row">
             <div class="col-md-4 user-panel">
                 <div class="row">
-                    <img src="data:image/png;base64,${currentUser.profilePhoto}" class="img-thumbnail" alt="Profile photo">
+                    <kivbook:image kivbookImage="${currentUser.profilePhoto}" alt="Profile photo"/>
                 </div>
                 <div class="row">
                     <h4><a href="${feedLink}">${currentUser.fullName}</a></h4>
@@ -71,7 +71,7 @@
                         <form:form method="post" action="${feedLink}" modelAttribute="newPost">
                             <div class="row">
                                 <div class="col-md-3">
-                                    <img src="data:image/png;base64,${currentUser.profilePhoto}" class="img-thumbnail" alt="Profile photo" height="32">
+                                    <kivbook:image kivbookImage="${currentUser.profilePhoto}" alt="Profile photo"/>
                                 </div>
                                 <div class="col-md-9">
                                     <form:input path="text" placeholder="Say something..." class="form-control" maxlength="1000" required="required"/>
@@ -156,7 +156,7 @@
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-md-3">
-                                    <a href="#"><img src="data:image/png;base64,${post.owner.profilePhoto}" class="img-thumbnail" alt="${post.owner.fullName}" height="32"></a>
+                                    <a href="#"><kivbook:image kivbookImage="${post.owner.profilePhoto}" alt="${post.owner.fullName}" /></a>
                                 </div>
                                 <div class="col-md-9">
                                     ${post.text}
