@@ -14,6 +14,27 @@ import java.util.List;
 public interface FriendDao extends GenericDao<FriendRequest, Long> {
 
     /**
+     * Returns a friend request without sender and receiver.
+     *
+     * @param id Friend request id.
+     * @return Friend request or null.
+     */
+    @Override
+    FriendRequest getOne(Long id);
+
+    /**
+     * Returns a friend request by its id with both sender and receiver fetched (no profile photos though).
+     * @param id Friend request id.
+     * @return Friend request or null.
+     */
+    @Query("  SELECT fr FROM FriendRequest fr " +
+            " LEFT JOIN FETCH fr.sender " +
+            " LEFT JOIN FETCH fr.receiver " +
+            " WHERE " +
+            " fr.id = :id")
+    FriendRequest getOneWithUsers(@Param("id") Long id);
+
+    /**
      * Returns a list of friend request by receiver with particular state.
      *
      * @param receiver Receiver of friend requests.

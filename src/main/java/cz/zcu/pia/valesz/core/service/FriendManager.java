@@ -32,7 +32,7 @@ public interface FriendManager {
      * @param request Request to be declined.
      * @return Declined request object.
      */
-    FriendRequest declineRequest(FriendRequest request);
+    FriendRequest rejectRequest(FriendRequest request);
 
     /**
      * Cancels given request. If the request isn't in pending state, exception will be thrown.
@@ -83,4 +83,12 @@ public interface FriendManager {
      * @return True if there's any request between two users.
      */
     boolean connectionExists(User user1, User user2);
+
+    /**
+     * Returns friend request with this id. Sender and receiver are fetched.
+     *
+     * @param id Id.
+     * @return Friend request or null if it doesn't exist.
+     */
+    FriendRequest findByIdFetchUsers(long id);
 }

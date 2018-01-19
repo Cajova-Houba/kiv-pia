@@ -30,12 +30,14 @@ public class FriendManagerImpl implements FriendManager {
 
     @Override
     public FriendRequest acceptRequest(FriendRequest request) {
-        return null;
+        request.accept();
+        return friendDao.save(request);
     }
 
     @Override
-    public FriendRequest declineRequest(FriendRequest request) {
-        return null;
+    public FriendRequest rejectRequest(FriendRequest request) {
+        request.reject();
+        return friendDao.save(request);
     }
 
     @Override
@@ -73,5 +75,10 @@ public class FriendManagerImpl implements FriendManager {
         // there's at least one ACCEPTED/PENDING request => connection exists
         List<FriendRequest> requests = friendDao.findConnectionByUsers(user1, user2, Arrays.asList(FriendRequestState.ACCEPTED, FriendRequestState.PENDING));
         return !requests.isEmpty();
+    }
+
+    @Override
+    public FriendRequest findByIdFetchUsers(long id) {
+        return friendDao.getOneWithUsers(id);
     }
 }

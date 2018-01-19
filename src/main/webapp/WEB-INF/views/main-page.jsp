@@ -48,8 +48,9 @@
                                 </div>
                                 <div class="col-md-9">
                                     <div class="float-right">
+                                        <form:label path="visibility" cssClass="text-muted small-font">Visible to</form:label>
                                         <form:select path="visibility" cssClass="from-control text-muted small-font">
-                                            <form:options items="${allowedVisibilities}" />
+                                            <form:options items="${allowedVisibilities}" id="visibilities" />
                                         </form:select>
                                         <input type="submit" name="submit-post" class="btn btn-success" value="Post!">
                                     </div>

@@ -8,6 +8,7 @@
 <c:url value="/logout" var="logoutLink"/>
 <c:url value="/feed" var="feedLink"/>
 <c:url value="/profile" var="profileLink"/>
+<c:url value="/friends" var="friendsLink" />
 
 <!DOCTYPE html>
 <html lang="en">
@@ -31,7 +32,16 @@
                     </div>
 
                     <div class="row">
-                        <h5>New friend requests:</h5>
+                        <h5>
+                            <c:choose>
+                                <c:when test="${newRequests.size()>0}">
+                                    New friends requests
+                                </c:when>
+                                <c:otherwise>
+                                    No friend requests
+                                </c:otherwise>
+                            </c:choose>
+                        </h5>
                     </div>
 
                     <!-- new friend requets -->
@@ -52,10 +62,16 @@
                                             </div>
                                             <div class="row">
                                                 <div class="col-md-6">
-                                                    <button class="btn btn-success">OK</button>
+                                                    <form:form method="post" action="${friendsLink}/accept">
+                                                        <input type="hidden" name="requestId" value="${newRequest.id}">
+                                                        <button type="submit" class="btn btn-success">OK</button>
+                                                    </form:form>
                                                 </div>
                                                 <div class="col-md-6">
-                                                    <button class="btn btn-danger">X</button>
+                                                    <form:form method="post" action="${friendsLink}/reject">
+                                                        <input type="hidden" name="requestId" value="${newRequest.id}">
+                                                        <button class="btn btn-danger">X</button>
+                                                    </form:form>
                                                 </div>
                                             </div>
                                         </div>

@@ -16,12 +16,12 @@ public class FriendRequest {
     private Long id;
 
     /**
-     * User who sent the request.
+     * User who sent the request. Probably won't be needed every time - so lazy fetched.
      */
     private User sender;
 
     /**
-     * User who will either accept or reject the request.
+     * User who will either accept or reject the request.  Probably won't be needed every time - so lazy fetched.
      */
     private User receiver;
 
@@ -68,7 +68,7 @@ public class FriendRequest {
         this.id = id;
     }
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     public User getSender() {
         return sender;
     }
@@ -77,7 +77,7 @@ public class FriendRequest {
         this.sender = sender;
     }
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     public User getReceiver() {
         return receiver;
     }
@@ -132,6 +132,20 @@ public class FriendRequest {
     @Transient
     public boolean isAccepted() {
         return getFriendRequestState() == FriendRequestState.ACCEPTED;
+    }
+
+    /**
+     * Sets the state of this request to ACCEPTED.
+     */
+    public void accept() {
+        setFriendRequestState(FriendRequestState.ACCEPTED);
+    }
+
+    /**
+     * Sets the state of this request to REJECTED.
+     */
+    public void reject() {
+        setFriendRequestState(FriendRequestState.REJECTED);
     }
 
     /**

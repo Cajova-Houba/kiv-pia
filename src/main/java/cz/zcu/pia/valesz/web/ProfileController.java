@@ -174,16 +174,9 @@ public class ProfileController {
         if(bindingResult.hasErrors()) {
             log.warn("There are errors in binding result!");
 
-            // load stuff to be displayed with error again
-            int newFriendReq = friendManager.getNumberOfNewFriendRequests(currentUser);
-            int newMsgs = messageManager.getNumberOfNewMessages(currentUser);
-
-            modelMap.addAttribute("newMsgs", newMsgs);
-            modelMap.addAttribute("newFriendReq", newFriendReq);
-            modelMap.addAttribute("user", authUtils.getCurrentlyLoggedUserWithProfilePhoto());
-            modelMap.addAttribute("isCurrentUser", true);
-            modelMap.addAttribute("isEditMode", true);
-            modelMap.addAttribute("isAnonymous",false);
+            // load user again, this time with his profile photo
+            currentUser = authUtils.getCurrentlyLoggedUserWithProfilePhoto();
+            addCommonAttributesToModelMap(modelMap, true, true, false, false, currentUser, currentUser);
             return "profile";
         }
 
@@ -215,17 +208,8 @@ public class ProfileController {
             return "redirect:/profile/"+username;
         }
 
-        // load notifications
-        int newFriendReq = friendManager.getNumberOfNewFriendRequests(currentUser);
-        int newMsgs = messageManager.getNumberOfNewMessages(currentUser);
-
-        modelMap.addAttribute("newMsgs", newMsgs);
-        modelMap.addAttribute("newFriendReq", newFriendReq);
-        modelMap.addAttribute("user", currentUser);
         modelMap.addAttribute("userForm", new ProfileUpdateForm(currentUser));
-        modelMap.addAttribute("isCurrentUser", true);
-        modelMap.addAttribute("isEditMode", true);
-        modelMap.addAttribute("isAnonymous",false);
+        addCommonAttributesToModelMap(modelMap, true, true, false, false, currentUser, currentUser);
 
         return "profile";
     }
@@ -275,22 +259,9 @@ public class ProfileController {
         // if false, 'Send friend request' button will be displayed
         boolean isConnection = friendManager.connectionExists(currentUser, user);
 
-        int newFriendReq = 0;
-        int newMsgs = 0;
-        if(isCurrentUser) {
-            // load notifications
-            newFriendReq = friendManager.getNumberOfNewFriendRequests(user);
-            newMsgs = messageManager.getNumberOfNewMessages(user);
-        }
-
-        modelMap.addAttribute("newMsgs", newMsgs);
-        modelMap.addAttribute("newFriendReq", newFriendReq);
-        modelMap.addAttribute("user", user);
+        // add attributes
         modelMap.addAttribute("userForm", new ProfileUpdateForm(user));
-        modelMap.addAttribute("isCurrentUser", isCurrentUser);
-        modelMap.addAttribute("isEditMode", false);
-        modelMap.addAttribute("isAnonymous",isAnonymous);
-        modelMap.addAttribute("isConnection", isConnection);
+        addCommonAttributesToModelMap(modelMap, isCurrentUser, false, isAnonymous, isConnection, user, currentUser);
 
         return "profile";
     }
@@ -311,5 +282,34 @@ public class ProfileController {
         return "redirect:/profile/"+currentUser.getUsername();
     }
 
+    /**
+     * Adds common attributes for profile.jsp page such as flags and data objects.
+     * New message and friend request counts are added automatically.
+     *
+     * @param modelMap Model map to which attributes will be added.
+     * @param isCurrentUser Whether the viewed user is the same as the current one.
+     * @param isEditMode Whether the profile edit form should be displayed.
+     * @param isAnonymous Whether the viewer is logged in or not.
+     * @param isConnection Whether there is any existing connection between viewer and viewed user.
+     * @param user User object to contain viewed user's date (but not for profile display/form, those are passed separately).
+     * @param currentUser Currently logged user. User for obtaining new messages/requests counts.
+     */
+    private void addCommonAttributesToModelMap(ModelMap modelMap,boolean isCurrentUser, boolean isEditMode, boolean isAnonymous, boolean isConnection, User user, User currentUser) {
+        int newFriendReq = 0;
+        int newMsgs = 0;
+        if(isCurrentUser) {
+            // load notifications
+            newFriendReq = friendManager.getNumberOfNewFriendRequests(user);
+            newMsgs = messageManager.getNumberOfNewMessages(user);
+        };
+
+        modelMap.addAttribute("newFriendReq", newFriendReq);
+        modelMap.addAttribute("newMsgs", newMsgs);
+        modelMap.addAttribute("isCurrentUser", isCurrentUser);
+        modelMap.addAttribute("isEditMode", isEditMode);
+        modelMap.addAttribute("isAnonymous",isAnonymous);
+        modelMap.addAttribute("isConnection", isConnection);
+        modelMap.addAttribute("user", user);
+    }
 
 }

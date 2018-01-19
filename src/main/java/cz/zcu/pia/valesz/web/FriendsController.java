@@ -14,6 +14,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -34,6 +35,86 @@ public class FriendsController {
 
     @Autowired
     private UserManager userManager;
+
+    /**
+     * Just redirect back to friends this needs to be done by POST request.
+     * @return
+     */
+    @RequestMapping(value = "/reject", method = RequestMethod.GET)
+    public String handleGetRejectFriendRequest() {
+        return "redirect:/friends";
+    }
+
+    /**
+     * Handles rejecting a request. The request must be in PENDING state to be rejected.
+     * Only logged user can reject request and only if he is the receiver.
+     *
+     * @param requestId
+     * @return
+     */
+    @RequestMapping(value = "/reject", method = RequestMethod.POST)
+    public String handleRejectFriendRequest(@RequestParam("requestId") long requestId) {
+        log.info("Rejecting request {}.", requestId);
+
+        // load the request
+        FriendRequest toBeRejected = checkRequestAndReceiver(requestId);
+        if(toBeRejected == null) {
+            // logging is done in the helper method
+            return "redirect:/friends";
+        }
+
+        // check if it's rejectable
+        if(!toBeRejected.isNew()) {
+            log.warn("Request {} is not rejectable!", requestId);
+            return "redirect:/friends";
+        }
+
+        // reject the request
+        friendManager.rejectRequest(toBeRejected);
+        log.info("Request rejected.");
+
+        return "redirect:/friends";
+    }
+
+    /**
+     * Just redirect back to friends this needs to be done by POST request.
+     * @return
+     */
+    @RequestMapping(value = "/accept", method = RequestMethod.GET)
+    public String handleGetAcceptFriendRequest() {
+        return "redirect:/friends";
+    }
+
+    /**
+     * Handles accepting a request. The request must be in PENDING state to be accepted.
+     * Only logged user can accept request and only if he is the receiver.
+     *
+     * @param requestId Id of a request to be accepted.
+     * @return
+     */
+    @RequestMapping(value = "/accept", method = RequestMethod.POST)
+    public String handleAcceptFriendRequest(@RequestParam("requestId") long requestId) {
+        log.info("Accepting request {}.",requestId);
+
+        // load the request
+        FriendRequest toBeAccepted = checkRequestAndReceiver(requestId);
+        if(toBeAccepted == null) {
+            // logging is done in the helper method
+            return "redirect:/friends";
+        }
+
+        // check if it's acceptable
+        if(!toBeAccepted.isNew()) {
+            log.warn("Request {} is not acceptable!", requestId);
+            return "redirect:/friends";
+        }
+
+        // accept the request
+        friendManager.acceptRequest(toBeAccepted);
+        log.info("Request accepted.");
+
+        return "redirect:/friends";
+    }
 
     @RequestMapping(value = "/send/{username}", method = RequestMethod.GET)
     public String handleGetFriendReqSending(@PathVariable String username) {
@@ -96,5 +177,28 @@ public class FriendsController {
         model.addAttribute("friendships", friendships);
 
         return "friends";
+    }
+
+    /**
+     * Checks if the request with this id exists and that the currently logged user is the sender.
+     * @param requestId Id of a request.
+     * @return FriendRequest object if it exists and user is the sender. Null otherwise.
+     */
+    private FriendRequest checkRequestAndReceiver(long requestId) {
+        // load the request and check if it exists
+        FriendRequest toBeChecked = friendManager.findByIdFetchUsers(requestId);
+        if(toBeChecked == null) {
+            log.warn("Friend request with id {} doesn't exist!", requestId);
+            return null;
+        }
+
+        // check that the current user is the sender
+        User currentUser = authUtils.getCurrentlyLoggedUser();
+        if(!currentUser.equals(toBeChecked.getReceiver())) {
+            log.warn("Current user {} isn't the same as receiver {}!", currentUser.getUsername(), toBeChecked.getSender().getUsername());
+            return null;
+        }
+
+        return toBeChecked;
     }
 }
