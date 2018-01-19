@@ -16,7 +16,7 @@
         <div class="row">
             <div class="col-md-3">
             </div>
-            <div class="col-md-6 ">
+            <div class="col-md-6 text-center">
                 <h3>Congratulations! You are now a member of our family!</h3>
                 <p>
                     You can now <a href="${loginLink}">login</a>.

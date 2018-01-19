@@ -3,6 +3,7 @@ package cz.zcu.pia.valesz.web.vo;
 import cz.zcu.pia.valesz.core.domain.Message;
 import cz.zcu.pia.valesz.core.domain.User;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -83,6 +84,22 @@ public class ConversationVO {
 
     public Message getOldestMessage() {
         return messages.get(0);
+    }
+
+    /**
+     * Returns all messages with SENT state with user as receiver.
+     * @param user Message receiver.
+     * @return
+     */
+    public List<Message> listUnreadMessagesForUser(User user) {
+        List<Message> msgs = new ArrayList<>();
+        for(Message m : getMessages()) {
+            if(m.isNew() && m.getReceiver().equals(user)) {
+                msgs.add(m);
+            }
+        }
+
+        return msgs;
     }
 
     /**

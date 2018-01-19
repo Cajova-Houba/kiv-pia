@@ -12,17 +12,19 @@
 
 
 <div class="row user-menu">
-    <ul>
-        <li><a href="${profileLink}"><b>P</b>rofile</a> </li>
-        <li><a href="${messagesLink}"><b>M</b>essages
-            <c:if test="${newMsgsCount > 0}">
-                <span class="text-highlight">${newMsgsCount}</span>
-            </c:if>
-        </a></li>
-        <li><a href="${friendsLink}"><b>F</b>riends
-            <c:if test="${newFriendsCount > 0}">
-                <span class="text-highlight">${newFriendsCount}</span>
-            </c:if>
-        </a></li>
-    </ul>
+    <div class="col-md-12">
+        <ul>
+            <li><a href="${profileLink}"><b>P</b>rofile</a> </li>
+            <li><a href="${messagesLink}"><b>M</b>essages
+                <c:if test="${newMsgsCount > 0}">
+                    <span class="text-highlight">${newMsgsCount}</span>
+                </c:if>
+            </a></li>
+            <li><a href="${friendsLink}"><b>F</b>riends
+                <c:if test="${newFriendsCount > 0}">
+                    <span class="text-highlight">${newFriendsCount}</span>
+                </c:if>
+            </a></li>
+        </ul>
+    </div>
 </div>

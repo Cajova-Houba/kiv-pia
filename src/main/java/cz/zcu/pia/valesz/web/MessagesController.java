@@ -162,9 +162,12 @@ public class MessagesController {
 
         // load main conversation
         ConversationVO currentConversation = messageManager.getConversation(currentUser, otherUser);
-        // if the last message in conversation was sent to the current user, mark it as read
-        if(!currentConversation.getMessages().isEmpty() && currentConversation.getNewestMessage().getReceiver().equals(currentUser)) {
-            messageManager.markAsRead(currentConversation.getNewestMessage());
+        // mark as read any unread messages received by current user
+        // so that if more messages are sent, all of them are marked as read
+        if(!currentConversation.getMessages().isEmpty() ) {
+            for(Message unreadMessage : currentConversation.listUnreadMessagesForUser(currentUser)) {
+                messageManager.markAsRead(unreadMessage);
+            }
         }
 
         // load other conversations
