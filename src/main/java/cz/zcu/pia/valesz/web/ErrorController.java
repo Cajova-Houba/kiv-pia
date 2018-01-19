@@ -28,19 +28,23 @@ public class ErrorController {
 
         switch (httpErrorCode) {
             case 400: {
-                errorMsg = "Http Error Code: 400. Bad Request";
+                errorMsg = "Bad request. Data you have sent me are most likely not correct.";
                 break;
             }
             case 401: {
-                errorMsg = "Http Error Code: 401. Unauthorized";
+                errorMsg = "Sorry, but you can't access this. Go back and try to log in first.";
+                break;
+            }
+            case 403: {
+                errorMsg = "Sorry, but you can't access this.";
                 break;
             }
             case 404: {
-                errorMsg = "Http Error Code: 404. Resource not found";
+                errorMsg = "Page you are looking was not found.";
                 break;
             }
             case 500: {
-                errorMsg = "Http Error Code: 500. Internal Server Error";
+                errorMsg = "500: Something nasty must have happened...";
                 break;
             }
         }

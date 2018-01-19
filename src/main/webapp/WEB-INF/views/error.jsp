@@ -22,17 +22,11 @@
         <div class="row">
             <div class="col-md-3">
             </div>
-            <div class="col-md-6 text-danger">
+            <div class="col-md-6 text-danger text-center">
                 <h3>An error has occurred</h3>
                 <c:if test="${errorMsg != null}">
                     <p>
                             ${errorMsg}
-                    </p>
-                </c:if>
-
-                <c:if test="${ex != null}">
-                    <p>
-                        Exception: ${ex}.
                     </p>
                 </c:if>
             </div>

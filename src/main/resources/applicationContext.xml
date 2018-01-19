@@ -25,13 +25,6 @@
         </property>
     </bean>
 
-    <!--<bean id="mappingExceptionResolver" class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">-->
-        <!--<property name="defaultErrorView" value="error"/>-->
-        <!--<property name="exceptionAttribute" value="ex"/>-->
-
-        <!--<property name="warnLogCategory" value="exceptionResolver.logger"/>-->
-    <!--</bean>-->
-
     <!-- other beans -->
     <bean id="authUtils" class="cz.zcu.pia.valesz.core.service.AuthUtils"/>
     <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
