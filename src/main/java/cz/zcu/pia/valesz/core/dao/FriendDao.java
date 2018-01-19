@@ -64,4 +64,20 @@ public interface FriendDao extends GenericDao<FriendRequest, Long> {
             "  OR (fr.receiver = :user2 AND fr.sender = :user1)" +
             " )")
     FriendRequest findByUsersAndState(@Param("user1") User user1, @Param("user2") User user2, @Param("friendRequestState") FriendRequestState friendRequestState);
+
+    /**
+     * Returns a friend request object between tow users if it exists, otherwise null is returned.
+     *
+     * @param user1 First user.
+     * @param user2 Second user.
+     * @return Friend request object or null.
+     */
+    @Query("  SELECT fr FROM FriendRequest fr " +
+            " LEFT JOIN FETCH fr.receiver " +
+            " LEFT JOIN FETCH fr.sender " +
+            " WHERE " +
+            " (fr.receiver = :user1 AND fr.sender = :user2) " +
+            "  OR (fr.receiver = :user2 AND fr.sender = :user1)" +
+            " ")
+    FriendRequest findByUsers(@Param("user1") User user1, @Param("user2") User user2);
 }

@@ -7,6 +7,7 @@
 <spring:url value="/resources/css/style.css" var="myStyle" />
 <c:url value="/logout" var="logoutLink"/>
 <c:url value="/feed" var="feedLink"/>
+<c:url value="/profile" var="profileLink"/>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -24,21 +25,30 @@
                     </div>
 
                     <div class="row">
+                        <p>
+                            To make new friends go to user's profile (you can search them by their username) where you can send friend requests to them.
+                        </p>
+                    </div>
+
+                    <div class="row">
                         <h5>New friend requests:</h5>
                     </div>
 
                     <!-- new friend requets -->
                     <c:forEach items="${newRequests}" var="newRequest" >
+                        <c:set var="otherUser" value="${newRequest.sender}"/>
                         <div class="row">
                             <div class="card conversation-card card-unread">
                                 <div class="card-body">
                                     <div class="row">
                                         <div class="col-md-3">
-                                            <kivbook:image kivbookImage="${newRequest.sender.profilePhoto}" alt="${newRequest.sender.fullName}" />
+                                            <a href="${profileLink}/${otherUser.username}">
+                                                <kivbook:image kivbookImage="${otherUser.profilePhoto}" alt="${otherUser.fullName}" classes="medium-thumbnail"/>
+                                            </a>
                                         </div>
                                         <div class="col-md-9">
                                             <div class="row">
-                                                <b>${newRequest.sender.fullName}</b>
+                                                <a href="${profileLink}/${otherUser.username}"><b>${otherUser.fullName}</b></a>
                                             </div>
                                             <div class="row">
                                                 <div class="col-md-6">
@@ -63,6 +73,7 @@
                         <div class="card-body">
                             <c:set var="rowItemCount" value="0" scope="page" />
                             <c:forEach items="${friendships}" var="friendship">
+                                <c:set var="otherUser" value="${friendship.getOtherUser(currentUser)}"/>
                                 <%-- start new row after 4 friendships to make table-like structure --%>
                                 <c:if test="${rowItemCount % 4 ==0}">
                                     <div class="row">
@@ -74,10 +85,12 @@
                                     <div class="card card-borderless">
                                         <div class="card-body user-panel">
                                             <div class="row justify-content-center">
-                                                <kivbook:image kivbookImage="${friendship.sender.profilePhoto}" alt="${friendship.sender.fullName}" classes="medium-thumbnail"/>
+                                                <a href="${profileLink}/${otherUser.username}">
+                                                    <kivbook:image kivbookImage="${otherUser.profilePhoto}" alt="${otherUser.fullName}" classes="medium-thumbnail"/>
+                                                </a>
                                             </div>
                                             <div class="row justify-content-center">
-                                                <a href="${feedLink}">${friendship.sender.fullName}</a>
+                                                <a href="${profileLink}/${otherUser.username}">${otherUser.fullName}</a>
                                             </div>
                                         </div>
                                     </div>

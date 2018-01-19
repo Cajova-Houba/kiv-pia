@@ -60,4 +60,13 @@ public class FriendManagerImpl implements FriendManager {
     public boolean isFriendOf(User user1, User user2) {
         return friendDao.findByUsersAndState(user1, user2, FriendRequestState.ACCEPTED) != null;
     }
+
+    @Override
+    public boolean connectionExists(User user1, User user2) {
+        if(user1.equals(user2)) {
+            return true;
+        }
+
+        return friendDao.findByUsers(user1, user2) != null;
+    }
 }

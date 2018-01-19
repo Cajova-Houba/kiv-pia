@@ -74,12 +74,14 @@ public class ProfileController {
     @RequestMapping(value = "/search", method = RequestMethod.POST)
     public String handleProfileSearch(@RequestParam("username-search") String usernameSearch, ModelMap modelMap) {
         User user = userManager.loadByUsername(usernameSearch);
+        boolean isAnonymous = authUtils.getCurrentlyLoggedUser() != null;
         if(user != null) {
             // user found
             return "redirect:/profile/"+usernameSearch;
         } else {
             // user not found
             Locale defaultLocale = Locale.getDefault();
+            modelMap.addAttribute("isAnonymous", isAnonymous);
             modelMap.addAttribute("statusTitle", messageSource.getMessage("user.search.fail.title", new Object[0], defaultLocale));
             modelMap.addAttribute("statusMessage", messageSource.getMessage("user.search.fail.message", new Object[] {usernameSearch}, defaultLocale));
             return "status";
@@ -269,6 +271,10 @@ public class ProfileController {
             return "profile-hidden";
         }
 
+        // check if there's already any friend reuqest between current user and other user
+        // if false, 'Send friend request' button will be displayed
+        boolean isConnection = friendManager.connectionExists(currentUser, user);
+
         int newFriendReq = 0;
         int newMsgs = 0;
         if(isCurrentUser) {
@@ -284,6 +290,7 @@ public class ProfileController {
         modelMap.addAttribute("isCurrentUser", isCurrentUser);
         modelMap.addAttribute("isEditMode", false);
         modelMap.addAttribute("isAnonymous",isAnonymous);
+        modelMap.addAttribute("isConnection", isConnection);
 
         return "profile";
     }

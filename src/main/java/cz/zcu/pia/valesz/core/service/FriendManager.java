@@ -73,4 +73,14 @@ public interface FriendManager {
      * @return True if users are firends.
      */
     boolean isFriendOf(User user1, User user2);
+
+    /**
+     * Returns true if there's a friend requests (any state) between two users.
+     * If user1.equals(user2), true is returned.
+     *
+     * @param user1 User 1.
+     * @param user2 User 2.
+     * @return True if there's any request between two users.
+     */
+    boolean connectionExists(User user1, User user2);
 }

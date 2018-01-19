@@ -45,7 +45,7 @@
                                 <div class="card-body">
                                     <div class="row">
                                         <div class="col-md-3">
-                                            <kivbook:image kivbookImage="${conv.secondUser.profilePhoto}" alt="${conv.secondUser.fullName}"/>
+                                            <kivbook:image kivbookImage="${conv.secondUser.profilePhoto}" alt="${conv.secondUser.fullName}" classes="medium-thumbnail"/>
                                         </div>
                                         <div class="col-md-9">
                                             <div class="row">

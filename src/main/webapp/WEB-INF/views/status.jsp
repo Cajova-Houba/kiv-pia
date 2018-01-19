@@ -8,15 +8,6 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="kivbook" tagdir="/WEB-INF/tags" %>
 
-<spring:url value="/resources/css/style.css" var="myStyle" />
-<c:url value="/feed" var="feedLink"/>
-<c:url value="/logout" var="logoutLink"/>
-<c:url value="/login" var="loginLink"/>
-<c:url value="/messages" var="messagesLink" />
-<c:url value="/friends" var="friendsLink" />
-<c:url value="/profile" var="profileLink" />
-<c:url value="/register" var="registerLink" />
-
 <!DOCTYPE html>
 <html lang="en">
     <kivbook:head title="User profile"/>
