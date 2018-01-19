@@ -147,9 +147,9 @@
 
                             <c:if test="${!isAnonymous && !isConnection && !isCurrentUser}">
                                 <div class=row">
-                                    <form action="${friendsLink}/send/${user.username}" method="POST">
+                                    <form:form action="${friendsLink}/send/${user.username}" method="POST">
                                         <button type="submit" class="btn btn-success">Send friend request</button>
-                                    </form>
+                                    </form:form>
                                 </div>
                             </c:if>
                         </c:otherwise>

@@ -5,6 +5,8 @@ import cz.zcu.pia.valesz.core.domain.User;
 import cz.zcu.pia.valesz.core.service.AuthUtils;
 import cz.zcu.pia.valesz.core.service.FriendManager;
 import cz.zcu.pia.valesz.core.service.UserManager;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,6 +24,8 @@ import java.util.List;
 @RequestMapping("/friends")
 public class FriendsController {
 
+    private static final Logger log = LoggerFactory.getLogger(MainController.class);
+
     @Autowired
     private AuthUtils authUtils;
 
@@ -31,18 +35,48 @@ public class FriendsController {
     @Autowired
     private UserManager userManager;
 
+    @RequestMapping(value = "/send/{username}", method = RequestMethod.GET)
+    public String handleGetFriendReqSending(@PathVariable String username) {
+        return "redirect:/profile"+username;
+    }
 
     /**
      * Creates a new friend request with current user as a sender and user given by username as
-     * a receiver. If such request (non-cancelled) already exits, nothing will happen. If the request exists
-     * and is cancelled, it will be deleted and renewed.
+     * a receiver. If such request (non-cancelled) already exits, nothing will happen. If there are
+     * any cancelled/rejected requests, they will be kept and new one will be created.
      *
      * @param username Target's username.
      * @param modelMap
      * @return
      */
-    @RequestMapping(value = "/send/{username}")
-    public String handleFriendRequestSending(@PathVariable("username") String username, ModelMap modelMap) {
+    @RequestMapping(value = "/send/{username}", method = RequestMethod.POST)
+    public String handleFriendRequestSending(@PathVariable String username, ModelMap modelMap) {
+
+        log.info("Sending friend request to {}.", username);
+
+        User currentUser = authUtils.getCurrentlyLoggedUser();
+        User otherUser = userManager.loadByUsername(username);
+
+        // check other user
+        if(otherUser == null) {
+            // error
+            log.warn("User {} not found!", username);
+            return "redirect:/profile";
+        } else if (otherUser.equals(currentUser)) {
+            // error
+            log.warn("User {} attempted to send friend request to himself.");
+            return "redirect:/profile";
+        }
+
+        // check if any friend request doesn't exist already
+        if(friendManager.connectionExists(currentUser, otherUser)) {
+            log.warn("There is already on friendship request between {} and {}.", currentUser.getUsername(), otherUser.getUsername());
+            return "redirect:/profile/"+username;
+        }
+
+        // create request
+        friendManager.sendFriendRequest(currentUser, otherUser);
+
         return "redirect:/profile/"+username;
     }
 

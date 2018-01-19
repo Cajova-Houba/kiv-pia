@@ -41,13 +41,21 @@ public class FriendRequest {
     private FriendRequestState friendRequestState;
 
     public FriendRequest() {
+        setFriendRequestState(FriendRequestState.CREATED);
+        createdDate = new Date();
     }
 
-    public FriendRequest(Long id, User sender, User receiver, FriendRequestState friendRequestState) {
-        this.id = id;
+    /**
+     * Initializes friend request with sender and receiver.
+     * createDate is set to the current date.
+     *
+     * @param sender Request sender.
+     * @param receiver Request receiver
+     */
+    public FriendRequest(User sender, User receiver) {
+        this();
         this.sender = sender;
         this.receiver = receiver;
-        this.friendRequestState = friendRequestState;
     }
 
     @Id

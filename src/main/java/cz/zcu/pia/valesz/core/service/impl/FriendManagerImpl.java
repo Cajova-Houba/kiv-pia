@@ -9,6 +9,7 @@ import cz.zcu.pia.valesz.core.service.UserManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 
+import java.util.Arrays;
 import java.util.List;
 
 public class FriendManagerImpl implements FriendManager {
@@ -22,7 +23,9 @@ public class FriendManagerImpl implements FriendManager {
 
     @Override
     public FriendRequest sendFriendRequest(User sender, User receiver) {
-        return null;
+        FriendRequest fr = new FriendRequest(sender, receiver);
+        fr.setFriendRequestState(FriendRequestState.PENDING);
+        return friendDao.save(fr);
     }
 
     @Override
@@ -67,6 +70,8 @@ public class FriendManagerImpl implements FriendManager {
             return true;
         }
 
-        return friendDao.findByUsers(user1, user2) != null;
+        // there's at least one ACCEPTED/PENDING request => connection exists
+        List<FriendRequest> requests = friendDao.findConnectionByUsers(user1, user2, Arrays.asList(FriendRequestState.ACCEPTED, FriendRequestState.PENDING));
+        return !requests.isEmpty();
     }
 }

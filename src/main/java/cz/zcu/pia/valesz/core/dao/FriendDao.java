@@ -67,6 +67,7 @@ public interface FriendDao extends GenericDao<FriendRequest, Long> {
 
     /**
      * Returns a friend request object between tow users if it exists, otherwise null is returned.
+     * There may be many cancelled/rejected requests between two users but no more than on ACCEPTED/PENDING request.
      *
      * @param user1 First user.
      * @param user2 Second user.
@@ -76,8 +77,9 @@ public interface FriendDao extends GenericDao<FriendRequest, Long> {
             " LEFT JOIN FETCH fr.receiver " +
             " LEFT JOIN FETCH fr.sender " +
             " WHERE " +
-            " (fr.receiver = :user1 AND fr.sender = :user2) " +
+            " fr.friendRequestState IN (:allowedStates)" +
+            " AND ((fr.receiver = :user1 AND fr.sender = :user2) " +
             "  OR (fr.receiver = :user2 AND fr.sender = :user1)" +
-            " ")
-    FriendRequest findByUsers(@Param("user1") User user1, @Param("user2") User user2);
+            " )")
+    List<FriendRequest> findConnectionByUsers(@Param("user1") User user1, @Param("user2") User user2, @Param("allowedStates") List<FriendRequestState> allowedStates);
 }
