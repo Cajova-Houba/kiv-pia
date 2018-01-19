@@ -30,7 +30,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
  * Created by Zdenek Vales on 16.11.2017.
  */
 @Controller
-@RequestMapping("/feed")
 public class MainController {
 
     private static final Logger log = LoggerFactory.getLogger(MainController.class);
@@ -47,7 +46,20 @@ public class MainController {
     @Autowired
     private MessageManager messageManager;
 
-    @RequestMapping(value = "/{page}", method = RequestMethod.GET)
+    /**
+     * This method will check if user which is accessing /kivobook url is logged in. If not, redirects him to register page.
+     * @return
+     */
+    @RequestMapping("/")
+    public String displayFeedOrRedirect() {
+        if(authUtils.getCurrentlyLoggedUser() != null) {
+            return "redirect:/feed";
+        } else {
+            return "redirect:/register";
+        }
+    }
+
+    @RequestMapping(value = "/feed/{page}", method = RequestMethod.GET)
     public String displayPostFeed(ModelMap modelMap, @PathVariable int page) {
         // load current user
         User currentUser = authUtils.getCurrentlyLoggedUserWithProfilePhoto();
@@ -83,12 +95,12 @@ public class MainController {
      *
      * @return
      */
-    @RequestMapping(method = RequestMethod.GET)
+    @RequestMapping(value = "/feed", method = RequestMethod.GET)
     public String displayPostFeed() {
         return "redirect:/feed/0";
     }
 
-    @RequestMapping(method = RequestMethod.POST)
+    @RequestMapping(value = "/feed", method = RequestMethod.POST)
     public String createPost(@ModelAttribute("newPost") Post newPost, BindingResult bindingResult) {
         if(bindingResult.hasErrors()) {
             log.warn("Error occurred while binding registration form to Post object.");

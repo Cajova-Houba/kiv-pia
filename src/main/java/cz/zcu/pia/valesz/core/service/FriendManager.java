@@ -49,12 +49,21 @@ public interface FriendManager {
 
     /**
      * Returns a list of friend requests to which user hasn't responded yet.
-     * Profile photos are returned together with user in friend requests.
+     * Profile photos are returned together with users in friend requests.
      *
      * @param user User whose new requests will be listed.
      * @return List of new requests.
      */
     List<FriendRequest> listNewFriendRequests(User user);
+
+    /**
+     * Returns a list of frind request which were sent by user and weren't accepted yet.
+     * Profile photos are returned together with users in friend requests.
+     *
+     * @param user
+     * @return
+     */
+    List<FriendRequest> listPendingRequestSentByUser(User user);
 
     /**
      * Lists friendships of a user. Those are accepted requests where the user is receiver.

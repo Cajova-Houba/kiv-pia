@@ -1,32 +1,41 @@
 <%@ page language="java" contentType="text/html;" pageEncoding="UTF-8"%>
-<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="kivbook" tagdir="/WEB-INF/tags" %>
 
-<spring:url value="/resources/css/style.css" var="myStyle" />
-<c:url value="/feed" var="feedLink"/>
-<c:url value="/logout" var="logoutLink"/>
-<c:url value="/login" var="loginLink"/>
-<c:url value="/messages" var="messagesLink" />
-<c:url value="/friends" var="friendsLink" />
-<c:url value="/profile" var="profileLink" />
-<c:url value="/register" var="registerLink" />
 
 <!DOCTYPE html>
 <html lang="en">
     <kivbook:head title="User profile"/>
     <body class="bg-light">
         <kivbook:navbar isAnonymous="${isAnonymous}"/>
-
         <div class="container">
             <div class="row">
                 <div class="col-md-3">
 
                 </div>
                 <div class="col-md-6">
-                    <h3 class="text-danger">Requested profile cannot be displayed.</h3>
+                    <h3 class="text-danger text-center">Requested profile cannot be displayed.</h3>
+                    <c:choose>
+                        <c:when test="${!isAnonymous && !isConnection}">
+                            <%-- user is logged in and is not in any connection with the hidden user => display friendship button --%>
+                            <div class="row text-xs-center">
+                                Sorry, you can't view this profile, but you can send a friend request to the user!
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4"></div>
+                                <div class="col-md-4">
+                                    <kivbook:friend-btn username="${username}"/>
+                                </div>
+                                <div class="col-md-4"></div>
+                            </div>
+                        </c:when>
+                        <c:when test="${!isAnonymous && isConnection}">
+                            <%-- user is logged in but connection already exists --%>
+                            <div class="row text-center">
+                                Sorry, but the user hid his profile or haven't responded to your friend request yet.
+                            </div>
+                        </c:when>
+                    </c:choose>
                 </div>
 
                 <div class="col-md-3">

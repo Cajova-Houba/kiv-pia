@@ -3,13 +3,9 @@ package cz.zcu.pia.valesz.web.vo;
 import cz.zcu.pia.valesz.core.domain.Gender;
 import cz.zcu.pia.valesz.core.domain.User;
 import cz.zcu.pia.valesz.core.domain.Visibility;
-import org.joda.time.LocalDate;
-import org.joda.time.Years;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
-import java.util.Date;
 
 /**
  * A model object for user forms and profile display.
@@ -22,8 +18,7 @@ public class UserForm implements Serializable {
     private String password;
     private String passwordConf;
     private String fullName;
-    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
-    private Date birthDate;
+    private String birthDate;
     private String stringBirthDate;
     private String gender;
     private Visibility profileVisibility;
@@ -36,7 +31,7 @@ public class UserForm implements Serializable {
         setPasswordConf("");
         setFullName("Bobby McJohnson");
         setGender("male");
-        setBirthDate(new Date());
+        setBirthDate("");
         setProfileVisibility(Visibility.REGISTERED_USERS);
         setAcceptTerms(false);
     }
@@ -56,7 +51,7 @@ public class UserForm implements Serializable {
         setFullName(user.getFullName());
         setGender(user.getGender().webName);
         if(user.getBirthDate() != null) {
-            setBirthDate(user.getBirthDate());
+            setBirthDate(user.getBirthDate().toString());
         }
         setProfileVisibility(user.getProfileVisibility());
         setAcceptTerms(false);
@@ -102,11 +97,11 @@ public class UserForm implements Serializable {
         this.fullName = fullName;
     }
 
-    public Date getBirthDate() {
+    public String getBirthDate() {
         return birthDate;
     }
 
-    public void setBirthDate(Date birthDate) {
+    public void setBirthDate(String birthDate) {
         this.birthDate = birthDate;
         if(birthDate != null) {
             setStringBirthDate(birthDate.toString());
@@ -146,21 +141,6 @@ public class UserForm implements Serializable {
     }
 
     /**
-     * Returns age as a string. If birth date is null '-' is returned.
-     * @return
-     */
-    public String getAge() {
-        if(getBirthDate() == null) {
-            return "-";
-        }
-        LocalDate bd = LocalDate.fromDateFields(birthDate);
-        LocalDate now = LocalDate.now();
-        Years age = Years.yearsBetween(bd, now);
-
-        return age.toString();
-    }
-
-    /**
      * Returns gender value in a displayable format.
      * @return
      */
@@ -171,18 +151,6 @@ public class UserForm implements Serializable {
         } else {
             return g.displayName;
         }
-    }
-
-    public String getDisplayVisibility() {
-        if(getProfileVisibility() == null) {
-            return "-";
-        } else {
-            return getProfileVisibility().displayName;
-        }
-    }
-
-    public Visibility[] getPossibleVisibilities() {
-        return Visibility.values();
     }
 
 }

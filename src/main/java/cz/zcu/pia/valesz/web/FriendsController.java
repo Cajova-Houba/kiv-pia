@@ -40,6 +40,46 @@ public class FriendsController {
      * Just redirect back to friends this needs to be done by POST request.
      * @return
      */
+    @RequestMapping(value = "/cancel", method = RequestMethod.GET)
+    public String handleGetCancelFriendRequest() {
+        return "redirect:/friends";
+    }
+
+    /**
+     * Handles canceling a request. The request must be in PENDING state to be rejected.
+     * Only logged user can reject request and only if he is the sender.
+     *
+     * @param requestId If of a request to be handled.
+     * @return
+     */
+    @RequestMapping(value = "/cancel", method = RequestMethod.POST)
+    public String handleCancelFriendRequest(@RequestParam("requestId") long requestId) {
+        log.info("Canceling request {}.", requestId);
+
+        // load the request
+        FriendRequest toBeCanceled = checkRequestAndSender(requestId);
+        if(toBeCanceled == null) {
+            // logging is done in the helper method
+            return "redirect:/friends";
+        }
+
+        // check if it's cancelable
+        if(!toBeCanceled.isNew()) {
+            log.warn("Request {} is not cancelable!", requestId);
+            return "redirect:/friends";
+        }
+
+        // reject the request
+        friendManager.cancelRequest(toBeCanceled);
+        log.info("Request cenceled.");
+
+        return "redirect:/friends";
+    }
+
+    /**
+     * Just redirect back to friends this needs to be done by POST request.
+     * @return
+     */
     @RequestMapping(value = "/reject", method = RequestMethod.GET)
     public String handleGetRejectFriendRequest() {
         return "redirect:/friends";
@@ -49,7 +89,7 @@ public class FriendsController {
      * Handles rejecting a request. The request must be in PENDING state to be rejected.
      * Only logged user can reject request and only if he is the receiver.
      *
-     * @param requestId
+     * @param requestId If of a request to be handled.
      * @return
      */
     @RequestMapping(value = "/reject", method = RequestMethod.POST)
@@ -118,7 +158,7 @@ public class FriendsController {
 
     @RequestMapping(value = "/send/{username}", method = RequestMethod.GET)
     public String handleGetFriendReqSending(@PathVariable String username) {
-        return "redirect:/profile"+username;
+        return "redirect:/profile/"+username;
     }
 
     /**
@@ -170,19 +210,21 @@ public class FriendsController {
 
         User currentUser = authUtils.getCurrentlyLoggedUserWithProfilePhoto();
         List<FriendRequest> newRequests = friendManager.listNewFriendRequests(currentUser);
+        List<FriendRequest> pendingRequests = friendManager.listPendingRequestSentByUser(currentUser);
         List<FriendRequest> friendships = friendManager.listFriendships(currentUser);
 
         model.addAttribute("currentUser", currentUser);
         model.addAttribute("newRequests", newRequests);
         model.addAttribute("friendships", friendships);
+        model.addAttribute("pendingRequests", pendingRequests);
 
         return "friends";
     }
 
     /**
-     * Checks if the request with this id exists and that the currently logged user is the sender.
+     * Checks if the request with this id exists and that the currently logged user is the receiver.
      * @param requestId Id of a request.
-     * @return FriendRequest object if it exists and user is the sender. Null otherwise.
+     * @return FriendRequest object if it exists and user is the receiver. Null otherwise.
      */
     private FriendRequest checkRequestAndReceiver(long requestId) {
         // load the request and check if it exists
@@ -196,6 +238,29 @@ public class FriendsController {
         User currentUser = authUtils.getCurrentlyLoggedUser();
         if(!currentUser.equals(toBeChecked.getReceiver())) {
             log.warn("Current user {} isn't the same as receiver {}!", currentUser.getUsername(), toBeChecked.getSender().getUsername());
+            return null;
+        }
+
+        return toBeChecked;
+    }
+
+    /**
+     * Checks if the request with this id exists and that the currently logged user is the sender.
+     * @param requestId Id of a request.
+     * @return Friend request object if it exists and user is the sender. Null otherwise.
+     */
+    private FriendRequest checkRequestAndSender(long requestId) {
+        // load the request and check if it exists
+        FriendRequest toBeChecked = friendManager.findByIdFetchUsers(requestId);
+        if(toBeChecked == null) {
+            log.warn("Friend request with id {} doesn't exist!", requestId);
+            return null;
+        }
+
+        // check that the current user is the sender
+        User currentUser = authUtils.getCurrentlyLoggedUser();
+        if(!currentUser.equals(toBeChecked.getSender())) {
+            log.warn("Current user {} isn't the same as sender {}!", currentUser.getUsername(), toBeChecked.getSender().getUsername());
             return null;
         }
 

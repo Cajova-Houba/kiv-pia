@@ -35,7 +35,8 @@ public interface FriendDao extends GenericDao<FriendRequest, Long> {
     FriendRequest getOneWithUsers(@Param("id") Long id);
 
     /**
-     * Returns a list of friend request by receiver with particular state.
+     * Returns a list of friend requests by receiver and state.
+     * Users and profile photos are fetched.
      *
      * @param receiver Receiver of friend requests.
      * @param friendRequestState State of requests. Use PENDING to find all new friend requests by receiver and ACCEPTED to
@@ -51,6 +52,25 @@ public interface FriendDao extends GenericDao<FriendRequest, Long> {
             " fr.friendRequestState = :friendRequestState " +
             " AND fr.receiver = :receiver")
     List<FriendRequest> findByReceiverAndFriendRequestState(@Param("receiver") User receiver,@Param("friendRequestState") FriendRequestState friendRequestState);
+
+    /**
+     * Returns a list of friend requests by sender and state.
+     * Users and profile photos are fetched.
+     *
+     * @param sender Sender of friend request.
+     * @param friendRequestState State of friend request.
+     *
+     * @return List of friend requests.
+     */
+    @Query("  SELECT fr FROM FriendRequest fr " +
+            " LEFT JOIN FETCH fr.receiver rec " +
+            " LEFT JOIN FETCH fr.sender sen " +
+            " LEFT JOIN FETCH rec.profilePhoto " +
+            " LEFT JOIN FETCH sen.profilePhoto " +
+            " WHERE " +
+            " fr.friendRequestState = :friendRequestState " +
+            " AND fr.sender = :sender")
+    List<FriendRequest> findBySenderAndFriendRequestState(@Param("sender") User sender, @Param("friendRequestState") FriendRequestState friendRequestState);
 
     /**
      * Returns a list of friend requests where user is receiver or sender.

@@ -17,7 +17,7 @@
         <kivbook:navbar isAnonymous="false"/>
         <div class="container">
             <div class="row">
-                <div class="col-md-4 user-panel">
+                <div class="col-md-3 user-panel">
                     <div class="row">
                         <kivbook:image kivbookImage="${currentUser.profilePhoto}" alt="Profile ptoho"/>
                     </div>
@@ -26,8 +26,8 @@
                     </div>
 
                     <div class="row">
-                        <p>
-                            To make new friends go to user's profile (you can search them by their username) where you can send friend requests to them.
+                        <p class="small-font">
+                            Here you can see requests which were sent to you by other users.
                         </p>
                     </div>
 
@@ -44,52 +44,21 @@
                         </h5>
                     </div>
 
-                    <!-- new friend requets -->
+                    <!-- new friend requests -->
                     <c:forEach items="${newRequests}" var="newRequest" >
-                        <c:set var="otherUser" value="${newRequest.sender}"/>
-                        <div class="row">
-                            <div class="card conversation-card card-unread">
-                                <div class="card-body">
-                                    <div class="row">
-                                        <div class="col-md-3">
-                                            <a href="${profileLink}/${otherUser.username}">
-                                                <kivbook:image kivbookImage="${otherUser.profilePhoto}" alt="${otherUser.fullName}" classes="medium-thumbnail"/>
-                                            </a>
-                                        </div>
-                                        <div class="col-md-9">
-                                            <div class="row">
-                                                <a href="${profileLink}/${otherUser.username}"><b>${otherUser.fullName}</b></a>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-md-6">
-                                                    <form:form method="post" action="${friendsLink}/accept">
-                                                        <input type="hidden" name="requestId" value="${newRequest.id}">
-                                                        <button type="submit" class="btn btn-success">OK</button>
-                                                    </form:form>
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <form:form method="post" action="${friendsLink}/reject">
-                                                        <input type="hidden" name="requestId" value="${newRequest.id}">
-                                                        <button class="btn btn-danger">X</button>
-                                                    </form:form>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        <kivbook:friend-req friendRequest="${newRequest}" isReceived="true"/>
                     </c:forEach>
                 </div>
 
 
-                <div class="col-md-8">
+                <!-- user's friends -->
+                <div class="col-md-6">
                     <h4>My friends</h4>
                     <div class="card">
                         <div class="card-body">
                             <c:set var="rowItemCount" value="0" scope="page" />
                             <c:forEach items="${friendships}" var="friendship">
-                                <c:set var="otherUser" value="${friendship.getOtherUser(currentUser)}"/>
+                                <c:set var="otherUser" value="${friendship.sender}"/>
                                 <%-- start new row after 4 friendships to make table-like structure --%>
                                 <c:if test="${rowItemCount % 4 ==0}">
                                     <div class="row">
@@ -122,6 +91,34 @@
                             </c:forEach>
                         </div>
                     </div>
+                </div>
+
+                <!-- friend requests sent by user -->
+                <div class="col-md-3">
+                    <div class="row">
+                        <h5>
+                            <c:choose>
+                                <c:when test="${pendingRequests.size()>0}">
+                                    Requests waiting for response
+                                </c:when>
+                                <c:otherwise>
+                                    No requests are waiting for response
+                                </c:otherwise>
+                            </c:choose>
+                        </h5>
+                    </div>
+
+                    <div class="row">
+                        <p class="small-font">
+                            Here you can see request sent by you. Cancel them by clicking the 'X' button.
+                            To make new friends go to user's profile (you can search them by their username) where you can send friend requests to them.
+                        </p>
+                    </div>
+
+                    <c:forEach items="${pendingRequests}" var="pendingRequest">
+                        <kivbook:friend-req friendRequest="${pendingRequest}" isReceived="false"/>
+                    </c:forEach>
+
                 </div>
             </div>
         </div>

@@ -1,7 +1,7 @@
 package cz.zcu.pia.valesz.web;
 
-import cz.zcu.pia.valesz.core.domain.User;
 import cz.zcu.pia.valesz.core.service.UserManager;
+import cz.zcu.pia.valesz.web.validation.UserRegistrationValidator;
 import cz.zcu.pia.valesz.web.vo.UserForm;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,13 +10,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.ObjectError;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import java.util.Date;
-import java.util.Set;
 
 /**
  * Controller for register page.
@@ -29,6 +30,14 @@ public class RegisterController {
 
     @Autowired
     private UserManager userManager;
+
+    @Autowired
+    private UserRegistrationValidator registrationValidator;
+
+    @InitBinder("userForm")
+    protected void initBinder(WebDataBinder binder) {
+        binder.addValidators(registrationValidator);
+    }
 
     @RequestMapping(method = RequestMethod.GET)
     public String displayPage(ModelMap modelMap) {
@@ -44,32 +53,15 @@ public class RegisterController {
      */
     @RequestMapping(method = RequestMethod.POST)
     public String handleRegistration(Model model,
-                                     @ModelAttribute("userForm") UserForm userForm,
+                                     @ModelAttribute("userForm") @Validated UserForm userForm,
                                      BindingResult bindingResult) {
         if(bindingResult.hasErrors()) {
             log.warn("Error occurred while binding registration form to UserForm object.");
-            for(ObjectError error : bindingResult.getAllErrors()) {
-                log.warn("Error: object name = {}; code = {}; toString = {}.",error.getObjectName(), error.getCode(), error.toString());
-            }
-
+            model.addAttribute("currDate", new Date());
             return "index";
         }
 
-        // todo: handle registration
-        Set<String> errors = userManager.validateRegistration(userForm);
-
-        if(errors.isEmpty()) {
-            // proceed with registration
-            User u = new User(userForm);
-            u = userManager.registerUser(u);
-            return "reg-succ";
-        } else {
-            for(String error : errors) {
-                model.addAttribute(error, true);
-            }
-        }
-
-        model.addAttribute("currDate", new Date());
-        return "index";
+        userManager.registerUser(userForm);
+        return "reg-succ";
     }
 }

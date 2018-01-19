@@ -249,15 +249,17 @@ public class ProfileController {
             isHidden = true;
         }
 
+        // check if there's already any friend reuqest between current user and other user
+        // if false, 'Send friend request' button will be displayed
+        boolean isConnection = !isAnonymous && friendManager.connectionExists(currentUser, user);
+
         // if the user can't see the requested profile, redirect him to error-like page
         if(isHidden) {
             modelMap.addAttribute("isAnonymous", isAnonymous);
+            modelMap.addAttribute("isConnection", isConnection);
+            modelMap.addAttribute("username", username);
             return "profile-hidden";
         }
-
-        // check if there's already any friend reuqest between current user and other user
-        // if false, 'Send friend request' button will be displayed
-        boolean isConnection = friendManager.connectionExists(currentUser, user);
 
         // add attributes
         modelMap.addAttribute("userForm", new ProfileUpdateForm(user));

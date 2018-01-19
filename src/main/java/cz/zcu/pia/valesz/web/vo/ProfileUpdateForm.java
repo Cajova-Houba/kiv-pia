@@ -5,9 +5,12 @@ import cz.zcu.pia.valesz.core.domain.User;
 import cz.zcu.pia.valesz.core.domain.Visibility;
 import org.joda.time.LocalDate;
 import org.joda.time.Years;
-import org.springframework.format.annotation.DateTimeFormat;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Model for profile updating form.
@@ -16,8 +19,7 @@ public class ProfileUpdateForm {
     private String username;
     private String email;
     private String fullName;
-    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
-    private Date birthDate;
+    private String birthDate;
     private Gender gender;
     private Visibility profileVisibility;
 
@@ -32,7 +34,9 @@ public class ProfileUpdateForm {
         setUsername(currentUserData.getUsername());
         setEmail(currentUserData.getEmail());
         setFullName(currentUserData.getFullName());
-        setBirthDate(currentUserData.getBirthDate());
+        if(currentUserData.getBirthDate() != null) {
+            setBirthDate(currentUserData.getBirthDate().toString());
+        }
         setGender(currentUserData.getGender());
         setProfileVisibility(currentUserData.getProfileVisibility());
     }
@@ -61,11 +65,11 @@ public class ProfileUpdateForm {
         this.fullName = fullName;
     }
 
-    public Date getBirthDate() {
+    public String getBirthDate() {
         return birthDate;
     }
 
-    public void setBirthDate(Date birthDate) {
+    public void setBirthDate(String birthDate) {
         this.birthDate = birthDate;
     }
 
@@ -86,18 +90,28 @@ public class ProfileUpdateForm {
     }
 
     /**
-     * Returns age as a string. If birth date is null '-' is returned.
+     * Returns age as a string. If birth date is null, empty, or has wrong format '-' is returned.
      * @return
      */
     public String getAge() {
-        if(getBirthDate() == null) {
+        if(getBirthDate() == null || birthDate.isEmpty()) {
             return "-";
         }
-        LocalDate bd = LocalDate.fromDateFields(birthDate);
+
+        Date birthD;
+        try {
+            birthD = SimpleDateFormat.getInstance().parse(getBirthDate());
+        } catch (ParseException e) {
+            // this method is called only when data taken from database are displayed
+            // so format should be always correct
+            return "-";
+        }
+
+        LocalDate bd = LocalDate.fromDateFields(birthD);
         LocalDate now = LocalDate.now();
         Years age = Years.yearsBetween(bd, now);
 
-        return age.toString();
+        return Integer.toString(age.getYears());
     }
 
     /**
@@ -121,8 +135,13 @@ public class ProfileUpdateForm {
         }
     }
 
-    public Visibility[] getPossibleVisibilities() {
-        return Visibility.values();
+    public Map<String, String> getPossibleVisibilities() {
+        Map<String, String> possibleVisibilities = new HashMap<>();
+        for(Visibility v : Visibility.values()) {
+            possibleVisibilities.put(v.name(), v.displayName);
+        }
+
+        return possibleVisibilities;
     }
 
     @Override

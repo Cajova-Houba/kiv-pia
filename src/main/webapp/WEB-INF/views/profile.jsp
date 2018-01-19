@@ -81,26 +81,31 @@
                                 <div class="row">
                                     <%-- username is not editable --%>
                                     <div class="col-md-3">Username</div>
-                                    <div class="col-md-9">${userForm.username}</div>
+                                    <div class="col-md-6"><input type="text" value="${userForm.username}" class="form-control" disabled></div>
+                                    <div class="col-md-3"></div>
                                 </div>
                                 <div class="row">
                                     <div class="col-md-3">Email</div>
-                                    <div class="col-md-6"><form:input path="email" maxlength="255"/></div>
+                                    <div class="col-md-6"><form:input path="email" maxlength="255" cssClass="form-control"/></div>
                                     <div class="col-md-3"><form:errors path="email" cssClass="text-danger"/> </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-md-3">Full name</div>
-                                    <div class="col-md-6"><form:input path="fullName" maxlength="255"/></div>
+                                    <div class="col-md-6"><form:input path="fullName" maxlength="255" cssClass="form-control"/></div>
                                     <div class="col-md-3"><form:errors path="fullName" cssClass="text-danger"/> </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-md-3">Birth date</div>
-                                    <div class="col-md-6"><form:input path="birthDate"/> </div>
+                                    <div class="col-md-6"><form:input type="date" path="birthDate" cssClass="form-control"/> </div>
                                     <div class="col-md-3"><form:errors path="birthDate" cssClass="text-danger"/> </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-md-3">Profile visibility</div>
-                                    <div class="col-md-6"><form:select path="profileVisibility" items="${userForm.possibleVisibilities}"/> </div>
+                                    <div class="col-md-6">
+                                        <form:select path="profileVisibility" cssClass="form-control">
+                                            <form:options items="${userForm.possibleVisibilities}" />
+                                        </form:select>
+                                    </div>
                                     <div class="col-md-3"><form:errors path="profileVisibility" cssClass="text-danger"/> </div>
                                 </div>
 
@@ -147,9 +152,7 @@
 
                             <c:if test="${!isAnonymous && !isConnection && !isCurrentUser}">
                                 <div class=row">
-                                    <form:form action="${friendsLink}/send/${user.username}" method="POST">
-                                        <button type="submit" class="btn btn-success">Send friend request</button>
-                                    </form:form>
+                                    <kivbook:friend-btn username="${user.username}"/>
                                 </div>
                             </c:if>
                         </c:otherwise>

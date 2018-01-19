@@ -21,6 +21,8 @@ import org.springframework.social.security.SocialUserDetails;
 import org.springframework.social.security.SocialUserDetailsService;
 
 import java.nio.charset.Charset;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
@@ -93,7 +95,7 @@ public class UserManagerImpl implements UserManager, SocialUserDetailsService {
                passwordConf = toBeValidated.getPasswordConf(),
                fullName = toBeValidated.getFullName(),
                gender = toBeValidated.getGender();
-        Date birthDate = toBeValidated.getBirthDate();
+        Date birthDate = new Date();
         boolean acceptTerms = toBeValidated.isAcceptTerms();
 
         // validation process:
@@ -158,13 +160,29 @@ public class UserManagerImpl implements UserManager, SocialUserDetailsService {
     public User updateUserProfile(User toBeUpdated, ProfileUpdateForm updateData) {
         toBeUpdated.setEmail(updateData.getEmail());
         toBeUpdated.setFullName(updateData.getFullName());
-        toBeUpdated.setBirthDate(updateData.getBirthDate());
+        try {
+            toBeUpdated.setBirthDate(SimpleDateFormat.getInstance().parse(updateData.getBirthDate()));
+        } catch (ParseException e) {
+            log.error("{} isn't valid date format. Keeping original value instead.", updateData.getBirthDate());
+        }
         toBeUpdated.setProfileVisibility(updateData.getProfileVisibility());
         return userDao.save(toBeUpdated);
     }
 
     @Override
-    public User registerUser(User toBeCreated) {
+    public User registerUser(UserForm registrationData) {
+        Date birthDate;
+        if(registrationData.getBirthDate() == null || registrationData.getBirthDate().isEmpty()) {
+            birthDate = null;
+        } else {
+            try {
+                birthDate = SimpleDateFormat.getInstance().parse(registrationData.getBirthDate());
+            } catch (ParseException e) {
+                log.error("Birth date with wrong format passed to registration method! Using null instead.");
+                birthDate = null;
+            }
+        }
+        User toBeCreated = new User(registrationData, birthDate);
         String password = toBeCreated.getPasswordHash();
         toBeCreated.setPasswordHash(passwordEncoder.encode(password));
         KivbookImage defaultImage = kivbookImageDao.getOne(kivbookImageDao.getMinId());

@@ -8,6 +8,8 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
@@ -32,9 +34,18 @@ public class ProfileUpdateValidator implements Validator {
             errors.rejectValue("email", "user.email.format");
         }
 
-        Date maxBirthDate = new DateTime().minusYears(13).toDate();
-        if(puf.getBirthDate() != null && puf.getBirthDate().after(maxBirthDate)) {
-            errors.rejectValue("birthDate", "user.birthDate.young");
+        // check format
+        if(puf.getBirthDate() != null && !puf.getBirthDate().isEmpty()) {
+            Date parsedDate;
+            try {
+                parsedDate = SimpleDateFormat.getInstance().parse(puf.getBirthDate());
+                Date maxBirthDate = new DateTime().minusYears(13).toDate();
+                if(parsedDate.after(maxBirthDate)) {
+                    errors.rejectValue("birthDate", "user.birthDate.young");
+                }
+            } catch (ParseException e) {
+                errors.rejectValue("birthDate", "user.birthDate.format");
+            }
         }
     }
 }

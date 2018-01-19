@@ -2,7 +2,9 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="kivbook" tagdir="/WEB-INF/tags" %>
+
 
 <spring:url value="/resources/css/style.css" var="myStyle" />
 <c:url value="/register"  var="registerLink"/>
@@ -20,58 +22,44 @@
                         <legend>Register now!</legend>
                         <div class="form-group">
                             <form:label path="username">username</form:label>
-                            <c:if test="${errUsernameWrong || errUsernameExists}">
-                                <form:label path="username" cssClass="text-danger">Wrong username!</form:label>
-                            </c:if>
-                            <form:input path="username" cssClass="form-control" maxlength="255" />
+                            <form:errors path="username" cssClass="text-danger" />
+                            <form:input path="username" cssClass="form-control" maxlength="20" />
                         </div>
 
                         <div class="form-group">
                             <form:label path="email">email</form:label>
-                            <c:if test="${errWrongEmail}">
-                                <form:label path="email" cssClass="text-danger">Wrong email!</form:label>
-                            </c:if>
-                            <form:input path="email" id="email" cssClass="form-control" maxlength="255" />
+                            <form:errors path="email" cssClass="text-danger" />
+                            <form:input path="email" id="email" cssClass="form-control" maxlength="100" />
                         </div>
 
                         <div class="form-group">
                             <form:label path="password">password</form:label>
-                            <c:if test="${errWrongPass}">
-                                <form:label path="password" cssClass="text-danger">Wrong password!</form:label>
-                            </c:if>
-                            <form:password path="password" id="password" cssClass="form-control" maxlength="255" />
+                            <form:errors path="password" cssClass="text-danger" />
+                            <form:password path="password" id="password" cssClass="form-control" maxlength="100" />
                         </div>
 
                         <div class="form-group">
                             <form:label path="passwordConf">confirm password</form:label>
-                            <c:if test="${errPassDontMatch}">
-                                <form:label path="passwordConf" cssClass="text-danger">Passwords don't match!</form:label>
-                            </c:if>
-                            <form:password path="passwordConf" id="passwordConf" cssClass="form-control"  maxlength="255" />
+                            <form:errors path="passwordConf" cssClass="text-danger" />
+                            <form:password path="passwordConf" id="passwordConf" cssClass="form-control"  maxlength="100" />
                         </div>
 
                         <div class="form-group">
                             <form:label path="fullName">full name</form:label>
-                            <c:if test="${errWrongFullName}">
-                                <form:label path="fullName" cssClass="text-danger">Wrong full name!</form:label>
-                            </c:if>
-                            <form:input path="fullName" id="fullName" cssClass="form-control"  maxlength="500" />
+                            <form:errors path="fullName" cssClass="text-danger" />
+                            <form:input path="fullName" id="fullName" cssClass="form-control"  maxlength="150" />
                         </div>
 
                         <div class="form-group">
                             <form:label path="birthDate">birth date</form:label>
-                            <c:if test="${errTooYoungMan}">
-                                <form:label path="birthDate" cssClass="text-danger">Sorry man, you're too young...</form:label>
-                            </c:if>
+                            <form:errors path="birthDate" cssClass="text-danger" />
                             <form:input type="date" path="birthDate" id="birthDate" cssClass="form-control" />
                         </div>
 
                         <div class="row">
                             <div class="col-md-6">
                                 <form:label path="gender">Gender</form:label>
-                                <c:if test="${errNotAGender}">
-                                    <form:label path="gender" cssClass="text-danger">That's not a gender. Not at all.</form:label>
-                                </c:if>
+                                <form:errors path="gender" cssClass="text-danger" />
                             </div>
                             <div class="col-md-6">
                                 <div class="radio">
@@ -89,9 +77,7 @@
                         <div class="form-group">
                             <form:label path="acceptTerms">Accept terms of use </form:label>
                             <form:checkbox path="acceptTerms" />
-                            <c:if test="${errShutUpAndAccept}">
-                                <form:label path="accept-terms" cssClass="text-danger">How can you have any fun if you don't accept our terms?</form:label>
-                            </c:if>
+                            <form:errors path="acceptTerms" cssClass="text-danger" />
                         </div>
 
                         <div class="row">
@@ -115,7 +101,7 @@
                         Join the best social network today! Just fill in your personal info and join our awesome community!
                         You will be able to share your thoughts, opinios, photos, videos, ... with your friends, friends of their frends and complete strangers also! Join us today!
                     </p>
-                    <p class="text-right">${currDate}</p>
+                    <p class="text-right"><fmt:formatDate value="${currDate}" pattern="dd.MM.YYYY"/></p>
                 </div>
 
                 <div class="page-header">

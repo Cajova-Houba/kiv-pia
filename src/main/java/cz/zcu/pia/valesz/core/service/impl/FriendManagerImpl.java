@@ -42,7 +42,8 @@ public class FriendManagerImpl implements FriendManager {
 
     @Override
     public FriendRequest cancelRequest(FriendRequest request) {
-        return null;
+        request.cancel();
+        return friendDao.save(request);
     }
 
     @Override
@@ -80,5 +81,10 @@ public class FriendManagerImpl implements FriendManager {
     @Override
     public FriendRequest findByIdFetchUsers(long id) {
         return friendDao.getOneWithUsers(id);
+    }
+
+    @Override
+    public List<FriendRequest> listPendingRequestSentByUser(User user) {
+        return friendDao.findBySenderAndFriendRequestState(user, FriendRequestState.PENDING);
     }
 }

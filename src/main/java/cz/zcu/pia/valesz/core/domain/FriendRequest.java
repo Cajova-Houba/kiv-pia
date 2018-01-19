@@ -149,6 +149,11 @@ public class FriendRequest {
     }
 
     /**
+     * Sets the state of this request to CANCELLED.
+     */
+    public void cancel() {setFriendRequestState(FriendRequestState.CANCELED);}
+
+    /**
      * Returns the other user from provided one. If user == sender, receiver is returned, ...
      * @param user User.
      * @return Other user.

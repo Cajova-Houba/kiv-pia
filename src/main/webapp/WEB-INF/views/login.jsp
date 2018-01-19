@@ -37,13 +37,19 @@
                             <label for="password">password</label>
                             <input type="password" name="password" id="password" class="form-control">
                         </div>
-
-                        <input type="hidden"
-                               name="${_csrf.parameterName}"
-                               value="${_csrf.token}"/>
-
-                        <input type="submit" value="Login" class="btn btn-success">
                     </fieldset>
+
+                    <input type="hidden"
+                           name="${_csrf.parameterName}"
+                           value="${_csrf.token}"/>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <input type="submit" value="Login" class="btn btn-success">
+                        </div>
+                        <div class="col-md-6"></div>
+                        <div class="col-md-3">Or join <a href="${registerLink}">here...</a> </div>
+                    </div>
+
                 </form>
                 
                 <c:if test="${error != null}">

@@ -104,10 +104,11 @@ public class User implements UserDetails {
 
     /**
      * Creates new user object from userForm model. It is expected that userForm was already validated.
+     *
      * @param userForm Model containing data from user form.
      */
-    public User(UserForm userForm) {
-        this(userForm.getEmail(), userForm.getUsername(), userForm.getPassword(), userForm.getBirthDate(), userForm.getFullName(), Gender.webNameToGender(userForm.getGender()));
+    public User(UserForm userForm, Date birthDate) {
+        this(userForm.getEmail(), userForm.getUsername(), userForm.getPassword(), birthDate, userForm.getFullName(), Gender.webNameToGender(userForm.getGender()));
     }
 
     /**

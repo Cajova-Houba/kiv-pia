@@ -89,7 +89,7 @@ public interface UserManager extends UserDetailsService{
      * @param toBeCreated User to be registered.
      * @return Registered user.
      */
-    User registerUser(User toBeCreated);
+    User registerUser(UserForm toBeCreated);
 
     /**
      * Updates user's profile photo. The old one is deleted from database, if it's not on of the default ones.
