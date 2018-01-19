@@ -19,7 +19,7 @@
 
     <div class="container">
         <div class="row">
-            <div class="col-md-4 user-panel">
+            <div class="col-md-2 user-panel">
                 <div class="row">
                     <kivbook:image kivbookImage="${currentUser.profilePhoto}" alt="Profile photo"/>
                 </div>
@@ -30,7 +30,7 @@
                 <kivbook:user-menu newMsgsCount="${newMsgs}" newFriendsCount="${newFriendReq}"/>
 
             </div>
-            <div class="col-md-8">
+            <div class="col-md-10">
                 <div class="card post-panel">
                     <div class="card-body">
                         <form:form method="post" action="${feedLink}" modelAttribute="newPost">

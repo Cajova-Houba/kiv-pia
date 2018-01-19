@@ -59,7 +59,7 @@
                                 <div class="row bottom-margin">
                                     <div class="col-md-6">
                                         <label class="custom-file">
-                                            <input type="file" id="file" name="file" class="custom-file-input" required>
+                                            <input type="file" id="file" name="file" class="custom-file-input" required tabindex="6">
                                             <span class="custom-file-control"></span>
                                         </label>
                                     </div>
@@ -71,7 +71,7 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-md-12">
-                                        <input type="submit" value="Upload" class="btn btn-success"/>
+                                        <input type="submit" value="Upload" class="btn btn-success" tabindex="7"/>
                                     </div>
 
                                 </div>
@@ -86,23 +86,23 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-md-3">Email</div>
-                                    <div class="col-md-6"><form:input path="email" maxlength="255" cssClass="form-control"/></div>
+                                    <div class="col-md-6"><form:input path="email" maxlength="255" cssClass="form-control" autofocus="autofocus" tabindex="1"/></div>
                                     <div class="col-md-3"><form:errors path="email" cssClass="text-danger"/> </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-md-3">Full name</div>
-                                    <div class="col-md-6"><form:input path="fullName" maxlength="255" cssClass="form-control"/></div>
+                                    <div class="col-md-6"><form:input path="fullName" maxlength="255" cssClass="form-control" tabindex="2"/></div>
                                     <div class="col-md-3"><form:errors path="fullName" cssClass="text-danger"/> </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-md-3">Birth date</div>
-                                    <div class="col-md-6"><form:input type="date" path="birthDate" cssClass="form-control"/> </div>
+                                    <div class="col-md-6"><form:input type="date" path="birthDate" cssClass="form-control" tabindex="3"/> </div>
                                     <div class="col-md-3"><form:errors path="birthDate" cssClass="text-danger"/> </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-md-3">Profile visibility</div>
                                     <div class="col-md-6">
-                                        <form:select path="profileVisibility" cssClass="form-control">
+                                        <form:select path="profileVisibility" cssClass="form-control" tabindex="4">
                                             <form:options items="${userForm.possibleVisibilities}" />
                                         </form:select>
                                     </div>
@@ -111,7 +111,7 @@
 
                                 <div class="row">
                                     <div class="col-md-12">
-                                        <button type="submit" class="btn btn-success">Save</button>
+                                        <button type="submit" class="btn btn-success" tabindex="5">Save</button>
                                     </div>
                                 </div>
                             </form:form>

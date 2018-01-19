@@ -72,7 +72,7 @@ public class MainController {
         if(page < 0) {
             page = 0;
         }
-        Pageable pageRequest = PageRequest.of(page, 4, new Sort(Sort.Direction.DESC, "datePosted", "timePosted"));
+        Pageable pageRequest = PageRequest.of(page, 10, new Sort(Sort.Direction.DESC, "datePosted", "timePosted"));
         Page<Post> postPage = postManager.listPostsForUser(currentUser, pageRequest);
         int lastPage = postPage.getTotalPages() == 0 ? 0 : postPage.getTotalPages() -1;
         PagingControl pagingControl = new PagingControl(page, lastPage);

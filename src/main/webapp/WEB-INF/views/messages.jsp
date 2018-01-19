@@ -78,7 +78,7 @@
                                         <div class="row">
                                             <div class="col-md-4"><form:label path="receiverUsername">Send to:</form:label></div>
                                             <div class="col-md-4">
-                                                <form:select path="receiverUsername" cssClass="form-control">
+                                                <form:select path="receiverUsername" cssClass="form-control" tabindex="1" autofocus="autofocus">
                                                     <form:options items="${possibleReceivers}" cssClass="form-control"/>
                                                 </form:select>
                                             </div>
@@ -87,10 +87,10 @@
                                     </fieldset>
                                     <div class="row">
                                         <div class="col-md-8">
-                                            <form:input path="messageText" maxlength="500" cssClass="form-control" required="required"/>
+                                            <form:input path="messageText" maxlength="500" cssClass="form-control" required="required" tabindex="2"/>
                                         </div>
                                         <div class="col-md-4">
-                                            <button type="submit" class="btn btn-success">Send</button>
+                                            <button type="submit" class="btn btn-success" tabindex="3">Send</button>
                                         </div>
                                     </div>
 
@@ -157,11 +157,11 @@
                                     <div class="col-md-6">
                                         <form method="POST" action="${messageLink}/${conversation.secondUser.username}" class="form-inline">
                                             <label class="sr-only" for="msgText">Name</label>
-                                            <input type="text" maxlength="500" placeholder="Respond..." id="msgText" name="msgText" class="form-control full-width"  required>
+                                            <input type="text" maxlength="500" placeholder="Respond..." id="msgText" name="msgText" class="form-control full-width" tabindex="1" autofocus required>
                                             <input type="hidden"
                                                    name="${_csrf.parameterName}"
                                                    value="${_csrf.token}"/>
-                                            <input type="submit" value="Send" class="btn btn-success">
+                                            <input type="submit" value="Send" class="btn btn-success" tabindex="2">
                                         </form>
                                     </div>
                                 </div>

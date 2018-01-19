@@ -24,37 +24,37 @@
                         <div class="form-group">
                             <form:label path="username">username *</form:label>
                             <form:errors path="username" cssClass="text-danger" />
-                            <form:input path="username" cssClass="form-control" maxlength="20" required="required"/>
+                            <form:input path="username" cssClass="form-control" maxlength="20" required="required" autofocus="autofocus" tabindex="1"/>
                         </div>
 
                         <div class="form-group">
                             <form:label path="email">email *</form:label>
                             <form:errors path="email" cssClass="text-danger" />
-                            <form:input path="email" id="email" cssClass="form-control" maxlength="100" required="required"/>
+                            <form:input path="email" id="email" cssClass="form-control" maxlength="100" required="required" tabindex="2"/>
                         </div>
 
                         <div class="form-group">
                             <form:label path="password">password *</form:label>
                             <form:errors path="password" cssClass="text-danger" />
-                            <form:password path="password" id="password" cssClass="form-control" maxlength="100" required="required"/>
+                            <form:password path="password" id="password" cssClass="form-control" maxlength="100" required="required" tabindex="3"/>
                         </div>
 
                         <div class="form-group">
                             <form:label path="passwordConf">confirm password *</form:label>
                             <form:errors path="passwordConf" cssClass="text-danger" />
-                            <form:password path="passwordConf" id="passwordConf" cssClass="form-control"  maxlength="100" required="required"/>
+                            <form:password path="passwordConf" id="passwordConf" cssClass="form-control"  maxlength="100" required="required" tabindex="4"/>
                         </div>
 
                         <div class="form-group">
                             <form:label path="fullName">full name *</form:label>
                             <form:errors path="fullName" cssClass="text-danger" />
-                            <form:input path="fullName" id="fullName" cssClass="form-control"  maxlength="20" required="required"/>
+                            <form:input path="fullName" id="fullName" cssClass="form-control"  maxlength="20" required="required" tabindex="5"/>
                         </div>
 
                         <div class="form-group">
                             <form:label path="birthDate">birth date</form:label>
                             <form:errors path="birthDate" cssClass="text-danger" />
-                            <form:input type="date" path="birthDate" id="birthDate" cssClass="form-control" />
+                            <form:input type="date" path="birthDate" id="birthDate" cssClass="form-control" tabindex="6"/>
                         </div>
 
                         <div class="row">
@@ -64,20 +64,20 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="radio">
-                                    <label><form:radiobutton path="gender" value="male" id="male" />Male</label>
+                                    <label><form:radiobutton path="gender" value="male" id="male" tabindex="7"/>Male</label>
                                 </div>
                                 <div class="radio">
-                                    <label><form:radiobutton path="gender" value="female" id="female" />Female</label>
+                                    <label><form:radiobutton path="gender" value="female" id="female" tabindex="8"/>Female</label>
                                 </div>
                                 <div class="radio">
-                                    <label><form:radiobutton path="gender" value="mayo" id="mayo" />Mayonnaise</label>
+                                    <label><form:radiobutton path="gender" value="mayo" id="mayo" tabindex="9"/>Mayonnaise</label>
                                 </div>
                             </div>
                         </div>
                         
                         <div class="form-group">
                             <form:label path="acceptTerms">Accept terms of use *</form:label>
-                            <form:checkbox path="acceptTerms" />
+                            <form:checkbox path="acceptTerms" tabindex="10"/>
                             <form:errors path="acceptTerms" cssClass="text-danger" />
                         </div>
 
@@ -87,14 +87,14 @@
                             </c:if>
                             <label for="turingTest">Are you a robot? What day is today? *</label>
                             <p class="small-font">English months, lowercacse only.</p>
-                            <input type="text" id="turingTest" name="turingTest" class="form-control" required>
+                            <input type="text" id="turingTest" name="turingTest" class="form-control" required tabindex="11">
                         </div>
 
                         <div class="row">
                             <div class="col-md-6">
                             </div>
                             <div class="col-md-6">
-                                <input type="submit" value="Sell my soul" class="btn btn-success">
+                                <input type="submit" value="Sell my soul" class="btn btn-success" tabindex="12  ">
                             </div>
                         </div>
 
