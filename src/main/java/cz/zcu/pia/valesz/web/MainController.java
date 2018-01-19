@@ -19,10 +19,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * Will display user's main page if he's already logged in.
@@ -45,6 +42,42 @@ public class MainController {
 
     @Autowired
     private MessageManager messageManager;
+
+    /**
+     * Redirects to feed. This needs to be done by POST request.
+     * @return
+     */
+    @RequestMapping(value = "/feed/like", method = RequestMethod.GET)
+    public String handleGetLike() {
+        return "redirect:/feed";
+    }
+
+    /**
+     * Handles liking a post. If the post was already liked by user, nothing happens.
+     * @param postId Id of the post to be liked.
+     * @param currentPage Current page of the post feed which is being displayed.
+     * @return
+     */
+    @RequestMapping(value = "/feed/like", method = RequestMethod.POST)
+    public String likePost(@RequestParam("postId") long postId, @RequestParam("currentPage") int currentPage) {
+        User user = authUtils.getCurrentlyLoggedUser();
+        Post post = postManager.getById(postId);
+
+        if(post == null) {
+            log.error("Post with id {} not found!", postId);
+            return "redirect:/feed/"+currentPage;
+        }
+
+        if(postManager.alreadyLiked(user, post)) {
+            log.warn("User {} already liked post {}.", user.getUsername(), postId);
+            return "redirect:/feed/"+currentPage;
+        }
+
+        // like post
+        postManager.likePost(user, post);
+
+        return "redirect:/feed/"+currentPage;
+    }
 
     /**
      * This method will check if user which is accessing /kivobook url is logged in. If not, redirects him to register page.

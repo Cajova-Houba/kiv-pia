@@ -15,7 +15,7 @@ import java.util.List;
 public interface PostDao extends GenericDao<Post, Long>, PostDaoCustom {
 
     /**
-     * Returns posts which are visible for user. Note that this method also joins user's profile photos
+     * Returns posts which are visible for user. Note that this method also joins user's profile photos and likes
      * so they're accessible outside of session.
      *
      * @param user User for which posts will be returned.
@@ -26,6 +26,7 @@ public interface PostDao extends GenericDao<Post, Long>, PostDaoCustom {
     @Query(value = "SELECT p FROM Post p  " +
             " LEFT JOIN FETCH p.owner o " +
             " LEFT JOIN FETCH o.profilePhoto " +
+            " LEFT JOIN FETCH p.likes " +
             " WHERE " +
             " p.visibility IN ('EVERYONE', 'REGISTERED_USERS')" +
             " OR ( " +
@@ -56,6 +57,7 @@ public interface PostDao extends GenericDao<Post, Long>, PostDaoCustom {
     @Query(value = "SELECT p FROM Post p " +
             " LEFT JOIN FETCH p.owner o " +
             " LEFT JOIN FETCH o.profilePhoto " +
+            " LEFT JOIN FETCH p.likes " +
             " WHERE " +
             " p.visibility IN ('EVERYONE', 'REGISTERED_USERS')" +
             " OR (" +

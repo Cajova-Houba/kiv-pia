@@ -6,6 +6,7 @@ import org.joda.time.DateTime;
 import javax.persistence.*;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Post datePosted by user to his feed.
@@ -28,7 +29,7 @@ public class Post {
     /**
      * User who posted this.
      */
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="owner_id")
     private User owner;
 
@@ -58,6 +59,12 @@ public class Post {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private Visibility visibility;
+
+    /**
+     * Likes for this post;
+     */
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "post")
+    private List<Like> likes;
 
     /**
      * Default constructor sets the datePosted and timePosted to current date/time.
@@ -121,6 +128,14 @@ public class Post {
 
     public void setVisibility(Visibility visibility) {
         this.visibility = visibility;
+    }
+
+    public List<Like> getLikes() {
+        return likes;
+    }
+
+    public void setLikes(List<Like> likes) {
+        this.likes = likes;
     }
 
     @Override

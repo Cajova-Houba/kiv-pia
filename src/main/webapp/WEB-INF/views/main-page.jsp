@@ -42,7 +42,7 @@
                                     <form:input path="text" placeholder="Say something..." class="form-control" maxlength="1000" required="required"/>
                                 </div>
                             </div>
-                            <div class="row">  
+                            <div class="row">
                                 <div class="col-md-3">
                                     <h5 class="card-title">${currentUser.fullName}</h5>
                                 </div>
@@ -134,6 +134,18 @@
                                 </div>
                                 <div class="col-md-9">
                                     <p class="text-right"><fmt:formatDate value="${post.datePosted}" pattern="dd. MM. yyyy"/></p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12 ">
+                                    <form class="form-inline" method="post" action="${feedLink}/like">
+                                        <input type="hidden"
+                                               name="${_csrf.parameterName}"
+                                               value="${_csrf.token}"/>
+                                        <input type="hidden" value="${post.id}" name="postId">
+                                        <input type="hidden" value="${pageControls.currentPage}" name="currentPage">
+                                        <button type="submit" class="btn btn-outline-success">${post.likes.size()} likes</button>
+                                    </form>
                                 </div>
                             </div>
                         </div>

@@ -42,4 +42,26 @@ public interface PostManager {
      * @return Created post.
      */
     Post createNewPost(String text, Visibility visibility, User creator);
+
+    /**
+     * Returns true if the user has already like the post.
+     * @param user User.
+     * @param post Post.
+     * @return True if the post was already liked by user.
+     */
+    boolean alreadyLiked(User user, Post post);
+
+    /**
+     * Returns a post by its id. Nothing is fetched with post.
+     * @param id
+     * @return
+     */
+    Post getById(long id);
+
+    /**
+     * Adds one like to post from user.
+     * @param user User which likes the post.
+     * @param post Post to be liked.
+     */
+    void likePost(User user, Post post);
 }

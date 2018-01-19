@@ -1,6 +1,7 @@
 package cz.zcu.pia.valesz.core.service.impl;
 
 import cz.zcu.pia.valesz.core.dao.FriendDao;
+import cz.zcu.pia.valesz.core.dao.LikeDao;
 import cz.zcu.pia.valesz.core.dao.PostDao;
 import cz.zcu.pia.valesz.core.domain.*;
 import cz.zcu.pia.valesz.core.service.PostManager;
@@ -22,6 +23,10 @@ public class PostManagerImpl implements PostManager {
     @Autowired
     @Qualifier("friendDao")
     private FriendDao friendDao;
+
+    @Autowired
+    @Qualifier("likeDao")
+    private LikeDao likeDao;
 
     @Override
     public List<Post> listPostsForUser(User user) {
@@ -57,5 +62,21 @@ public class PostManagerImpl implements PostManager {
 
         // return page with post feed
         return postDao.getPostFeedForUser(user, usersFriends, pageRequest);
+    }
+
+    @Override
+    public boolean alreadyLiked(User user, Post post) {
+        return likeDao.existsByUserAndPost(user, post);
+    }
+
+    @Override
+    public Post getById(long id) {
+        return postDao.getOne(id);
+    }
+
+    @Override
+    public void likePost(User user, Post post) {
+        Like like = new Like(user, post);
+        likeDao.save(like);
     }
 }
