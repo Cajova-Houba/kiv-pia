@@ -59,7 +59,12 @@ public class FriendManagerImpl implements FriendManager {
 
     @Override
     public List<FriendRequest> listFriendships(User user) {
-       return friendDao.findByReceiverAndFriendRequestState(user, FriendRequestState.ACCEPTED);
+       return friendDao.findUsersFriendRequests(user, FriendRequestState.ACCEPTED);
+    }
+
+    @Override
+    public List<FriendRequest> listFriendshipsWithoutProfilePhotos(User user) {
+        return friendDao.findUsersFriendRequestsNoProfilePhotos(user, FriendRequestState.ACCEPTED);
     }
 
     @Override

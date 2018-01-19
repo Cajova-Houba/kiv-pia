@@ -42,6 +42,7 @@
 
     <!-- validators -->
     <bean id="profileUpdateValidator" class="cz.zcu.pia.valesz.web.validation.ProfileUpdateValidator"/>
+    <bean id="registrationValidator" class="cz.zcu.pia.valesz.web.validation.UserRegistrationValidator"/>
 
     <!-- daos -->
 

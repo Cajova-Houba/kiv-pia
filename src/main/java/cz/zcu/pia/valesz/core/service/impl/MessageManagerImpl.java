@@ -67,6 +67,9 @@ public class MessageManagerImpl implements MessageManager {
     @Override
     public ConversationVO getConversation(User currentUser, User otherUser) {
         List<Message> messages = messageDao.getConversation(currentUser, otherUser);
+        if (messages.isEmpty()) {
+            return null;
+        }
         ConversationVO c = new ConversationVO(currentUser, otherUser, messages, false);
         return c;
     }

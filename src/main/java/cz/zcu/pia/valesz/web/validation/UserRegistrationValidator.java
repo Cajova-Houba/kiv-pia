@@ -27,7 +27,7 @@ public class UserRegistrationValidator implements Validator {
     public static final int PSW_MIN = 8;
     public static final int PSW_MAX = 100;
     public static final int FULL_NAME_MIN = 5;
-    public static final int FULL_NAME_MAX = 150;
+    public static final int FULL_NAME_MAX = 20;
 
 
     @Autowired

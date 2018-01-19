@@ -3,6 +3,7 @@ package cz.zcu.pia.valesz.web;
 import cz.zcu.pia.valesz.core.service.UserManager;
 import cz.zcu.pia.valesz.web.validation.UserRegistrationValidator;
 import cz.zcu.pia.valesz.web.vo.UserForm;
+import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,12 +13,11 @@ import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.InitBinder;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 
+import java.text.DateFormatSymbols;
 import java.util.Date;
+import java.util.Locale;
 
 /**
  * Controller for register page.
@@ -54,10 +54,23 @@ public class RegisterController {
     @RequestMapping(method = RequestMethod.POST)
     public String handleRegistration(Model model,
                                      @ModelAttribute("userForm") @Validated UserForm userForm,
-                                     BindingResult bindingResult) {
+                                     BindingResult bindingResult,
+                                     @RequestParam("turingTest") String turingTestResults) {
         if(bindingResult.hasErrors()) {
             log.warn("Error occurred while binding registration form to UserForm object.");
             model.addAttribute("currDate", new Date());
+            return "index";
+        }
+
+        // turing test
+        DateFormatSymbols dfs = DateFormatSymbols.getInstance(Locale.US);
+        int currentMonthOfYear = new DateTime().getMonthOfYear()-1;
+        String currentMonth = dfs.getMonths()[currentMonthOfYear].toLowerCase();
+        if(!turingTestResults.equals(currentMonth)) {
+            log.warn("Turing test failed! {} is not current month {}!", turingTestResults, currentMonth);
+            model.addAttribute("userForm", userForm);
+            model.addAttribute("currDate", new Date());
+            model.addAttribute("isTuringFailed", true);
             return "index";
         }
 

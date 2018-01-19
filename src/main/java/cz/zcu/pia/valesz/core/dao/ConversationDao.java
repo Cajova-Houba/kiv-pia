@@ -28,6 +28,7 @@ public interface ConversationDao extends GenericDao<Conversation, Long> {
      * Returns a list of conversations between two users. Conversations participants are fetched
      * together with their profile photos.
      * Profiles photos are fetched together with user objects.
+     * Conversation are ordered chronologically (the one with the newest message is the first).
      *
      * @param receiver Receiver/sender of the messages.
      * @return List of last messages from conversations user had ever took part in.
@@ -39,6 +40,7 @@ public interface ConversationDao extends GenericDao<Conversation, Long> {
             " LEFT JOIN FETCH fu.profilePhoto " +
             " LEFT JOIN FETCH su.profilePhoto " +
             " WHERE " +
-            " c.firstUser = :user OR c.secondUser = :user")
+            " c.firstUser = :user OR c.secondUser = :user" +
+            " ORDER BY lm.timestamp DESC ")
     List<Conversation> listConversationsByUser(@Param("user") User receiver);
 }

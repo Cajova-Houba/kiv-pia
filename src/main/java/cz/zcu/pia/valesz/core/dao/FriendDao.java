@@ -74,6 +74,25 @@ public interface FriendDao extends GenericDao<FriendRequest, Long> {
 
     /**
      * Returns a list of friend requests where user is receiver or sender.
+     * Both receiver and sender are fetched together with their profile photos.
+     *
+     * @param user User - sender or receiver.
+     * @param friendRequestState Particular state.
+     * @return Users friend requests.
+     */
+    @Query("  SELECT fr FROM FriendRequest fr " +
+            " LEFT JOIN FETCH fr.receiver rc" +
+            " LEFT JOIN FETCH fr.sender sr " +
+            " LEFT JOIN FETCH rc.profilePhoto " +
+            " LEFT JOIN FETCH sr.profilePhoto " +
+            " WHERE " +
+            " fr.friendRequestState = :friendRequestState " +
+            " AND (fr.receiver = :user OR fr.sender = :user)")
+    List<FriendRequest> findUsersFriendRequests(@Param("user") User user, @Param("friendRequestState") FriendRequestState friendRequestState);
+
+    /**
+     * Returns a list of friend requests where user is receiver or sender.
+     * Both receiver and sender are fetched but without profile photos.
      *
      * @param user User - sender or receiver.
      * @param friendRequestState Particular state.
@@ -85,7 +104,7 @@ public interface FriendDao extends GenericDao<FriendRequest, Long> {
             " WHERE " +
             " fr.friendRequestState = :friendRequestState " +
             " AND (fr.receiver = :user OR fr.sender = :user)")
-    List<FriendRequest> findUsersFriendRequests(@Param("user") User user, @Param("friendRequestState") FriendRequestState friendRequestState);
+    List<FriendRequest> findUsersFriendRequestsNoProfilePhotos(@Param("user") User user, @Param("friendRequestState") FriendRequestState friendRequestState);
 
     /**
      * Returns friend request (if it exists) for two users with particualr state.

@@ -20,34 +20,35 @@
   				<form:form method="post" action="${registerLink}" modelAttribute="userForm" >
                     <fieldset>
                         <legend>Register now!</legend>
+                        <span class="small-font">* field is mandatory</span>
                         <div class="form-group">
-                            <form:label path="username">username</form:label>
+                            <form:label path="username">username *</form:label>
                             <form:errors path="username" cssClass="text-danger" />
-                            <form:input path="username" cssClass="form-control" maxlength="20" />
+                            <form:input path="username" cssClass="form-control" maxlength="20" required="required"/>
                         </div>
 
                         <div class="form-group">
-                            <form:label path="email">email</form:label>
+                            <form:label path="email">email *</form:label>
                             <form:errors path="email" cssClass="text-danger" />
-                            <form:input path="email" id="email" cssClass="form-control" maxlength="100" />
+                            <form:input path="email" id="email" cssClass="form-control" maxlength="100" required="required"/>
                         </div>
 
                         <div class="form-group">
-                            <form:label path="password">password</form:label>
+                            <form:label path="password">password *</form:label>
                             <form:errors path="password" cssClass="text-danger" />
-                            <form:password path="password" id="password" cssClass="form-control" maxlength="100" />
+                            <form:password path="password" id="password" cssClass="form-control" maxlength="100" required="required"/>
                         </div>
 
                         <div class="form-group">
-                            <form:label path="passwordConf">confirm password</form:label>
+                            <form:label path="passwordConf">confirm password *</form:label>
                             <form:errors path="passwordConf" cssClass="text-danger" />
-                            <form:password path="passwordConf" id="passwordConf" cssClass="form-control"  maxlength="100" />
+                            <form:password path="passwordConf" id="passwordConf" cssClass="form-control"  maxlength="100" required="required"/>
                         </div>
 
                         <div class="form-group">
-                            <form:label path="fullName">full name</form:label>
+                            <form:label path="fullName">full name *</form:label>
                             <form:errors path="fullName" cssClass="text-danger" />
-                            <form:input path="fullName" id="fullName" cssClass="form-control"  maxlength="150" />
+                            <form:input path="fullName" id="fullName" cssClass="form-control"  maxlength="20" required="required"/>
                         </div>
 
                         <div class="form-group">
@@ -58,7 +59,7 @@
 
                         <div class="row">
                             <div class="col-md-6">
-                                <form:label path="gender">Gender</form:label>
+                                <form:label path="gender">Gender *</form:label>
                                 <form:errors path="gender" cssClass="text-danger" />
                             </div>
                             <div class="col-md-6">
@@ -75,9 +76,18 @@
                         </div>
                         
                         <div class="form-group">
-                            <form:label path="acceptTerms">Accept terms of use </form:label>
+                            <form:label path="acceptTerms">Accept terms of use *</form:label>
                             <form:checkbox path="acceptTerms" />
                             <form:errors path="acceptTerms" cssClass="text-danger" />
+                        </div>
+
+                        <div class="form-group">
+                            <c:if test="${isTuringFailed}">
+                                <span class="text-danger">You are a robot!1!</span>
+                            </c:if>
+                            <label for="turingTest">Are you a robot? What day is today? *</label>
+                            <p class="small-font">English months, lowercacse only.</p>
+                            <input type="text" id="turingTest" name="turingTest" class="form-control" required>
                         </div>
 
                         <div class="row">

@@ -66,13 +66,22 @@ public interface FriendManager {
     List<FriendRequest> listPendingRequestSentByUser(User user);
 
     /**
-     * Lists friendships of a user. Those are accepted requests where the user is receiver.
+     * Lists friendships of a user. Those are accepted requests where the user is receiver or sender.
      * Profile photos are returned together with user in friend requests.
      *
-     * @param user Requests with this user as receiver will be listed.
+     * @param user Requests with this user as receiver or sender will be listed.
      * @return Accepted requests.
      */
     List<FriendRequest> listFriendships(User user);
+
+    /**
+     * Lists friendships of a user. Those are accepted requests where the user is either receiver or sender.
+     * Users are fetched with requests, but not their profile photos.
+     *
+     * @param user Accepted requests with this user as a receiver or sender will be listed.
+     * @return Accepted requests.
+     */
+    List<FriendRequest> listFriendshipsWithoutProfilePhotos(User user);
 
     /**
      * Returns true if there's a friend request with accepted state between provided users.

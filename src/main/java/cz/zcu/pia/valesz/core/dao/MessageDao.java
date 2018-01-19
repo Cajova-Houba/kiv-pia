@@ -31,7 +31,7 @@ public interface MessageDao extends GenericDao<Message, Long> {
             " WHERE " +
             " (m.receiver = :u1 AND m.sender = :u2) " +
             " OR (m.receiver = :u2 AND m.sender = :u1) " +
-            " ORDER BY m.timestamp ASC")
+            " ORDER BY m.timestamp ASC ")
     List<Message> getConversation(@Param("u1") User user1, @Param("u2") User user2);
 
     /**

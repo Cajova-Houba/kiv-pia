@@ -32,7 +32,7 @@ public interface MessageManager {
      *
      * @param currentUser Current user.
      * @param otherUser Other user.
-     * @return Conversation between two users.
+     * @return Conversation between two users or null if there isn't any.
      */
     ConversationVO getConversation(User currentUser, User otherUser);
 

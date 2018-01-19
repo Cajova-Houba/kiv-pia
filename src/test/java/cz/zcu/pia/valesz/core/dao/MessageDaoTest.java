@@ -15,4 +15,5 @@ public class MessageDaoTest extends BaseDaoTest {
     @Qualifier("userDao")
     private UserDao userDao;
 
+
 }

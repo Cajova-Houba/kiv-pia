@@ -2,6 +2,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="kivbook" tagdir="/WEB-INF/tags" %>
 
 <spring:url value="/resources/css/style.css" var="myStyle" />
@@ -31,7 +32,7 @@
                 <div class="row">
                     <div class="card conversation-card">
                         <div class="card-body">
-                            <a href="#"><b>+</b> New message</a>
+                            <a href="${messageLink}/new"><b>+</b> New message</a>
                         </div>
                     </div>
                 </div>
@@ -65,8 +66,38 @@
             </div>
 
 
+            <!-- middle panel with conversations or form for new conversation -->
             <div class="col-md-8">
                 <c:choose>
+                    <c:when test="${isNewConv}">
+                        <h4>New conversation</h4>
+                        <div class="card">
+                            <div class="card-body">
+                                <form:form action="${messageLink}/new" method="post" modelAttribute="newConversationModel">
+                                    <fieldset class="bottom-margin">
+                                        <div class="row">
+                                            <div class="col-md-4"><form:label path="receiverUsername">Send to:</form:label></div>
+                                            <div class="col-md-4">
+                                                <form:select path="receiverUsername" cssClass="form-control">
+                                                    <form:options items="${possibleReceivers}" cssClass="form-control"/>
+                                                </form:select>
+                                            </div>
+                                            <div class="col-md-4"></div>
+                                        </div>
+                                    </fieldset>
+                                    <div class="row">
+                                        <div class="col-md-8">
+                                            <form:input path="messageText" maxlength="500" cssClass="form-control" required="required"/>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <button type="submit" class="btn btn-success">Send</button>
+                                        </div>
+                                    </div>
+
+                                </form:form>
+                            </div>
+                        </div>
+                    </c:when>
                     <c:when test="${conversation == null}">
                         <h4>No messages</h4>
                         <div class="card">
@@ -122,11 +153,11 @@
 
                                 <%-- form for response to conversation --%>
                                 <div class="row">
-                                    <div class="col-md-7"></div>
-                                    <div class="col-md-5">
+                                    <div class="col-md-6"></div>
+                                    <div class="col-md-6">
                                         <form method="POST" action="${messageLink}/${conversation.secondUser.username}" class="form-inline">
                                             <label class="sr-only" for="msgText">Name</label>
-                                            <input type="text" maxlength="500" placeholder="Respond..." id="msgText" name="msgText" class="form-control" required>
+                                            <input type="text" maxlength="500" placeholder="Respond..." id="msgText" name="msgText" class="form-control full-width"  required>
                                             <input type="hidden"
                                                    name="${_csrf.parameterName}"
                                                    value="${_csrf.token}"/>

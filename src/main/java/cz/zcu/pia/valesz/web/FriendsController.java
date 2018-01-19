@@ -25,7 +25,7 @@ import java.util.List;
 @RequestMapping("/friends")
 public class FriendsController {
 
-    private static final Logger log = LoggerFactory.getLogger(MainController.class);
+    private static final Logger log = LoggerFactory.getLogger(FriendsController.class);
 
     @Autowired
     private AuthUtils authUtils;
