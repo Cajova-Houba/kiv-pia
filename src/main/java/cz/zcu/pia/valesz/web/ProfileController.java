@@ -11,6 +11,7 @@ import cz.zcu.pia.valesz.web.vo.ProfileUpdateForm;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.Locale;
 
 /**
  * Controller which handles displaying and editing of users profile.
@@ -45,9 +47,44 @@ public class ProfileController {
     @Autowired
     private ProfileUpdateValidator profileUpdateValidator;
 
+    @Autowired
+    private MessageSource messageSource;
+
     @InitBinder("userForm")
     protected void initBinder(WebDataBinder binder) {
         binder.addValidators(profileUpdateValidator);
+    }
+
+    /**
+     * This method will just redirect to /profile.
+     * @return
+     */
+    @RequestMapping(value = "/search", method = RequestMethod.GET)
+    public String handleGetProfileSearch() {
+        return "redirect:/profile";
+    }
+
+    /**
+     * Handles profile search. Username is excepted as parameter.
+     * If the search is successful, method will redirect to /profile/{username}.
+     * Otherwise it displays 'profile not found page'.
+     *
+     * @return
+     */
+    @RequestMapping(value = "/search", method = RequestMethod.POST)
+    public String handleProfileSearch(@RequestParam("username-search") String usernameSearch, ModelMap modelMap) {
+        User user = userManager.loadByUsername(usernameSearch);
+        if(user != null) {
+            // user found
+            return "redirect:/profile/"+usernameSearch;
+        } else {
+            // user not found
+            Locale defaultLocale = Locale.getDefault();
+            modelMap.addAttribute("statusTitle", messageSource.getMessage("user.search.fail.title", new Object[0], defaultLocale));
+            modelMap.addAttribute("statusMessage", messageSource.getMessage("user.search.fail.message", new Object[] {usernameSearch}, defaultLocale));
+            return "status";
+        }
+
     }
 
     /**
