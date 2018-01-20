@@ -10,15 +10,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
-
-    <link rel="stylesheet" type="text/css" href="${myStyle}">
-    <title>I'm going in!</title>
+    <kivbook:head title="I'm going in!" />
   </head>
   <body class="bg-light">
     <kivbook:navbar isAnonymous="true"/>
@@ -30,8 +22,8 @@
                 <form method="post" action="login">
                     <fieldset>
                         <div class="form-group">
-                            <label for="username">email</label>
-                            <input type="text" name="username" id="username" class="form-control" placeholder="email@email.com">
+                            <label for="username">username</label>
+                            <input type="text" name="username" id="username" class="form-control" placeholder="username">
                         </div>
                         <div class="form-group">
                             <label for="password">password</label>

@@ -137,7 +137,7 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-md-12 ">
+                                <div class="col-md-3 ">
                                     <form class="form-inline" method="post" action="${feedLink}/like">
                                         <input type="hidden"
                                                name="${_csrf.parameterName}"
@@ -146,6 +146,9 @@
                                         <input type="hidden" value="${pageControls.currentPage}" name="currentPage">
                                         <button type="submit" class="btn btn-outline-success">${post.likes.size()} likes</button>
                                     </form>
+                                </div>
+                                <div class="col-md-9">
+                                    <p class="text-right"><fmt:formatDate value="${post.timePosted}" pattern="hh:mm"/></p>
                                 </div>
                             </div>
                         </div>

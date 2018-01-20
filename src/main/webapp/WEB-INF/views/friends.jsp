@@ -58,7 +58,7 @@
                         <div class="card-body">
                             <c:set var="rowItemCount" value="0" scope="page" />
                             <c:forEach items="${friendships}" var="friendship">
-                                <c:set var="otherUser" value="${friendship.sender}"/>
+                                <c:set var="otherUser" value="${friendship.getOtherUser(currentUser)}"/>
                                 <%-- start new row after 4 friendships to make table-like structure --%>
                                 <c:if test="${rowItemCount % 4 ==0}">
                                     <div class="row">

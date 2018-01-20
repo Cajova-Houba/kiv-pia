@@ -135,23 +135,28 @@ public class FriendRequest {
     }
 
     /**
-     * Sets the state of this request to ACCEPTED.
+     * Sets the state of this request to ACCEPTED and respondedDate to new Date().
      */
     public void accept() {
+        setRespondedDate(new Date());
         setFriendRequestState(FriendRequestState.ACCEPTED);
     }
 
     /**
-     * Sets the state of this request to REJECTED.
+     * Sets the state of this request to REJECTED and respondedDate to new Date().
      */
     public void reject() {
+        setRespondedDate(new Date());
         setFriendRequestState(FriendRequestState.REJECTED);
     }
 
     /**
-     * Sets the state of this request to CANCELLED.
+     * Sets the state of this request to CANCELLED and respondedDate to new Date().
      */
-    public void cancel() {setFriendRequestState(FriendRequestState.CANCELED);}
+    public void cancel() {
+        setRespondedDate(new Date());
+        setFriendRequestState(FriendRequestState.CANCELED);
+    }
 
     /**
      * Returns the other user from provided one. If user == sender, receiver is returned, ...

@@ -21,7 +21,7 @@ public enum Visibility {
     /**
      * Everyone who is registered (logged) can see this. Default.
      */
-    REGISTERED_USERS("Others"),
+    REGISTERED_USERS("Registered users"),
 
     /**
      * Guess what...
