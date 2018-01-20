@@ -85,7 +85,7 @@
                             <c:if test="${isTuringFailed}">
                                 <span class="text-danger">You are a robot!1!</span>
                             </c:if>
-                            <label for="turingTest">Are you a robot? What day is today? *</label>
+                            <label for="turingTest">Are you a robot? Tell me name of the current <month class=""></month> *</label>
                             <p class="small-font">English months, lowercacse only.</p>
                             <input type="text" id="turingTest" name="turingTest" class="form-control" required tabindex="11">
                         </div>

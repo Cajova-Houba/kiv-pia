@@ -1,6 +1,7 @@
 package cz.zcu.pia.valesz.web.validation;
 
 import cz.zcu.pia.valesz.core.domain.Gender;
+import cz.zcu.pia.valesz.core.service.KivbookDateUtils;
 import cz.zcu.pia.valesz.core.service.UserManager;
 import cz.zcu.pia.valesz.web.vo.UserForm;
 import org.apache.commons.validator.routines.EmailValidator;
@@ -11,8 +12,6 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
@@ -28,6 +27,8 @@ public class UserRegistrationValidator implements Validator {
     public static final int PSW_MAX = 100;
     public static final int FULL_NAME_MIN = 5;
     public static final int FULL_NAME_MAX = 20;
+
+    public static final int MIN_AGE = 13;
 
 
     @Autowired
@@ -66,16 +67,17 @@ public class UserRegistrationValidator implements Validator {
             errors.rejectValue("passwordConf", "user.password.confirm.match");
         }
 
+        // check date format and age
         if(userForm.getBirthDate() != null && !userForm.getBirthDate().isEmpty()) {
-            Date parsedDate;
-            try {
-                parsedDate = SimpleDateFormat.getInstance().parse(userForm.getBirthDate());
-                Date maxBirthDate = new DateTime().minusYears(13).toDate();
+            Date parsedDate = KivbookDateUtils.parseDate(userForm.getBirthDate(), UserForm.DATE_FORMAT_1, UserForm.DATE_FORMAT_2);
+            if(parsedDate == null) {
+                errors.rejectValue("birthDate","user.birthDate.format");
+            } else {
+                // date was parsed, check age
+                Date maxBirthDate = new DateTime().minusYears(MIN_AGE).toDate();
                 if(parsedDate.after(maxBirthDate)) {
                     errors.rejectValue("birthDate", "user.birthDate.young");
                 }
-            } catch (ParseException e) {
-                errors.rejectValue("birthDate", "user.birthDate.format");
             }
         }
 

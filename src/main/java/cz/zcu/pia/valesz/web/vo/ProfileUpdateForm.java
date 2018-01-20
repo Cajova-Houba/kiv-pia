@@ -3,11 +3,10 @@ package cz.zcu.pia.valesz.web.vo;
 import cz.zcu.pia.valesz.core.domain.Gender;
 import cz.zcu.pia.valesz.core.domain.User;
 import cz.zcu.pia.valesz.core.domain.Visibility;
+import cz.zcu.pia.valesz.core.service.KivbookDateUtils;
 import org.joda.time.LocalDate;
 import org.joda.time.Years;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -98,12 +97,8 @@ public class ProfileUpdateForm {
             return "-";
         }
 
-        Date birthD;
-        try {
-            birthD = SimpleDateFormat.getInstance().parse(getBirthDate());
-        } catch (ParseException e) {
-            // this method is called only when data taken from database are displayed
-            // so format should be always correct
+        Date birthD = KivbookDateUtils.parseDate(getBirthDate(), UserForm.DATE_FORMAT_1, UserForm.DATE_FORMAT_2);
+        if(birthD == null) {
             return "-";
         }
 

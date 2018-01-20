@@ -13,6 +13,10 @@ import java.io.Serializable;
 @XmlRootElement
 public class UserForm implements Serializable {
 
+    // supported formats for birthDate
+    public static final String DATE_FORMAT_1 = "yyyy-MM-dd";
+    public static final String DATE_FORMAT_2 = "dd.MM.yyyy";
+
     private String username;
     private String email;
     private String password;
