@@ -68,6 +68,11 @@ public class FriendRequest {
         this.id = id;
     }
 
+    /**
+     * Returns the sender of this request. Field is LAZY loaded.
+     *
+     * @return Sender of this request.
+     */
     @ManyToOne(fetch = FetchType.LAZY)
     public User getSender() {
         return sender;
@@ -77,6 +82,11 @@ public class FriendRequest {
         this.sender = sender;
     }
 
+    /**
+     * Returns the receiver of this request. Field is LAZY loaded.
+     *
+     * @return Receiver of this request.
+     */
     @ManyToOne(fetch = FetchType.LAZY)
     public User getReceiver() {
         return receiver;

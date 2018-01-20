@@ -73,6 +73,11 @@ public class Message {
         this.id = id;
     }
 
+    /**
+     * Returns the sender of this message. Field is LAZY loaded.
+     *
+     * @return Sender of this message.
+     */
     @ManyToOne(fetch = FetchType.LAZY)
     public User getSender() {
         return sender;
@@ -82,6 +87,11 @@ public class Message {
         this.sender = sender;
     }
 
+    /**
+     * Returns the receiver of this message. Field is LAZY loaded.
+     *
+     * @return Receiver of this message.
+     */
     @ManyToOne(fetch = FetchType.LAZY)
     public User getReceiver() {
         return receiver;

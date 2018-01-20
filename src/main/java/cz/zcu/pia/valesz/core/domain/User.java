@@ -54,17 +54,13 @@ public class User implements UserDetails {
     private Gender gender;
 
     /**
-     * User's friends.
-     */
-    private List<User> friends;
-
-    /**
      * Visibility of user's profile to the rest of the world.
      */
     private Visibility profileVisibility;
 
     /**
      * Social identity provider. NONE if user has registered himself without any social network.
+     * Not used.
      */
     private SocialIdentityProvider socialIdentityProvider;
 
@@ -74,7 +70,7 @@ public class User implements UserDetails {
     private KivbookImage profilePhoto;
 
     /**
-     * User's authorities. Not actually persisted.
+     * User's authorities. Not actually persisted. Used for Spring Security to work properly.
      */
     private Collection<? extends GrantedAuthority> authorities;
 
@@ -191,15 +187,6 @@ public class User implements UserDetails {
 
     public void setGender(Gender gender) {
         this.gender = gender;
-    }
-
-    @OneToMany(fetch = FetchType.LAZY)
-    public List<User> getFriends() {
-        return friends;
-    }
-
-    public void setFriends(List<User> friends) {
-        this.friends = friends;
     }
 
     @Column(name = "profile_visibility", nullable = false)

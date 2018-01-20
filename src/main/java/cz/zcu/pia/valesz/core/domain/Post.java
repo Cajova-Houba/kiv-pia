@@ -90,6 +90,10 @@ public class Post {
         this.id = id;
     }
 
+    /**
+     * Returns the user who posted this post. Field is LAZY loaded.
+     * @return Poster.
+     */
     public User getOwner() {
         return owner;
     }
@@ -130,6 +134,10 @@ public class Post {
         this.visibility = visibility;
     }
 
+    /**
+     * Returns all likes for this post. Field is LAZY loaded.
+     * @return Likes for this post.
+     */
     public List<Like> getLikes() {
         return likes;
     }

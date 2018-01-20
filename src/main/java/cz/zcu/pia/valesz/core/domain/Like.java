@@ -45,6 +45,10 @@ public class Like {
         this.id = id;
     }
 
+    /**
+     * Returns the user who liked post. Field is LAZY loaded.
+     * @return User who liked post.
+     */
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     public User getUser() {
@@ -55,6 +59,10 @@ public class Like {
         this.user = user;
     }
 
+    /**
+     * Returns the post which is liked. Field is LAZY loaded.
+     * @return
+     */
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "post_id", nullable = false)
     public Post getPost() {
