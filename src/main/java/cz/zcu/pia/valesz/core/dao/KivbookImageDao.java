@@ -3,6 +3,9 @@ package cz.zcu.pia.valesz.core.dao;
 import cz.zcu.pia.valesz.core.domain.KivbookImage;
 import org.springframework.data.jpa.repository.Query;
 
+/**
+ * DAO for working with images.
+ */
 public interface KivbookImageDao extends GenericDao<KivbookImage, Long> {
 
     /**

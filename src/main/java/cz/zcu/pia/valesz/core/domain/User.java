@@ -109,12 +109,14 @@ public class User implements UserDetails {
 
     /**
      * Constructor for user used in registration. Profile visibility is set to default.
-     * @param email
-     * @param username
-     * @param passwordHash
-     * @param birthDate
-     * @param fullName
-     * @param gender
+     * It is expected that everything was validated before.
+     *
+     * @param email User's email.
+     * @param username User's username.
+     * @param passwordHash Hash of user's password.
+     * @param birthDate User's birth date (may be null).
+     * @param fullName User's full name.
+     * @param gender User's gender.
      */
     public User(String email, String username, String passwordHash, Date birthDate, String fullName, Gender gender) {
         this.email = email;

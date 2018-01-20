@@ -7,7 +7,7 @@ import cz.zcu.pia.valesz.core.domain.User;
 import java.util.List;
 
 /**
- * Dao for custom post-related queries
+ * Dao for custom post-related queries which are not possible to implement via @Query annotation (or are too complicated).
  */
 public interface PostDaoCustom {
 
@@ -19,16 +19,5 @@ public interface PostDaoCustom {
      * @return Posts to be displayed.
      */
     List<Post> listPostsForUser(User user, List<FriendRequest> usersFriendships);
-
-    /**
-     * Returns the current post feed which should be displayed to user.
-     * Posts are returned as pages.
-     *
-     * @param user User to whom posts will be displayed.
-     * @param usersFriendships Users friendships. Used for visibility based displaying.
-     * @param pagingInfo Page size, stuff like that.
-     * @return Posts to be displayed.
-     */
-//    Page<Post> listPostsForUserPageable(User user, List<FriendRequest> usersFriendships, Pageable pagingInfo);
 
 }

@@ -24,7 +24,6 @@ import org.springframework.web.bind.annotation.*;
 /**
  * Will display user's main page if he's already logged in.
  *
- * Created by Zdenek Vales on 16.11.2017.
  */
 @Controller
 public class MainController {

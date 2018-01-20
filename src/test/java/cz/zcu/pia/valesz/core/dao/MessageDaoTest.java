@@ -4,6 +4,9 @@ import org.junit.Ignore;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 
+/**
+ * Test case for message dao.
+ */
 @Ignore
 public class MessageDaoTest extends BaseDaoTest {
 

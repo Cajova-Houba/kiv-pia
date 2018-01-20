@@ -61,7 +61,7 @@ public class Like {
 
     /**
      * Returns the post which is liked. Field is LAZY loaded.
-     * @return
+     * @return Liked post.
      */
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "post_id", nullable = false)

@@ -9,7 +9,7 @@ import org.springframework.data.domain.Pageable;
 import java.util.List;
 
 /**
- * Service for post-related operations.
+ * Service for post management.
  */
 public interface PostManager {
 

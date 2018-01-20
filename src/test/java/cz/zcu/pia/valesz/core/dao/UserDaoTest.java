@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import static org.junit.Assert.*;
 
 /**
- * Simple test to see if the stuff works.
+ * Test case for UserDao.
  */
 public class UserDaoTest extends BaseDaoTest{
 

@@ -7,6 +7,9 @@ import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
+/**
+ * DAO for fetching conversations.
+ */
 public interface ConversationDao extends GenericDao<Conversation, Long> {
 
     /**

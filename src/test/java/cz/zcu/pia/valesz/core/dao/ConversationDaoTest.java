@@ -8,6 +8,11 @@ import org.springframework.beans.factory.annotation.Qualifier;
 
 import java.util.List;
 
+import static org.junit.Assert.assertFalse;
+
+/**
+ * Test case for ConversationDao.
+ */
 public class ConversationDaoTest extends BaseDaoTest {
 
     @Autowired
@@ -20,9 +25,10 @@ public class ConversationDaoTest extends BaseDaoTest {
 
     @Test
     public void testListConversationsByUser() {
-        User user = userDao.findByUsername("user1");
+        User user = userDao.findByUsername("user1x");
 
         List<Conversation> conversations = conversationDao.listConversationsByUser(user);
+        assertFalse("No conversations found!", conversations.isEmpty());
     }
 
 }

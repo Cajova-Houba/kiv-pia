@@ -132,7 +132,7 @@ public class Message {
 
     /**
      * Returns true if the message state is SENT (receiver haven't seen it yet).
-     * @return
+     * @return True if the message is new.
      */
     @Transient
     public boolean isNew() {

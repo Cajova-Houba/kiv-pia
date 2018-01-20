@@ -9,7 +9,7 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 /**
- * DAO for friend related stuff.
+ * DAO for fetching friend requests.
  */
 public interface FriendDao extends GenericDao<FriendRequest, Long> {
 
@@ -131,6 +131,7 @@ public interface FriendDao extends GenericDao<FriendRequest, Long> {
      *
      * @param user1 First user.
      * @param user2 Second user.
+     * @param allowedStates Possible states of listed requests.
      * @return Friend request object or null.
      */
     @Query("  SELECT fr FROM FriendRequest fr " +

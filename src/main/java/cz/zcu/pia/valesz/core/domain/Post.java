@@ -9,7 +9,7 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * Post datePosted by user to his feed.
+ * Post posted by user to his feed.
  * Also acts as a model for post form.
  */
 @XmlRootElement

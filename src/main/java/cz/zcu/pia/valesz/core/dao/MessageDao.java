@@ -9,7 +9,7 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 /**
- * DAO for message stuff.
+ * DAO for messaging.
  */
 public interface MessageDao extends GenericDao<Message, Long> {
 
@@ -38,6 +38,7 @@ public interface MessageDao extends GenericDao<Message, Long> {
      * Returns the number of messages for  user.
      *
      * @param user Number of new messages for this user will be returned.
+     * @param state State of counted messages. Use 'SENT' to get number of unread messages.
      * @return Number of new messages.
      */
     @Query("SELECT COUNT(m.id) FROM Message m WHERE m.receiver = :user AND m.state = :state")

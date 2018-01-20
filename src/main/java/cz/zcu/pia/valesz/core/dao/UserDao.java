@@ -6,9 +6,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 /**
- * Methods for fetching user related data.
+ * Methods for fetching user-related data.
  */
-//@NoRepositoryBean
 public interface UserDao extends GenericDao<User, Long> {
 
     /**

@@ -128,7 +128,7 @@ public class FriendRequest {
 
     /**
      * Returns true if the request is new (receiver haven't responded yet).
-     * @return
+     * @return True if the request is new.
      */
     @Transient
     public boolean isNew() {
@@ -137,7 +137,7 @@ public class FriendRequest {
 
     /**
      * Returns true if the request is accepted.
-     * @return
+     * @return True if the request is accepted.
      */
     @Transient
     public boolean isAccepted() {

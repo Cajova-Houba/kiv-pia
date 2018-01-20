@@ -43,6 +43,8 @@ public interface FriendManager {
 
     /**
      * Returns the number of new friend requests for user.
+     *
+     * @param user User whose new friend requests will be counted.
      * @return Number of new requests.
      */
     int getNumberOfNewFriendRequests(User user);
@@ -60,8 +62,8 @@ public interface FriendManager {
      * Returns a list of frind request which were sent by user and weren't accepted yet.
      * Profile photos are returned together with users in friend requests.
      *
-     * @param user
-     * @return
+     * @param user User whose pending requests will be returned.
+     * @return Pending requests sent by user.
      */
     List<FriendRequest> listPendingRequestSentByUser(User user);
 
@@ -88,7 +90,7 @@ public interface FriendManager {
      *
      * @param user1 User 1.
      * @param user2 User 2.
-     * @return True if users are firends.
+     * @return True if users are friends.
      */
     boolean isFriendOf(User user1, User user2);
 
